@@ -1,7 +1,7 @@
 @extends('frontEnd.layout')
 
 @section('content')
-    @include('frontEnd.includes.breadcrumb')        
+    @include('frontEnd.includes.breadcrumb')
     <div class="block type-7 scroll-to-block pdtb50">
         <div class="container">
             <div class="row">
@@ -45,30 +45,22 @@
                                 echo "</div><div class='row'>";
                             }
                             if ($Topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $topic_link_url = url(trans('backLang.code') . "/" . $Topic->$slug_var);
-                                } else {
-                                    $topic_link_url = url($Topic->$slug_var);
-                                }
+                                $topic_link_url = url($Topic->$slug_var);
                             } else {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                                } else {
-                                    $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                                }
+                                $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
                             }
                         ?>
                         <a href="{{$Topic->fields[0]->field_value}}" target="_blanck">
-                            <div class="vtbox">                         
+                            <div class="vtbox">
                                 <img src="{{ URL::asset('frontEnd/img/world.svg')}}">
-                                <p>{{ $title }}</p>                           
+                                <p>{{ $title }}</p>
                             </div>
                         </a>
                     @endforeach
-                </div> 
-                @endif  
-            </div> 
+                </div>
+                @endif
+            </div>
         </div>
-    </div>            
+    </div>
     @include('frontEnd.includes.visits',['customVisits'=>true])
 @endsection

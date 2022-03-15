@@ -1,6 +1,6 @@
 <?php
 
-namespace Inani\Larapoll;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 

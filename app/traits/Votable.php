@@ -1,8 +1,8 @@
 <?php
 
-namespace Inani\Larapoll\Traits;
+namespace App\Traits;
 
-use Inani\Larapoll\Vote;
+use App\Vote;
 
 trait Votable
 {

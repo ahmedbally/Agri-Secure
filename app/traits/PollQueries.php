@@ -1,6 +1,6 @@
 <?php
 
-namespace Inani\Larapoll\Traits;
+namespace App\Traits;
 
 
 trait PollQueries

@@ -1,12 +1,12 @@
 <?php
 
-namespace Inani\Larapoll;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Inani\Larapoll\Traits\PollCreator;
-use Inani\Larapoll\Traits\PollAccessor;
-use Inani\Larapoll\Traits\PollManipulator;
-use Inani\Larapoll\Traits\PollQueries;
+use App\Traits\PollCreator;
+use App\Traits\PollAccessor;
+use App\Traits\PollManipulator;
+use App\Traits\PollQueries;
 
 class Poll extends Model
 {

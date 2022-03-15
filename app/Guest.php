@@ -1,9 +1,9 @@
 <?php
 
-namespace Inani\Larapoll;
+namespace App;
 
 
-use Inani\Larapoll\Traits\Voter;
+use App\Traits\Voter;
 use Illuminate\Http\Request;
 
 

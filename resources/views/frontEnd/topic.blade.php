@@ -682,18 +682,9 @@
                                                     }
 
                                                     if ($relatedTopic->topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                                                        if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-
-                                                            $topic_link_url = url(trans('backLang.code') . "/" . $relatedTopic->topic->$slug_var);
-                                                        } else {
-                                                            $topic_link_url = url($relatedTopic->topic->$slug_var);
-                                                        }
+                                                        $topic_link_url = url($relatedTopic->topic->$slug_var);
                                                     } else {
-                                                        if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                                            $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $relatedTopic->topic->webmasterSection->name, "id" => $relatedTopic->topic->id]);
-                                                        } else {
-                                                            $topic_link_url = route('FrontendTopic', ["section" => $relatedTopic->topic->webmasterSection->name, "id" => $relatedTopic->topic->id]);
-                                                        }
+                                                        $topic_link_url = route('FrontendTopic', ["section" => $relatedTopic->topic->webmasterSection->name, "id" => $relatedTopic->topic->id]);
                                                     }
                                                     ?>
                                                     <div style="margin-bottom: 5px;">

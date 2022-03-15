@@ -33,17 +33,9 @@
                         <?php
                         $ccount = $category_and_topics_count[$Category->id];
                         if ($Category->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $Category_link_url = url(trans('backLang.code') . "/" . $Category->$slug_var);
-                            } else {
-                                $Category_link_url = url($Category->$slug_var);
-                            }
+                            $Category_link_url = url($Category->$slug_var);
                         } else {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $Category_link_url = route('FrontendTopicsByCatWithLang', ["lang" => trans('backLang.code'), "section" => $Category->webmasterSection->name, "cat" => $Category->id]);
-                            } else {
-                                $Category_link_url = route('FrontendTopicsByCat', ["section" => $Category->webmasterSection->name, "cat" => $Category->id]);
-                            }
+                            $Category_link_url = route('FrontendTopicsByCat', ["section" => $Category->webmasterSection->name, "cat" => $Category->id]);
                         }
                         ?>
                         <li>
@@ -64,17 +56,9 @@
                             <?php
                             $ccount = $category_and_topics_count[$MnuCategory->id];
                             if ($MnuCategory->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $SubCategory_link_url = url(trans('backLang.code') . "/" . $MnuCategory->$slug_var);
-                                } else {
-                                    $SubCategory_link_url = url($MnuCategory->$slug_var);
-                                }
+                                $SubCategory_link_url = url($MnuCategory->$slug_var);
                             } else {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $SubCategory_link_url = route('FrontendTopicsByCatWithLang', ["lang" => trans('backLang.code'), "section" => $MnuCategory->webmasterSection->name, "cat" => $MnuCategory->id]);
-                                } else {
-                                    $SubCategory_link_url = route('FrontendTopicsByCat', ["section" => $MnuCategory->webmasterSection->name, "cat" => $MnuCategory->id]);
-                                }
+                                $SubCategory_link_url = route('FrontendTopicsByCat', ["section" => $MnuCategory->webmasterSection->name, "cat" => $MnuCategory->id]);
                             }
                             ?>
                             <li> &nbsp; &nbsp; &nbsp;
@@ -108,17 +92,9 @@
                             $side_title = $TopicMostViewed->$side_title_var2;
                         }
                         if ($TopicMostViewed->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = url(trans('backLang.code') . "/" . $TopicMostViewed->$slug_var);
-                            } else {
-                                $topic_link_url = url($TopicMostViewed->$slug_var);
-                            }
+                            $topic_link_url = url($TopicMostViewed->$slug_var);
                         } else {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $TopicMostViewed->webmasterSection->name, "id" => $TopicMostViewed->id]);
-                            } else {
-                                $topic_link_url = route('FrontendTopic', ["section" => $TopicMostViewed->webmasterSection->name, "id" => $TopicMostViewed->id]);
-                            }
+                            $topic_link_url = route('FrontendTopic', ["section" => $TopicMostViewed->webmasterSection->name, "id" => $TopicMostViewed->id]);
                         }
                         ?>
                         <li>

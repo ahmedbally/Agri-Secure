@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inani\Larapoll\Helpers\PollHandler;
-use Inani\Larapoll\Http\Request\PollCreationRequest;
-use Inani\Larapoll\Poll;
-use Inani\Larapoll\Exceptions\DuplicatedOptionsException;
+use App\Helpers\PollHandler;
+use App\Http\Request\PollCreationRequest;
+use App\Poll;
+use App\Exceptions\DuplicatedOptionsException;
 use App\WebmasterSection;
 use Auth;
 
@@ -53,9 +53,9 @@ class PollManagerController extends Controller
      *
      * @param PollCreationRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Inani\Larapoll\Exceptions\CheckedOptionsException
-     * @throws \Inani\Larapoll\Exceptions\OptionsInvalidNumberProvidedException
-     * @throws \Inani\Larapoll\Exceptions\OptionsNotProvidedException
+     * @throws \App\Exceptions\CheckedOptionsException
+     * @throws \App\Exceptions\OptionsInvalidNumberProvidedException
+     * @throws \App\Exceptions\OptionsNotProvidedException
      */
     public function store(PollCreationRequest $request)
     {
@@ -115,7 +115,7 @@ class PollManagerController extends Controller
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
-        
+
         return view('backEnd.poll.create', compact("GeneralWebmasterSections", "WebmasterSection"));
     }
 

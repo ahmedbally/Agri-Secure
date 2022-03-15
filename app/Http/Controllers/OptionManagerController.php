@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
-use Inani\Larapoll\Helpers\PollHandler;
-use Inani\Larapoll\Http\Request\AddOptionsRequest;
-use Inani\Larapoll\Poll;
+use App\Helpers\PollHandler;
+use App\Http\Request\AddOptionsRequest;
+use App\Poll;
 use App\WebmasterSection;
 use Auth;
 class OptionManagerController extends Controller
@@ -19,7 +19,7 @@ class OptionManagerController extends Controller
             Redirect::to('Home')->send();
         }
     }
-    
+
     /**
      * Add new options to the poll
      *

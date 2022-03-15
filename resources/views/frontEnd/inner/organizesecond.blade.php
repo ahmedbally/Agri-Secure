@@ -7,7 +7,7 @@
 <div class="new-block has-pattern2 ptbg pdb100">
     <div class="container type-3-text">
         <div class="row">
-           
+
             <?php
                 $title_var = "title_" . trans('backLang.boxCode');
                 $title_var2 = "title_" . trans('backLang.boxCodeOther');
@@ -36,7 +36,7 @@
                     <h4 class="orghead">{{$Topic->$title}}</h4>
 
                 </div>
-                
+
                 <div class="col-md-8">
                     <div class="typography-article">
                         <h4 class="color-blue">{{$Topic->$title}}</h4>
@@ -56,10 +56,10 @@
                                 } else {
                                     $details = $details_var2;
                                 }
-                                $orgLink = route('organizePageByLang', ["lang" => trans('backLang.code'), "id" => $Child->id]);
+                                $orgLink = route('organizePageByLang', ["id" => $Child->id]);
                                 $secondChilds = $Child->fatherSections;
                                 ?>
-                                <div class="col-md-3 mgb20">    
+                                <div class="col-md-3 mgb20">
                                     <a href="#"  data-toggle="modal" data-target="#exampleModal{{$Child->id}}">
                                         <div class="orgbt1">{{$Child->$title}}</div>
                                     </a>
@@ -79,7 +79,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <!-- <a class="btn btn-primary org" href="{{$orgLink}}">المزيد عن الإدارة</a> -->
-                                                    <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>                    
+                                                    <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,8 +87,8 @@
                             @endforeach
                         </div>
                         <hr>
-                        {!!$Topic->$details!!}                     
-                    </div>                          
+                        {!!$Topic->$details!!}
+                    </div>
                 </div>
             @endif
         </div>
@@ -101,7 +101,7 @@
                 <div class="row text-center">
                     <div class="col-md-12 organiz1">
                         {{$Topic->$title}}
-                    </div> 
+                    </div>
                 </div>
 
                 <div class="row text-center">
@@ -131,7 +131,7 @@
                             } else {
                                 $details = $details_var2;
                             }
-                            $orgLink = route('organizePageByLang', ["lang" => trans('backLang.code'), "id" => $Child->id]);
+                            $orgLink = route('organizePageByLang', ["id" => $Child->id]);
                             $secondSections = $Child->fatherSections;
                             //echo count($Childs); die();
                             $chCount=count($Childs);
@@ -140,13 +140,13 @@
                                 @if(count($secondSections)>0)
                                     <a href="{{$orgLink}}">
                                         <div class="organiz2-{{$class1[$i]}}">
-                                            {{$title}}   
+                                            {{$title}}
                                         </div>
                                     </a>
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#exampleModal{{$Child->id}}">
                                         <div class="organiz2-{{$class1[$i]}}">
-                                            {{$title}}   
+                                            {{$title}}
                                         </div>
                                     </a>
 
@@ -165,7 +165,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <!-- <a class="btn btn-primary org" href="{{$orgLink}}">المزيد عن الإدارة</a> -->
-                                                    <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>                    
+                                                    <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,7 +185,7 @@
                                         } else {
                                             $details = $details_var2;
                                         }
-                                        $orgLink = route('organizePageByLang', ["lang" => trans('backLang.code'), "id" => $secondSec->id]);
+                                        $orgLink = route('organizePageByLang', ["id" => $secondSec->id]);
                                         ?>
                                         <li class="treeli @if(count($secondSections)>3)col-md-3 @else col-md-4 @endif ">
                                             <a href="#" data-toggle="modal" data-target="#exampleModal{{$secondSec->id}}">
@@ -208,7 +208,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <!-- <a class="btn btn-primary org" href="{{$orgLink}}">المزيد عن الإدارة</a> -->
-                                                        <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>                    
+                                                        <button type="button" class="btn color-primary cls" data-dismiss="modal">اغلاق</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,10 +223,10 @@
                     </div>
                 </div>
             </div>
-        </div>                              
+        </div>
         @endif
     </div>
 </div>
-     
+
 @include('frontEnd.includes.visits')
 @endsection

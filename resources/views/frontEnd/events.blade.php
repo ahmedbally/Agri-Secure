@@ -1,7 +1,7 @@
 @extends('frontEnd.layout')
 
 @section('content')
-    @include('frontEnd.includes.breadcrumb')       
+    @include('frontEnd.includes.breadcrumb')
     <div class="new-block has-pattern2">
         <div class="container type-3-text">
             @if($Topics->total() > 0)
@@ -39,17 +39,9 @@
 
                     // set row div
                         if ($Topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = url(trans('backLang.code') . "/" . $Topic->$slug_var);
-                            } else {
-                                $topic_link_url = url($Topic->$slug_var);
-                            }
+                            $topic_link_url = url($Topic->$slug_var);
                         } else {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                            } else {
-                                $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                            }
+                            $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
                         }
                     ?>
                     <div class="blog-post style-3">
@@ -61,7 +53,7 @@
                             <div class="col-sm-8 col-md-10">
                                 <div class="data">
                                     <a class="title color-blue" href="{{$topic_link_url}}">{{$title}}</a>
-                                    
+
                                     @if(count($Topic->webmasterSection->customFields) >0)
                                         <?php
                                         $cf_title_var = "title_" . trans('backLang.boxCode');
@@ -111,9 +103,9 @@
                         </div>
                     </div>
                  @endforeach
-            @endif  
+            @endif
         </div>
     </div>
-         
+
     @include('frontEnd.includes.visits',['customVisits'=>true])
 @endsection

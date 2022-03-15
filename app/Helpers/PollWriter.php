@@ -1,11 +1,11 @@
 <?php
 
-namespace Inani\Larapoll\Helpers;
+namespace App\Helpers;
 
-use Inani\Larapoll\Guest;
-use Inani\Larapoll\Poll;
-use Inani\Larapoll\Traits\PollWriterResults;
-use Inani\Larapoll\Traits\PollWriterVoting;
+use App\Guest;
+use App\Poll;
+use App\Traits\PollWriterResults;
+use App\Traits\PollWriterVoting;
 
 class PollWriter
 {

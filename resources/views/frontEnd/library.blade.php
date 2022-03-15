@@ -180,17 +180,9 @@
 
                     // set row div
                         if ($Topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = url(trans('backLang.code') . "/" . $Topic->$slug_var);
-                            } else {
-                                $topic_link_url = url($Topic->$slug_var);
-                            }
+                            $topic_link_url = url($Topic->$slug_var);
                         } else {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                            } else {
-                                $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                            }
+                            $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
                         }
                     ?>
                     <?=($i > 1 && ($i % 4 == 0))? "</div><div class='row'>":'';?>

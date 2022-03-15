@@ -22,22 +22,15 @@
                             $title = $item->$title_var2;
                         }
                         if ($item->webmasterSection->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $section_url = url(trans('backLang.code') . "/" . $item->webmasterSection->$slug_var);
-                            } else {
-                                $section_url = url($item->webmasterSection->$slug_var);
-                            }
+                            $section_url = url($item->webmasterSection->$slug_var);
                         } else {
                             /*if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
                                 $section_url = url(trans('backLang.code') . "/" . $item->webmasterSection->name);
                             } else {
                                 $section_url = url($item->webmasterSection->name);
                             }*/
-                            if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                $section_url = route('FrontendTopicsByCatWithLang', ["lang" => trans('backLang.code'), "section" => $item->webmasterSection->name, "cat" => $item->id]);
-                            } else {
-                                $section_url = route('FrontendTopicsByCat', ["section" => $item->webmasterSection->name, "cat" => $item->id]);
-                            }
+
+                            $section_url = route('FrontendTopicsByCat', ["section" => $item->webmasterSection->name, "cat" => $item->id]);
                         }
                     ?>
         			<div class="col-md-3"  style="margin-bottom:20px;">
@@ -57,6 +50,6 @@
             </div>
         </div>
     </div>
-         
+
     @include('frontEnd.includes.visits',['customVisits'=>true])
 @endsection

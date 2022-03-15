@@ -1,13 +1,13 @@
 <?php
 
-namespace Inani\Larapoll\Helpers;
+namespace App\Helpers;
 
 use Exception;
-use Inani\Larapoll\Exceptions\CheckedOptionsException;
-use Inani\Larapoll\Exceptions\OptionsInvalidNumberProvidedException;
-use Inani\Larapoll\Exceptions\OptionsNotProvidedException;
-use Inani\Larapoll\Exceptions\RemoveVotedOptionException;
-use Inani\Larapoll\Poll;
+use App\Exceptions\CheckedOptionsException;
+use App\Exceptions\OptionsInvalidNumberProvidedException;
+use App\Exceptions\OptionsNotProvidedException;
+use App\Exceptions\RemoveVotedOptionException;
+use App\Poll;
 use InvalidArgumentException;
 
 class PollHandler

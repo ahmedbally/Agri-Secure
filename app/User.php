@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Inani\Larapoll\Traits\Voter;
+use App\Traits\Voter;
 
 class User extends Authenticatable
 {

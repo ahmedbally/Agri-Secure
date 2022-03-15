@@ -20,8 +20,6 @@ class XSS
         $userInput = strip_tags($userInput);
         });
         $request->merge($userInput);
-        $final = $next($request);
-        // dd($final);
-        return $final;
+        return $next($request);
     }
 }

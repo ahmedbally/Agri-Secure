@@ -1,12 +1,12 @@
 <?php
-namespace Inani\Larapoll\Traits;
+namespace App\Traits;
 
 use Illuminate\Support\Collection;
-use Inani\Larapoll\Exceptions\CheckedOptionsException;
-use Inani\Larapoll\Exceptions\OptionsInvalidNumberProvidedException;
-use Inani\Larapoll\Exceptions\OptionsNotProvidedException;
-use Inani\Larapoll\Exceptions\RemoveVotedOptionException;
-use Inani\Larapoll\Option;
+use App\Exceptions\CheckedOptionsException;
+use App\Exceptions\OptionsInvalidNumberProvidedException;
+use App\Exceptions\OptionsNotProvidedException;
+use App\Exceptions\RemoveVotedOptionException;
+use App\Option;
 use InvalidArgumentException;
 
 trait PollManipulator

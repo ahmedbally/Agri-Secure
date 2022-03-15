@@ -1,7 +1,7 @@
 @extends('frontEnd.layout')
 
 @section('content')
-    @include('frontEnd.includes.breadcrumb')       
+    @include('frontEnd.includes.breadcrumb')
     <div class="new-block has-pattern2">
         <div class="container type-3-text">
             <div class="row">
@@ -40,19 +40,11 @@
                         // print_r($Topic->photos[0]->file); die();
                         $mainPhoto=($Topic->photo_file!='')?$Topic->photo_file : $Topic->photos[0]->file;
                         // set row div
-                            
+
                             if ($Topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $topic_link_url = url(trans('backLang.code') . "/" . $Topic->$slug_var);
-                                } else {
-                                    $topic_link_url = url($Topic->$slug_var);
-                                }
+                                $topic_link_url = url($Topic->$slug_var);
                             } else {
-                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
-                                    $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                                } else {
-                                    $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
-                                }
+                                $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
                             }
                         ?>
                         <!-- BLOCK "TYPE 3" -->
@@ -62,15 +54,15 @@
                                 <div class="mgb20">
                                     <img src="{{ URL::asset('frontEnd/img/slice.png')}}" class="img-responsive nwsimg" style="background-image:url({{ URL::to('uploads/topics/'.$mainPhoto) }});">
                                     <p class="title ghead" href="{{$topic_link_url}}">{{$title}}</p>
-                                </div>                              
+                                </div>
                             </a>
                         </div>
                         <?php $i++; ?>
                     @endforeach
-                @endif  
-            </div>   
+                @endif
+            </div>
         </div>
     </div>
-         
+
     @include('frontEnd.includes.visits',['customVisits'=>true])
 @endsection

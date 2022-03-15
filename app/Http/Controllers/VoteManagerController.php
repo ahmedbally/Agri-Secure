@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Inani\Larapoll\Poll;
-use Inani\Larapoll\Guest;
+use App\Poll;
+use App\Guest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

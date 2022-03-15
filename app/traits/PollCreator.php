@@ -1,12 +1,12 @@
 <?php
-namespace Inani\Larapoll\Traits;
+namespace App\Traits;
 
 use Illuminate\Support\Facades\DB;
-use Inani\Larapoll\Exceptions\CheckedOptionsException;
-use Inani\Larapoll\Exceptions\OptionsInvalidNumberProvidedException;
-use Inani\Larapoll\Exceptions\OptionsNotProvidedException;
-use Inani\Larapoll\Option;
-use Inani\Larapoll\Exceptions\DuplicatedOptionsException;
+use App\Exceptions\CheckedOptionsException;
+use App\Exceptions\OptionsInvalidNumberProvidedException;
+use App\Exceptions\OptionsNotProvidedException;
+use App\Option;
+use App\Exceptions\DuplicatedOptionsException;
 
 trait PollCreator
 {

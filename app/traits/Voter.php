@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Inani\Larapoll\Traits;
+namespace App\Traits;
 
 
 use Illuminate\Support\Facades\DB;
-use Inani\Larapoll\Exceptions\PollNotSelectedToVoteException;
-use Inani\Larapoll\Exceptions\VoteInClosedPollException;
-use Inani\Larapoll\Guest;
-use Inani\Larapoll\Option;
-use Inani\Larapoll\Poll;
-use Inani\Larapoll\Vote;
+use App\Exceptions\PollNotSelectedToVoteException;
+use App\Exceptions\VoteInClosedPollException;
+use App\Guest;
+use App\Option;
+use App\Poll;
+use App\Vote;
 use InvalidArgumentException;
 
 trait Voter

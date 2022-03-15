@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mail;
 use Illuminate\Support\Facades\Config;
-use Inani\Larapoll\Poll;
+use App\Poll;
 
 
 class FrontendHomeController extends Controller
@@ -30,6 +30,7 @@ class FrontendHomeController extends Controller
     {
         // Set Language depending on Dashboard Settings
         $WebmasterSettings = WebmasterSetting::find(1);
+
         if(!$WebmasterSettings->languages_ar_status && $WebmasterSettings->languages_en_status){
             // Set As English if arabic is disabled
             App::setLocale('en');
@@ -183,7 +184,6 @@ class FrontendHomeController extends Controller
      */
     public function HomePageByLang($lang = "")
     {
-
         if ($lang != "") {
             // Set Language
             App::setLocale($lang);
@@ -515,13 +515,7 @@ class FrontendHomeController extends Controller
      */
     public function topic($section = 0, $id = 0)
     {
-        $lang_dirs = array_filter(glob(App::langPath() . '/*'), 'is_dir');
-        // check if this like "/ar/blog"
-        if (in_array(App::langPath() . "/$section", $lang_dirs)) {
-            return $this->topicsByLang($section, $id, 0);
-        } else {
-            return $this->topicByLang("", $section, $id);
-        }
+        return $this->topicByLang("", $section, $id);
     }
 
     /**
@@ -1427,13 +1421,7 @@ class FrontendHomeController extends Controller
                 )
             );
         }
-        $lang_dirs = array_filter(glob(App::langPath() . '/*'), 'is_dir');
-        // check if this like "/ar/blog"
-        if (in_array(App::langPath() . "/$section", $lang_dirs)) {
-            return $this->topicsByLang($section, $cat, 0);
-        } else {
-            return $this->topicsByLang("", $section, $cat);
-        }
+        return $this->topicsByLang("", $section, $cat);
     }
 
     /**
@@ -1450,10 +1438,11 @@ class FrontendHomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param string $lang
+     * @param int|null $id
      * @return \Illuminate\Http\Response
      */
-    public function userTopicsByLang($lang = "", $id)
+    public function userTopicsByLang(string $lang = "", ?int $id = null)
     {
 
         if ($lang != "") {
@@ -1795,7 +1784,7 @@ class FrontendHomeController extends Controller
         {
             return $validator->getMessageBag()->first();
 
-            
+
         }
 
         // SITE SETTINGS

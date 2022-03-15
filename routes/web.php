@@ -320,42 +320,42 @@ Route::Group(['prefix' => env('BACKEND_PATH'), 'middleware' => ['web','auth','XS
 // .. End of Backend Routes
 
 // RESTful API routes
-Route::Group(['prefix' => '/api/v1'], function () {
-    Route::get('/', 'APIsController@api');
-    // general
-    Route::get('/website/status', 'APIsController@website_status');
-    Route::get('/website/info/{lang?}', 'APIsController@website_info');
-    Route::get('/website/contacts/{lang?}', 'APIsController@website_contacts');
-    Route::get('/website/style/{lang?}', 'APIsController@website_style');
-    Route::get('/website/social', 'APIsController@website_social');
-    Route::get('/website/settings', 'APIsController@website_settings');
-    Route::get('/menu/{menu_id}/{lang?}', 'APIsController@menu');
-    Route::get('/banners/{group_id}/{lang?}', 'APIsController@banners');
-    // section & topics
-    Route::get('/section/{section_id}/{lang?}', 'APIsController@section');
-    Route::get('/categories/{section_id}/{lang?}', 'APIsController@categories');
-    Route::get('/topics/{section_id}/page/{page_number?}/count/{topics_count?}/{lang?}', 'APIsController@topics');
-    // topic sub details
-    Route::get('/topic/fields/{topic_id}/{lang?}', 'APIsController@topic_fields');
-    Route::get('/topic/photos/{topic_id}/{lang?}', 'APIsController@topic_photos');
-    Route::get('/topic/photo/{photo_id}/{lang?}', 'APIsController@topic_photo');
-    Route::get('/topic/maps/{topic_id}/{lang?}', 'APIsController@topic_maps');
-    Route::get('/topic/map/{map_id}/{lang?}', 'APIsController@topic_map');
-    Route::get('/topic/files/{topic_id}/{lang?}', 'APIsController@topic_files');
-    Route::get('/topic/file/{file_id}/{lang?}', 'APIsController@topic_file');
-    Route::get('/topic/comments/{topic_id}/{lang?}', 'APIsController@topic_comments');
-    Route::get('/topic/comment/{comment_id}/{lang?}', 'APIsController@topic_comment');
-    Route::get('/topic/related/{topic_id}/{lang?}', 'APIsController@topic_related');
-    // topic page
-    Route::get('/topic/{topic_id}/{lang?}', 'APIsController@topic');
-    // user topics
-    Route::get('/user/{user_id}/topics/page/{page_number?}/count/{topics_count?}/{lang?}', 'APIsController@user_topics');
-    // Forms Submit
-    Route::post('/subscribe', 'APIsController@subscribeSubmit');
-    Route::post('/comment', 'APIsController@commentSubmit');
-    Route::post('/order', 'APIsController@orderSubmit');
-    Route::post('/contact', 'APIsController@ContactPageSubmit');
-});
+//Route::Group(['prefix' => '/api/v1'], function () {
+//    Route::get('/', 'APIsController@api');
+//    // general
+//    Route::get('/website/status', 'APIsController@website_status');
+//    Route::get('/website/info/{lang?}', 'APIsController@website_info');
+//    Route::get('/website/contacts/{lang?}', 'APIsController@website_contacts');
+//    Route::get('/website/style/{lang?}', 'APIsController@website_style');
+//    Route::get('/website/social', 'APIsController@website_social');
+//    Route::get('/website/settings', 'APIsController@website_settings');
+//    Route::get('/menu/{menu_id}/{lang?}', 'APIsController@menu');
+//    Route::get('/banners/{group_id}/{lang?}', 'APIsController@banners');
+//    // section & topics
+//    Route::get('/section/{section_id}/{lang?}', 'APIsController@section');
+//    Route::get('/categories/{section_id}/{lang?}', 'APIsController@categories');
+//    Route::get('/topics/{section_id}/page/{page_number?}/count/{topics_count?}/{lang?}', 'APIsController@topics');
+//    // topic sub details
+//    Route::get('/topic/fields/{topic_id}/{lang?}', 'APIsController@topic_fields');
+//    Route::get('/topic/photos/{topic_id}/{lang?}', 'APIsController@topic_photos');
+//    Route::get('/topic/photo/{photo_id}/{lang?}', 'APIsController@topic_photo');
+//    Route::get('/topic/maps/{topic_id}/{lang?}', 'APIsController@topic_maps');
+//    Route::get('/topic/map/{map_id}/{lang?}', 'APIsController@topic_map');
+//    Route::get('/topic/files/{topic_id}/{lang?}', 'APIsController@topic_files');
+//    Route::get('/topic/file/{file_id}/{lang?}', 'APIsController@topic_file');
+//    Route::get('/topic/comments/{topic_id}/{lang?}', 'APIsController@topic_comments');
+//    Route::get('/topic/comment/{comment_id}/{lang?}', 'APIsController@topic_comment');
+//    Route::get('/topic/related/{topic_id}/{lang?}', 'APIsController@topic_related');
+//    // topic page
+//    Route::get('/topic/{topic_id}/{lang?}', 'APIsController@topic');
+//    // user topics
+//    Route::get('/user/{user_id}/topics/page/{page_number?}/count/{topics_count?}/{lang?}', 'APIsController@user_topics');
+//    // Forms Submit
+//    Route::post('/subscribe', 'APIsController@subscribeSubmit');
+//    Route::post('/comment', 'APIsController@commentSubmit');
+//    Route::post('/order', 'APIsController@orderSubmit');
+//    Route::post('/contact', 'APIsController@ContactPageSubmit');
+//});
 // .. End of RESTful API routes
 
 // Frontend Routes
@@ -370,14 +370,14 @@ Route::get('/polls', 'FrontendHomeController@polls');
 Route::get('/polls/{poll}', 'FrontendHomeController@poll');
 // ../site map
 Route::get('/sitemap.xml', 'SiteMapController@siteMap')->name('siteMap');
-Route::get('/{lang}/sitemap', 'SiteMapController@siteMap')->name('siteMapByLang');
+//Route::get('/{lang}/sitemap', 'SiteMapController@siteMap')->name('siteMapByLang');
 
 Route::get('/', 'FrontendHomeController@HomePage')->name('Home');
 // ../home url
 Route::get('/organize', 'FrontendHomeController@organize')->name('organize');
-Route::get('/organize/{id}/{lang?}', 'FrontendHomeController@organizeByLang')->name('organizePageByLang');
+Route::get('/organize/{id}', 'FrontendHomeController@organizeByLang')->name('organizePageByLang');
 Route::get('/home', 'FrontendHomeController@HomePage')->name('HomePage');
-Route::get('/{lang?}/home', 'FrontendHomeController@HomePageByLang')->name('HomePageByLang');
+//Route::get('/{lang?}/home', 'FrontendHomeController@HomePageByLang')->name('HomePageByLang');
 // ../subscribe to newsletter submit  (ajax url)
 Route::post('/subscribe', 'FrontendHomeController@subscribeSubmit')->name('subscribeSubmit');
 // ../Comment submit  (ajax url)
@@ -386,7 +386,7 @@ Route::post('/comment', 'FrontendHomeController@commentSubmit')->name('commentSu
 Route::post('/order', 'FrontendHomeController@orderSubmit')->name('orderSubmit');
 // ..Custom URL for contact us page ( www.site.com/contact )
 Route::get('/contact', 'FrontendHomeController@ContactPage')->name('contactPage');
-Route::get('/{lang?}/contact', 'FrontendHomeController@ContactPageByLang')->name('contactPageByLang');
+//Route::get('/{lang?}/contact', 'FrontendHomeController@ContactPageByLang')->name('contactPageByLang');
 // ../contact message submit  (ajax url)
 Route::Group(['middleware' => 'XSS'], function () {
     Route::post('/contact/submit', 'FrontendHomeController@ContactPageSubmit')->name('contactPageSubmit');
@@ -395,28 +395,28 @@ Route::Group(['middleware' => 'XSS'], function () {
 Route::get('/topic/{id}', 'FrontendHomeController@topic')->name('FrontendPage');
 // ..if page by user id ( ex: www.site.com/user )
 Route::get('/user/{id}', 'FrontendHomeController@userTopics')->name('FrontendUserTopics');
-Route::get('/{lang?}/user/{id}', 'FrontendHomeController@userTopicsByLang')->name('FrontendUserTopicsByLang');
+//Route::get('/{lang?}/user/{id}', 'FrontendHomeController@userTopicsByLang')->name('FrontendUserTopicsByLang');
 // ../search
 Route::post('/search', 'FrontendHomeController@searchTopics')->name('searchTopics');
 
 // ..Topics url  ( ex: www.site.com/news/topic/32 )
 Route::get('/{section}/topic/{id}', 'FrontendHomeController@topic')->name('FrontendTopic');
-Route::get('/{lang?}/{section}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendTopicByLang');
+//Route::get('/{lang?}/{section}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendTopicByLang');
 
 // ..Sub category url for Section  ( ex: www.site.com/products/2 )
 Route::get('/{section}/{cat}', 'FrontendHomeController@topics')->name('FrontendTopicsByCat');
-Route::get('/{lang?}/{section}/{cat}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByCatWithLang');
+//Route::get('/{lang?}/{section}/{cat}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByCatWithLang');
 
 // ..Section url by name  ( ex: www.site.com/news )
 Route::get('/{section}', 'FrontendHomeController@topics')->name('FrontendTopics');
-Route::get('/{lang?}/{section}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByLang');
+//Route::get('/{lang?}/{section}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByLang');
 
 // ..SEO url  ( ex: www.site.com/title-here )
 Route::get('/{seo_url_slug}', 'FrontendHomeController@SEO')->name('FrontendSEO');
-Route::get('/{lang?}/{seo_url_slug}', 'FrontendHomeController@SEOByLang')->name('FrontendSEOByLang');
+//Route::get('/{lang?}/{seo_url_slug}', 'FrontendHomeController@SEOByLang')->name('FrontendSEOByLang');
 
 // ..if page by name and language( ex: www.site.com/ar/about )
-Route::get('/{lang?}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendPageByLang');
+//Route::get('/{lang?}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendPageByLang');
 Route::post('sub-cat-query','FrontendHomeController@subCatQuery');
 
 // .. End of Frontend Route

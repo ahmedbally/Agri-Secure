@@ -1,6 +1,6 @@
 <?php
 
-namespace Inani\Larapoll\Http\Request;
+namespace App\Http\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 

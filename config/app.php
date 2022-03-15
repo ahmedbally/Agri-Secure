@@ -179,7 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Inani\Larapoll\LarapollServiceProvider::class,
+        App\LarapollServiceProvider::class,
 
     ],
 
@@ -234,7 +234,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Helper' => App\Helpers\Helper::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'PollWriter' => Inani\Larapoll\PollWriterFacade::class,
+        'PollWriter' => App\PollWriterFacade::class,
     ],
 
 ];
