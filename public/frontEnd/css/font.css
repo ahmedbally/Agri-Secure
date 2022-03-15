@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "rb-light";
+    font-stretch: normal;
+    src: url("fonts/RB-Light.eot?#iefix") format("embedded-opentype"), url("fonts/RB-Light.woff") format("woff"), url("fonts/RB-Light.ttf") format("truetype"), url("fonts/RB-Light.svg#RB-Light") format("svg");
+}
+@font-face {
+    font-family: "rb-regular";
+    font-stretch: normal;
+    font-style: normal;
+    font-weight: normal;
+    src: url("fonts/RB-Regular.eot?#iefix") format("embedded-opentype"), url("fonts/RB-Regular.woff") format("woff"), url("fonts/RB-Regular.ttf") format("truetype"), url("fonts/RB-Regular.svg#RB-Light") format("svg");
+}
+@font-face {
+    font-family: "rb-bold";
+    font-stretch: normal;
+    src: url("fonts/RB-Bold.eot?#iefix") format("embedded-opentype"), url("fonts/RB-Bold.woff") format("woff"), url("fonts/RB-Bold.ttf") format("truetype"), url("fonts/RB-Bold.svg#RB-Bold") format("svg");
+}

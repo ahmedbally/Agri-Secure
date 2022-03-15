@@ -1,0 +1,99 @@
+.treeul {
+    padding-top: 20px; position: relative;
+    
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.treeli {
+    float: left; 
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 5px 0 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.treeli::before, .treeli::after{
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 3px solid #8da87e;
+    width: 50%; 
+    height: 20px;
+    background-color: transparent;
+
+}
+.treeli::after{
+    right: auto; left: 50%;
+    border-left: 3px solid #8da87e;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.treeli:only-child::after, .treeli:only-child::before {
+    display: none;
+}
+
+/*Remove space from the top of single children*/
+.treeli:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.treeli:first-child::before, .treeli:last-child::after{
+    border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.treeli:last-child::before{
+    border-right: 3px solid #8da87e;
+    border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+}
+.treeli:first-child::after{
+    /*border-radius: 5px 0 0 0;*/
+    /*-webkit-border-radius: 5px 0 0 0;*/
+    /*-moz-border-radius: 5px 0 0 0;*/
+}
+
+/*Time to add downward connectors from parents*/
+.treeul .treeul::before{
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    border-left: 3px solid #8da87e;
+    width: 0; height: 20px;
+}
+
+.treeli a{
+    text-decoration: none;
+    color: #666;
+    display: inline-block;
+    /*border-radius: 5px;*/
+    /*-webkit-border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+/*.tree li a:hover, .tree li a:hover+ul li a {
+    background: #c8e4f8; 
+    color: #000; 
+    border: 1px solid #94a0b4;
+}*/
+/*Connector styles on hover*/
+.treeli a:hover+ul li::after, 
+.treeli a:hover+ul li::before, 
+.treeli a:hover+ul::before, 
+.treeli a:hover+ul ul::before{
+    border-color:  #94a0b4;
+}
+
+/*Thats all. I hope you enjoyed it.
+Thanks :)*/

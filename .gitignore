@@ -1,0 +1,15 @@
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+.idea
+# Laravel 5 & Lumen specific
+public/storage
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+agri_db.sql
+composer.lock
