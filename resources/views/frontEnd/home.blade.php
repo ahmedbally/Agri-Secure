@@ -162,7 +162,7 @@
 
                                         <div class="vistimg">
 
-                                            <img src="http://agri.sprograming.com/frontEnd/img/businessman.svg" width="80" alt="">
+                                            <img src="{{asset('frontEnd/img/businessman.svg')}}/frontEnd/img/businessman.svg" width="80" alt="">
 
                                         </div>
 
@@ -184,7 +184,7 @@
 
                                         <div class="vistimg">
 
-                                            <img src="http://agri.sprograming.com/frontEnd/img/boss.svg" width="80" alt="">
+                                            <img src="{{asset('frontEnd/img/boss.svg')}}" width="80" alt="">
 
                                         </div>
 
@@ -203,23 +203,23 @@
 
 
                             <div class="col-md-12">
-                                <a href="http://agri.sprograming.com/contact" class="bannerimg">
-                                    <img src="http://agri.sprograming.com/frontEnd/img/bg_banner001.jpg" alt="">
+                                <a href="{{url('/contact')}}" class="bannerimg">
+                                    <img src="{{asset('frontEnd/img/bg_banner001.jpg')}}" alt="">
                                 </a>
                             </div>
 
 
 
                             <div class="col-md-12">
-                                <a href="http://agri.sprograming.com/polls" class="bannerimg">
-                                    <img src="http://agri.sprograming.com/frontEnd/img/bg_banner002.jpg" alt="">
+                                <a href="{{url('/polls')}}" class="bannerimg">
+                                    <img src="{{asset('frontEnd/img/bg_banner002.jpg')}}" alt="">
                                 </a>
                             </div>
 
 
                             <div class="col-md-12">
                                 <a href="#" data-toggle="modal" data-target="#gehatModal" class="bannerimg">
-                                    <img src="http://agri.sprograming.com/frontEnd/img/bg_banner003.jpg" alt="">
+                                    <img src="{{asset('frontEnd/img/bg_banner003.jpg')}}" alt="">
                                 </a>
                             </div>
 

@@ -418,6 +418,8 @@ Route::get('/{seo_url_slug}', 'FrontendHomeController@SEO')->name('FrontendSEO')
 // ..if page by name and language( ex: www.site.com/ar/about )
 //Route::get('/{lang?}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendPageByLang');
 Route::post('sub-cat-query','FrontendHomeController@subCatQuery');
+Route::post('/vote/polls/{poll}', 'VoteManagerController@vote')->name('poll.vote');
+
 
 // .. End of Frontend Route
 /*
