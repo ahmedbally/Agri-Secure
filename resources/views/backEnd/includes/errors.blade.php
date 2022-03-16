@@ -21,7 +21,7 @@
 @if(Session::has('doneMessage'))
     <div class="padding p-b-0">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="alert alert-success m-b-0">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span>

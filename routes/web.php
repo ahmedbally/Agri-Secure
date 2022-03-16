@@ -39,7 +39,7 @@ Route::get('/oauth/{driver}/callback', 'Auth\SocialAuthController@handleProvider
 Route::get('/admin', function () {
     return redirect()->route('adminHome');
 });
-Route::Group(['prefix' => env('BACKEND_PATH'), 'middleware' => ['web','auth','XSS'],'before' => 'csrf'], function () {
+Route::Group(['prefix' => env('BACKEND_PATH'), 'middleware' => ['web','auth'],'before' => 'csrf'], function () {
 
     // No Permission
     Route::get('/403', function () {
@@ -388,9 +388,7 @@ Route::post('/order', 'FrontendHomeController@orderSubmit')->name('orderSubmit')
 Route::get('/contact', 'FrontendHomeController@ContactPage')->name('contactPage');
 //Route::get('/{lang?}/contact', 'FrontendHomeController@ContactPageByLang')->name('contactPageByLang');
 // ../contact message submit  (ajax url)
-Route::Group(['middleware' => 'XSS'], function () {
-    Route::post('/contact/submit', 'FrontendHomeController@ContactPageSubmit')->name('contactPageSubmit');
-});
+Route::post('/contact/submit', 'FrontendHomeController@ContactPageSubmit')->name('contactPageSubmit');
 // ..if page by name ( ex: www.site.com/about )
 Route::get('/topic/{id}', 'FrontendHomeController@topic')->name('FrontendPage');
 // ..if page by user id ( ex: www.site.com/user )
