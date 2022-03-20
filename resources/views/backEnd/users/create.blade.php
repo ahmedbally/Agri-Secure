@@ -55,7 +55,7 @@
                            class="col-sm-2 form-control-label">{!!  trans('backLang.loginPassword') !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('password','', array('placeholder' => '','class' => 'form-control','id'=>'password','required'=>'')) !!}
+                        {!! Form::password('password', array('placeholder' => '','class' => 'form-control','id'=>'password','required'=>'')) !!}
                     </div>
                 </div>
 

@@ -7,9 +7,11 @@ use App\Permissions;
 use App\User;
 use App\WebmasterSection;
 use Auth;
+use Cog\Laravel\Optimus\Facades\Optimus;
 use File;
 use Illuminate\Config;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 use Redirect;
 
 class UsersController extends Controller
@@ -23,8 +25,7 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
 
-        // Check Permissions
-        if (@Auth::user()->permissions != 0 && Auth::user()->permissions != 1) {
+        if (@Auth::user()->permissions_id != 1) {
             return Redirect::to(route('NoPermission'))->send();
         }
         if(@Auth::user()->permissions_id == 3){
@@ -85,7 +86,7 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'mobile' => 'required|numeric|unique:users',
-            'password' => 'required',
+            'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
             'permissions_id' => 'required'
         ]);
 
@@ -135,17 +136,14 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id = Optimus::decode($id);
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
         $Permissions = Permissions::orderby('id', 'asc')->get();
-        // dd(@Auth::user()->permissionsGroup->settings_status);
-        if (@Auth::user()->permissionsGroup->settings_status) {
-            $Users = User::find($id);
-        } else {
-            $Users = User::find(Auth::user()->id);
-        }
+
+        $Users = User::find($id);
+
         if (!empty($Users)) {
             return view("backEnd.users.edit", compact("Users", "Permissions", "GeneralWebmasterSections"));
         } else {
@@ -162,11 +160,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        // dd($request);
-        if (!@Auth::user()->permissionsGroup->settings_status) {
-            $id = Auth::user()->id;
-        }
+        $id = Optimus::decode($id);
 
         $User = User::find($id);
 
@@ -203,6 +197,9 @@ class UsersController extends Controller
             $User->email = $request->email;
             $User->mobile = $request->mobile;
             if ($request->password != "") {
+                $this->validate($request, [
+                    'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
+                ]);
                 $User->password = bcrypt($request->password);
             }
             $User->permissions_id = $request->permissions_id;
@@ -232,7 +229,7 @@ class UsersController extends Controller
             $User->status = $request->status;
             $User->updated_by = Auth::user()->id;
             $User->save();
-            return redirect()->action('UsersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
+            return redirect()->action('UsersController@edit', Optimus::encode($id))->with('doneMessage', trans('backLang.saveDone'));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -246,7 +243,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $id = Optimus::decode($id);
+
         if (@Auth::user()->permissionsGroup->view_status) {
             $User = User::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
@@ -275,7 +273,11 @@ class UsersController extends Controller
      */
     public function updateAll(Request $request)
     {
-        //
+        $request->merge([
+            'ids' => is_array($request->ids)? array_map(function ($id){
+                return Optimus::decode($id);
+            },$request->ids) : []
+        ]);
         if($request->ids != "") {
             if ($request->action == "activate") {
                 User::wherein('id', $request->ids)

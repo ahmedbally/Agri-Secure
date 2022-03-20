@@ -29,17 +29,17 @@
                     </div>
                 @endif
 
-                <div class="form-group float-label {{ $errors->has('email') ? ' has-error' : '' }}">                                 
+                <div class="form-group float-label {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label class="control-label col-sm-2">{{ trans('backLang.connectEmail') }}</label>
                     <div class="col-sm-10">
                         <input type="email" name="email" value="{{ old('email') }}" class="form-control" required>
-                    </div>  
+                    </div>
                 </div>
-                <div class="form-group float-label {{ $errors->has('password') ? ' has-error' : '' }}">                  
+                <div class="form-group float-label {{ $errors->has('password') ? ' has-error' : '' }}">
                     <label class="control-label col-sm-2">{{ trans('backLang.connectPassword') }}</label>
                     <div class="col-sm-10">
                         <input type="password" name="password" class="form-control" required>
-                    </div>                   
+                    </div>
                 </div>
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -54,7 +54,7 @@
                                     class="primary"></i> {{ trans('backLang.keepMeSignedIn') }}
                             </label>
                         </div>
-                    </div>                   
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-default btn-block btn-green">{{ trans('backLang.signIn') }}</button>
             </form>

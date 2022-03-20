@@ -22,11 +22,11 @@
             <form class="form-horizontal form-login" name="reset" method="POST" action="{{ url('/password/reset') }}">
                 {{ csrf_field() }}
                 <input type="hidden" name="token" value="{{ $token }}">
-                <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">                    
+                <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label class="control-label col-sm-2">{{ trans('backLang.yourEmail') }}</label>
                     <div class="col-sm-10">
-                        <input type="email" name="email" value="{{ $email or old('email') }}" class="form-control" required>
-                    </div> 
+                        <input type="email" name="email" value="{{ $email ?? old('email') }}" class="form-control" required>
+                    </div>
                 </div>
                 @if ($errors->has('email'))
                     <span class="help-block">
@@ -34,11 +34,11 @@
                     </span>
                 @endif
 
-                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">                   
+                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                     <label class="control-label col-sm-2">{{ trans('backLang.newPassword') }}</label>
                     <div class="col-sm-10">
-                       <input type="password" name="password" class="form-control" required> 
-                    </div> 
+                       <input type="password" name="password" class="form-control" required>
+                    </div>
                 </div>
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -47,11 +47,11 @@
                 @endif
 
 
-                <div class="form-group {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">                
+                <div class="form-group {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                     <label class="control-label col-sm-2">{{ trans('backLang.confirmPassword') }}</label>
                     <div class="col-sm-10">
                         <input type="password" name="password_confirmation" class="form-control" required>
-                    </div> 
+                    </div>
                 </div>
                 @if ($errors->has('password_confirmation'))
                     <span class="help-block">

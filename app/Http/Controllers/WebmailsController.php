@@ -344,7 +344,7 @@ class WebmailsController extends Controller
                 $uploadcount = 0;
                 if ($file_count > 0) {
                     foreach ($files as $file) {
-                        $rules = array('file' => 'required'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+                        $rules = array('file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:3000'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
                         $validator = Validator::make(array('file' => $file), $rules);
                         if ($validator->passes()) {
                             $path = $this->getUploadPath();

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Cog\Laravel\Optimus\Facades\Optimus;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +13,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use Voter;
+    use OptimusEncodedRouteKey;
 
     /**
      * The attributes that are mass assignable.

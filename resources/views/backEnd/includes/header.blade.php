@@ -117,7 +117,7 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                     @endif
                     @if(Auth::user()->permissions ==0 || Auth::user()->permissions ==1)
                         <a class="dropdown-item"
-                           href="{{ route('usersEdit',Auth::user()->id) }}"><span>{{ trans('backLang.profile') }}</span></a>
+                           href="{{ route('userProfile') }}"><span>{{ trans('backLang.profile') }}</span></a>
                     @endif
                     <div class="dropdown-divider"></div>
                     <a onclick="event.preventDefault();document.getElementById('logout-form').submit();"

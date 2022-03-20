@@ -21,7 +21,10 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \App\Http\Middleware\LanguageSwitcher::class,
-        \Fruitcake\Cors\HandleCors::class
+        \Fruitcake\Cors\HandleCors::class,
+        \App\Http\Middleware\TrustReferer::class,
+        \Bepsvpt\SecureHeaders\SecureHeadersMiddleware::class,
+
     ];
 
     /**

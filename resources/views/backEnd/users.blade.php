@@ -4,7 +4,6 @@
     @if(@Auth::user()->permissionsGroup->webmaster_status)
         @include('backEnd.users.permissions.view')
     @endif
-
     <div class="padding">
         <div class="box">
 
@@ -69,9 +68,9 @@
                         @foreach($Users as $User)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $User->id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $User->getRouteKey() }}"><i
                                                 class="dark-white"></i>
-                                        {!! Form::hidden('row_ids[]',$User->id, array('class' => 'form-control row_no')) !!}
+                                        {!! Form::hidden('row_ids[]',$User->getRouteKey(), array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
                                 <td>
@@ -89,13 +88,13 @@
                                 </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("usersEdit",["id"=>$User->id]) }}">
+                                       href="{{ route("usersEdit",["id"=>$User->getRouteKey()]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                         </small>
                                     </a>
                                     @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#m-{{ $User->id }}" ui-toggle-class="bounce"
+                                                data-target="#m-{{ $User->getRouteKey() }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
                                             <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
                                             </small>
@@ -106,7 +105,7 @@
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="m-{{ $User->id }}" class="modal fade" data-backdrop="true">
+                            <div id="m-{{ $User->getRouteKey() }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -122,7 +121,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("usersDestroy",["id"=>$User->id]) }}"
+                                            <a href="{{ route("usersDestroy",["id"=>$User->getRouteKey()]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->

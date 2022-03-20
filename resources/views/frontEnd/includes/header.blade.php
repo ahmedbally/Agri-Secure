@@ -70,7 +70,7 @@
                         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <input class="form-control" placeholder="{{ trans('backLang.connectEmail') }}" id="email"  type="email" name="email" value="{{ old('email') }}" required>
                         </div>
-                        <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}"">
+                        <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                             <input class="form-control" type="password" name="password" required id="pwd" placeholder="{{ trans('backLang.connectPassword') }}">
                         </div>
                         <button type="submit" class="btn btn-default">دخول</button>

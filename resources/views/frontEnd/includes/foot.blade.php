@@ -28,8 +28,8 @@
           }
          }).magnificPopup('open');
     });
-      
-    
+
+
 </script>
 <script>
     var wow = new WOW(
@@ -57,7 +57,7 @@
         });
     @endif
 </script>
-@if($segment1=='' || $segment1=='home' || $segment1=='map')
+@if($segment1=='map')
     <script>
 		var scale=1;
 		var margin=0

@@ -1987,4 +1987,3 @@ t[N]&&(m=M[N]||U[N])&&m.pAttr&&(t[N]=a[m.pAttr]);for(;k;)for(N in k=0,t)void 0==
         !1!==d.hasInteractiveLegend&&!1!==d.highlightEnabled&&g.applyEffect(d,b,!1)});g.attachEventHandlers("legenditemclicked",function(a,b){var d=a.sender.jsVars.instanceAPI;!1!==d.hasInteractiveLegend&&!1!==d.highlightEnabled&&g.applyEffect(d,b,!0)});Q.register("highlightEffect",{name:"fadeout",area:m.area,radar:m.area,bubble:m.bubble,pie2d:m.pie,line:m.line,spline:m.line,areaspline:m.area,pie3d:m.pie,zoomline:m.line,funnel:m.funnelpyramid,pyramid:m.funnelpyramid,scatter:m.line,doughnut2d:m.pie,doughnut3d:m.pie,
         heatmap:m.heatmap,boxandwhisker2d:m.boxandwhisker2d,multiaxisline:m.line,"default":m["default"]})}]);Rb&&(Ab.FusionCharts=Q);return Q});
 
-//# sourceMappingURL=http://localhost:3052/3.12.2/map/licensed/fusioncharts.js.map

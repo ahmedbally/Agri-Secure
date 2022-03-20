@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="box-body">
-                {{Form::open(['route'=>['usersUpdate',$Users->id],'method'=>'POST', 'files' => true])}}
+                {{Form::open(['route'=>['usersUpdate',$Users->getRouteKey()],'method'=>'POST', 'files' => true])}}
 
                 <div class="form-group row">
                     <label for="name"
@@ -55,7 +55,7 @@
                            class="col-sm-2 form-control-label">{!!  trans('backLang.loginPassword') !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('password','', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
+                        {!! Form::password('password', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@
                     </div>
                 </div>
 
-                @if(@Auth::user()->permissionsGroup->webmaster_status)
+                @if(@Auth::user()->permissionsGroup->webmaster_status && !Route::is('userProfile'))
                     <div class="form-group row">
                         <label for="permissions1"
                                class="col-sm-2 form-control-label">{!!  trans('backLang.Permission') !!}</label>

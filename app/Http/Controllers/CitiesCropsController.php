@@ -7,7 +7,6 @@ use App\Center;
 use App\City;
 use App\CityCrop;
 use App\Crop;
-use App\Http\Requests;
 use App\Imports\CityCropImport;
 use App\WebmasterBanner;
 use App\WebmasterSection;
@@ -17,6 +16,7 @@ use File;
 use Helper;
 use Illuminate\Config;
 use Illuminate\Http\Request;
+use \Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Redirect;
 
@@ -36,7 +36,7 @@ class CitiesCropsController extends Controller
         if(@Auth::user()->permissions_id == 3){
             Redirect::to('Home')->send();
         }
-        
+
     }
 
     /**
@@ -78,10 +78,16 @@ class CitiesCropsController extends Controller
     }
 
     public function upload(Request $request){
+        // Check Permissions
+        if (!@Auth::user()->permissionsGroup->add_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
         try{
-            Excel::import(new CityCropImport(),request()->file('file'));
+            Validator::make($request->all(), [
+                'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:3000'
+            ])->validate();
+            Excel::import(new CityCropImport(),$request->file('file'));
         }catch (\Exception $e) {
-            // dd($e);
             return redirect()->action('CitiesCropsController@index');
         }
         return redirect()->action('CitiesCropsController@import')->with('doneMessage', trans('backLang.addDone'));
