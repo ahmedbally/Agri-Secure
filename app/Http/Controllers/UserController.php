@@ -7,6 +7,7 @@ use App\WebmasterSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -68,6 +69,9 @@ class UserController extends Controller
         $User->email = $request->email;
         $User->mobile = $request->mobile;
         if ($request->password != "") {
+            $this->validate($request, [
+                'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
+            ]);
             $User->password = bcrypt($request->password);
         }
         if ($request->photo_delete == 1) {

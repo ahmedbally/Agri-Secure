@@ -11,6 +11,7 @@ use Auth;
 use File;
 use Helper;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 use Redirect;
 
@@ -409,14 +410,17 @@ class SectionsController extends Controller
         return view("backEnd.databases.import", compact("GeneralWebmasterSections","imports","WebmasterSection"));
     }
     public function upload(Request $request){
+        $this->validate($request,[
+            'database' => Rule::in(['PlantProduction','CropStructure','FoodBalance','HistoricalPrice','InternationalPrice','DailyPrice']),
+            'file' => [
+                'required',
+                'mime:excel'
+            ]
+        ]);
         try{
-            if (in_array($request->input('database'),['PlantProduction','CropStructure','FoodBalance','HistoricalPrice','InternationalPrice','DailyPrice'])) {
-                $database = 'App\\Imports\\' . $request->input('database');
-                Excel::import(new $database(), request()->file('file'));
-            }else
-                return redirect()->action('SectionsController@index',[16]);
+            $database = 'App\\Imports\\' . $request->input('database');
+            Excel::import(new $database(), request()->file('file'));
         }catch (\Exception $e) {
-            return $e->getMessage();
             return redirect()->action('SectionsController@index',[16]);
         }
         return redirect()->action('SectionsController@import')->with('doneMessage', trans('backLang.addDone'));
