@@ -1,7 +1,7 @@
 <!-- HEADER -->
 	<div class="top-bar">
         <div class="row">
-            <div class="col-sm-5 text-right hidden-xs">
+            <div class="col-sm-4 text-right hidden-xs">
                 @if(Helper::GeneralSiteSettings("contact_t3") !="")
                     <i class="fa fa-phone"></i> &nbsp;<a
                             href="tel:{{ Helper::GeneralSiteSettings("contact_t3") }}">
@@ -17,7 +17,7 @@
                 <!-- <span><i class="fa fa-phone"></i> 0123456789</span> &nbsp;&nbsp;|&nbsp;&nbsp;
                 <span><i class="fa fa-envelope-o"></i> info@agri.gov.eg</span> 	 -->
             </div>
-            <div class="col-sm-7 text-left col-xs-12">
+            <div class="col-sm-8 text-left col-xs-12">
 
                 <div class="top-social">
                     @if($WebsiteSettings->social_link1)
@@ -75,7 +75,8 @@
                         </div>
                         <button type="submit" class="btn btn-default">دخول</button>
                     </form>
-                    <a class="newuser" href="{{url('/register')}}">مستخدم جديد <i class="fa fa-lock"></i></a>
+                    <a class="newuser" href="{{url('/password/reset')}}"> <i class="fa fa-key"></i> {{ trans('backLang.forgotPassword') }}</a>
+                    <a class="newuser" href="{{url('/register')}}"><i class="fa fa-lock"></i> مستخدم جديد </a>
                     <a class="search" data-toggle="modal" data-target="#searchModal" href="#"><i class="fa fa-search"></i></a>
                     <a class="newuser-responsive" href="{{url('/login')}}"> <i class="fa fa-user"></i></a>
                     <a class="search-responsive" data-toggle="modal" data-target="#searchModal" href="#"> <i class="fa fa-search"></i></a>
