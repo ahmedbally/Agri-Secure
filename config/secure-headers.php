@@ -115,7 +115,7 @@ return [
      */
 
     'hsts' => [
-        'enable' => false,
+        'enable' => env('APP_ENV') === 'production',
 
         'max-age' => 31536000,
 
