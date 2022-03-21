@@ -414,7 +414,7 @@ class SectionsController extends Controller
             'database' => Rule::in(['PlantProduction','CropStructure','FoodBalance','HistoricalPrice','InternationalPrice','DailyPrice']),
             'file' => [
                 'required',
-                'mimes:excel'
+                'mimes:xlsx,xls'
             ]
         ]);
         try{
