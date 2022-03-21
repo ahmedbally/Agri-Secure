@@ -27,10 +27,6 @@ Route::get('/lang/{lang}', array(
 
 // Backend Routes
 Auth::routes();
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
 // Social Auth
 Route::get('/oauth/{driver}', 'Auth\SocialAuthController@redirectToProvider')->name('social.oauth');
 Route::get('/oauth/{driver}/callback', 'Auth\SocialAuthController@handleProviderCallback')->name('social.callback');
@@ -70,7 +66,7 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
     Route::post('/polls', ['uses' => 'PollManagerController@store', 'as' => 'poll.store']);
     Route::get('/polls/{poll}/options/add', ['uses' => 'OptionManagerController@push', 'as' => 'poll.options.push']);
     Route::post('/polls/{poll}/options/add', ['uses' => 'OptionManagerController@add', 'as' => 'poll.options.add']);
-    Route::get('/polls/{poll}/options/remove', ['uses' => 'OptionManagerController@delete', 'as' => 'poll.options.remove']);
+    Route::get('/polls/{poll}/options/remove', ['uses' => 'OptionManagerController@delete', 'as' => 'poll.options.delete']);
     Route::delete('/polls/{poll}/options/remove', ['uses' => 'OptionManagerController@remove', 'as' => 'poll.options.remove']);
     // Webmaster
     Route::get('/webmaster', 'WebmasterSettingsController@edit')->name('webmasterSettings');

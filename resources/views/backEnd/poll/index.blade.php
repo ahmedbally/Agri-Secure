@@ -83,7 +83,7 @@
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-warning btn-sm" href="{{ route('poll.options.remove', $poll->id) }}">
+                        <a class="btn btn-warning btn-sm" href="{{ route('poll.options.delete', $poll->id) }}">
                             <i class="fa fa-minus-circle" aria-hidden="true"></i>
                         </a>
                     </td>
@@ -121,7 +121,7 @@
 
 @section('js')
 <script>
-    // Delete Confirmation 
+    // Delete Confirmation
     $(".delete").on("submit", function() {
         return confirm("Delete the poll?");
     });
