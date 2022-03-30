@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="box-body">
-                {{Form::open(['route'=>['usersUpdate',$Users->getRouteKey()],'method'=>'POST', 'files' => true])}}
+                {{Form::open(['route'=>!Route::is('userProfile')?['usersUpdate',$Users->getRouteKey()]:['userProfile'],'method'=>'POST', 'files' => true])}}
 
                 <div class="form-group row">
                     <label for="name"
