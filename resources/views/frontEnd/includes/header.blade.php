@@ -14,8 +14,8 @@
                                 href="mailto:{{ Helper::GeneralSiteSettings('contact_t6') }}">{{ Helper::GeneralSiteSettings("contact_t6") }}</a>
                 </span>
                 @endif
-                <!-- <span><i class="fa fa-phone"></i> 0123456789</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span><i class="fa fa-envelope-o"></i> info@agri.gov.eg</span> 	 -->
+{{--                <!-- <span><i class="fa fa-phone"></i> 0123456789</span> &nbsp;&nbsp;|&nbsp;&nbsp;--}}
+{{--                <span><i class="fa fa-envelope-o"></i> info@agri.gov.eg</span> 	 -->--}}
             </div>
             <div class="col-sm-8 text-left col-xs-12">
 

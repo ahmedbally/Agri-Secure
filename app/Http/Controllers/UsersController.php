@@ -13,6 +13,7 @@ use Illuminate\Config;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Redirect;
+use Vanthao03596\LaravelPasswordHistory\Rules\NotInPasswordHistory;
 
 class UsersController extends Controller
 {
@@ -86,7 +87,7 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'mobile' => 'required|numeric|unique:users',
-            'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
+            'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required']),
             'permissions_id' => 'required'
         ]);
 
@@ -198,7 +199,7 @@ class UsersController extends Controller
             $User->mobile = $request->mobile;
             if ($request->password != "") {
                 $this->validate($request, [
-                    'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
+                    'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required',new NotInPasswordHistory($User)]),
                 ]);
                 $User->password = bcrypt($request->password);
             }

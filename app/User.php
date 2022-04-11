@@ -8,12 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\Voter;
+use Vanthao03596\LaravelPasswordHistory\HasPasswordHistory;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use Voter;
     use OptimusEncodedRouteKey;
+    use HasPasswordHistory;
 
     /**
      * The attributes that are mass assignable.

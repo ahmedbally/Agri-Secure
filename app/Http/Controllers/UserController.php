@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Password;
+use Vanthao03596\LaravelPasswordHistory\Rules\NotInPasswordHistory;
 
 class UserController extends Controller
 {
@@ -70,7 +71,7 @@ class UserController extends Controller
         $User->mobile = $request->mobile;
         if ($request->password != "") {
             $this->validate($request, [
-                'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules('required'),
+                'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required',new NotInPasswordHistory($User)]),
             ]);
             $User->password = bcrypt($request->password);
         }

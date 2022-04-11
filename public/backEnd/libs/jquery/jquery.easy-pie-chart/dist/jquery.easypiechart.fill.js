@@ -2,8 +2,8 @@
  * easy-pie-chart
  * Lightweight plugin to render simple, animated and retina optimized pie charts
  *
- * @license 
- * @author Robert Fleischmann <rendro87@gmail.com> (http://robert-fleischmann.de)
+ * @license
+ * @author Robert Fleischmann
  * @version 2.1.7
  **/
 
