@@ -131,7 +131,7 @@ class TopicsController extends Controller
             $fileFinalName = "";
             if ($request->$formFileName != "") {
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
@@ -140,7 +140,7 @@ class TopicsController extends Controller
             $audioFileFinalName = "";
             if ($request->$formFileName != "") {
                 $audioFileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $audioFileFinalName);
             }
@@ -149,7 +149,7 @@ class TopicsController extends Controller
             $attachFileFinalName = "";
             if ($request->$formFileName != "") {
                 $attachFileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $attachFileFinalName);
             }
@@ -165,7 +165,7 @@ class TopicsController extends Controller
                 $videoFileFinalName = "";
                 if ($request->$formFileName != "") {
                     $videoFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $videoFileFinalName);
                 }
@@ -247,7 +247,7 @@ class TopicsController extends Controller
                             // upload file
                             if ($request->$field_value_var != "") {
                                 $uploadedFileFinalName = time() . rand(1111,
-                                        9999) . '.' . $request->file($field_value_var)->getClientOriginalExtension();
+                                        9999) . '.' . $request->file($field_value_var)->guessExtension();
                                 $path = $this->getUploadPath();
                                 $request->file($field_value_var)->move($path, $uploadedFileFinalName);
                                 $field_value = $uploadedFileFinalName;
@@ -370,9 +370,9 @@ class TopicsController extends Controller
                     }
 
                     $fileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
-                    $request->file($formFileName)->move($path, $fileFinalName);
+                    $request->file($formFileName)->storeAs($path, $fileFinalName);
                 }
 
 
@@ -385,7 +385,7 @@ class TopicsController extends Controller
                     }
 
                     $audioFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $audioFileFinalName);
                 }
@@ -398,7 +398,7 @@ class TopicsController extends Controller
                         File::delete($this->getUploadPath() . $Topic->$formFileName);
                     }
                     $attachFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $attachFileFinalName);
                 }
@@ -418,7 +418,7 @@ class TopicsController extends Controller
                             File::delete($this->getUploadPath() . $Topic->$formFileName);
                         }
                         $videoFileFinalName = time() . rand(1111,
-                                9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                                9999) . '.' . $request->file($formFileName)->guessExtension();
                         $path = $this->getUploadPath();
                         $request->file($formFileName)->move($path, $videoFileFinalName);
                     }
@@ -507,7 +507,7 @@ class TopicsController extends Controller
                             // upload file
                             if ($request->$field_value_var != "") {
                                 $uploadedFileFinalName = time() . rand(1111,
-                                        9999) . '.' . $request->file($field_value_var)->getClientOriginalExtension();
+                                        9999) . '.' . $request->file($field_value_var)->guessExtension();
                                 $path = $this->getUploadPath();
                                 $request->file($field_value_var)->move($path, $uploadedFileFinalName);
                                 $field_value = $uploadedFileFinalName;
@@ -818,9 +818,9 @@ class TopicsController extends Controller
             $fileFinalTitle = ""; // Original file name without extension
             if ($request->$formFileName != "") {
                 $fileFinalTitle = basename($request->file($formFileName)->getClientOriginalName(),
-                    '.' . $request->file($formFileName)->getClientOriginalExtension());
+                    '.' . $request->file($formFileName)->guessExtension());
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
@@ -1496,7 +1496,7 @@ class TopicsController extends Controller
             $fileFinalName = "";
             if ($request->$formFileName != "") {
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
@@ -1589,7 +1589,7 @@ class TopicsController extends Controller
                     }
 
                     $fileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName);
                 }
@@ -1910,9 +1910,9 @@ class TopicsController extends Controller
         $fileFinalTitle = ""; // Original file name without extension
         if ($request->$formFileName != "") {
             $fileFinalTitle = basename($request->file($formFileName)->getClientOriginalName(),
-                '.' . $request->file($formFileName)->getClientOriginalExtension());
+                '.' . $request->file($formFileName)->guessExtension());
             $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName);
         }

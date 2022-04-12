@@ -133,7 +133,7 @@ class SectionsController extends Controller
         $fileFinalName = "";
         if ($request->$formFileName != "") {
             $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName);
         }
@@ -249,7 +249,7 @@ class SectionsController extends Controller
                 }
 
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }

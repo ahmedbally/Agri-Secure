@@ -117,7 +117,7 @@ class BannersController extends Controller
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
             $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
@@ -125,7 +125,7 @@ class BannersController extends Controller
         $fileFinalName_en = "";
         if ($request->$formFileName != "") {
             $fileFinalName_en = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_en);
         }
@@ -134,7 +134,7 @@ class BannersController extends Controller
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
@@ -144,7 +144,7 @@ class BannersController extends Controller
             $fileFinalName_en = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_en = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_en);
             }
@@ -251,7 +251,7 @@ class BannersController extends Controller
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
@@ -259,7 +259,7 @@ class BannersController extends Controller
             $fileFinalName_en = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_en = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_en);
             }
@@ -268,7 +268,7 @@ class BannersController extends Controller
                 $fileFinalName_ar = "";
                 if ($request->$formFileName != "") {
                     $fileFinalName_ar = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName_ar);
                 }
@@ -278,7 +278,7 @@ class BannersController extends Controller
                 $fileFinalName_en = "";
                 if ($request->$formFileName != "") {
                     $fileFinalName_en = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                            9999) . '.' . $request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName_en);
                 }

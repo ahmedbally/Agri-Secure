@@ -99,7 +99,7 @@ class UsersController extends Controller
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
             $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
@@ -189,7 +189,7 @@ class UsersController extends Controller
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }

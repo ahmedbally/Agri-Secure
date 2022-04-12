@@ -96,7 +96,7 @@ class CropsController extends Controller
         $formFileName = "image";
         if ($request->$formFileName != "") {
             $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->guessExtension();
             $path = "uploads/crops/";
             $request->file($formFileName)->move($path, $fileFinalName);
         }
@@ -171,7 +171,7 @@ class CropsController extends Controller
             $formFileName = "image";
             if ($request->$formFileName != "") {
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = "uploads/crops/";
                 $request->file($formFileName)->move($path, $fileFinalName);
             }

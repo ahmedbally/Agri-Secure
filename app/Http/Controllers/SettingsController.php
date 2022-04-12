@@ -105,7 +105,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
@@ -118,7 +118,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalNameAr = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileNameAr)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileNameAr)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileNameAr)->move($path, $fileFinalNameAr);
             }
@@ -132,7 +132,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalName2 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName2)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName2)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName2)->move($path, $fileFinalName2);
             }
@@ -147,7 +147,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalName3 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName3)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName3)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName3)->move($path, $fileFinalName3);
             }
@@ -162,7 +162,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalName4 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName4)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName4)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName4)->move($path, $fileFinalName4);
             }
@@ -177,7 +177,7 @@ class SettingsController extends Controller
                 }
 
                 $fileFinalName5 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName5)->getClientOriginalExtension();
+                        9999) . '.' . $request->file($formFileName5)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName5)->move($path, $fileFinalName5);
             }
