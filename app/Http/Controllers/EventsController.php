@@ -8,6 +8,7 @@ use App\WebmasterSection;
 use Auth;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class EventsController extends Controller
 {
@@ -16,7 +17,8 @@ class EventsController extends Controller
     {
         $this->middleware('auth');
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 

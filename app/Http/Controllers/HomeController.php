@@ -26,7 +26,8 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 
@@ -252,7 +253,7 @@ class HomeController extends Controller
         $Contacts  = array();
         $Sections  = array();
         $Topics  = array();
-        
+
         return view('backEnd.search', compact("GeneralWebmasterSections", "search_word", "active_tab", "Webmails", "Events", "Contacts", "Sections", "Topics"));
     }
 

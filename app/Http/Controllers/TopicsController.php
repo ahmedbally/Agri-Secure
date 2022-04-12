@@ -29,7 +29,7 @@ class TopicsController extends Controller
     {
         $this->middleware('auth');
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
         }
     }
 
@@ -272,7 +272,7 @@ class TopicsController extends Controller
                 return redirect()->action('TopicsController@edit', [$webmasterId, $Topic->id])->with('doneMessage',
                     trans('backLang.addDone'));
             }else{
-                \Session::flash('doneMessage', trans('backLang.addDone')); 
+                \Session::flash('doneMessage', trans('backLang.addDone'));
                 $response = [
                     'status' => true,
                     'message' => 'Done',
@@ -541,7 +541,7 @@ class TopicsController extends Controller
                 if(!$request->ajax()) {
                     return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage', trans('backLang.saveDone'));
                 }else{
-                    \Session::flash('doneMessage', trans('backLang.saveDone')); 
+                    \Session::flash('doneMessage', trans('backLang.saveDone'));
                     $response = [
                         'status' => true,
                         'message' => 'Done',

@@ -17,11 +17,13 @@ class MenusController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (@Auth::user()->permissions != 0 && Auth::user()->permissions != 1) {
-            return Redirect::to(route('NoPermission'))->send();
+        if (@Auth::user()->permissions != 1) {
+            Redirect::to(route('NoPermission'))->send();
+            exit();
         }
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 
@@ -212,7 +214,7 @@ class MenusController extends Controller
         $this->validate($request, [
             'title_ar' => 'required',
         ]);
-        
+
         $Menu = Menu::find($id);
         if (!empty($Menu)) {
 

@@ -10,13 +10,16 @@ use App\Http\Request\AddOptionsRequest;
 use App\Poll;
 use App\WebmasterSection;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
+
 class OptionManagerController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 

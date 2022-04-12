@@ -24,11 +24,14 @@ class CropsController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->banners_status) {
-            return Redirect::to(route('NoPermission'))->send();
+        $data_sections_arr = explode(",", Auth::user()->permissionsGroup->data_sections);
+        if (!in_array(16, $data_sections_arr)) {
+            Redirect::to(route('NoPermission'))->send();
+            exit();
         }
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 

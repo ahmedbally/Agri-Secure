@@ -29,10 +29,12 @@ class WebmasterSectionsController extends Controller
 
         // Check Permissions
         if (@Auth::user()->permissions != 0) {
-            return Redirect::to(route('NoPermission'))->send();
+            Redirect::to(route('NoPermission'))->send();
+            exit();
         }
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
 
     }

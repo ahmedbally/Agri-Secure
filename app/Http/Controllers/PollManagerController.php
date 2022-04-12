@@ -10,6 +10,7 @@ use App\Poll;
 use App\Exceptions\DuplicatedOptionsException;
 use App\WebmasterSection;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PollManagerController extends Controller
 {
@@ -22,7 +23,8 @@ class PollManagerController extends Controller
     {
         $this->middleware('auth');
         if(@Auth::user()->permissions_id == 3){
-            Redirect::to('Home')->send();
+            Redirect::to('/home')->send();
+            exit();
         }
     }
 
