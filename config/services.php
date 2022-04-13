@@ -42,32 +42,32 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_ID'),
         'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/facebook/callback',
+        'redirect' => env('APP_URL').'/oauth/facebook/callback',
     ],
     'twitter' => [
         'client_id' => env('TWITTER_ID'),
         'client_secret' => env('TWITTER_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/twitter/callback',
+        'redirect' => env('APP_URL').'/oauth/twitter/callback',
     ],
     'google' => [
         'client_id' => env('GOOGLE_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/google/callback',
+        'redirect' => env('APP_URL').'/oauth/google/callback',
     ],
     'linkedin' => [
         'client_id' => env('LINKEDIN_ID'),
         'client_secret' => env('LINKEDIN_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/linkedin/callback',
+        'redirect' => env('APP_URL').'/oauth/linkedin/callback',
     ],
     'github' => [
         'client_id' => env('GITHUB_ID'),
         'client_secret' => env('GITHUB_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/github/callback',
+        'redirect' => env('APP_URL').'/oauth/github/callback',
     ],
     'bitbucket' => [
         'client_id' => env('BITBUCKET_ID'),
         'client_secret' => env('BITBUCKET_SECRET'),
-        'redirect' => env('APP_URL') . '/oauth/bitbucket/callback',
+        'redirect' => env('APP_URL').'/oauth/bitbucket/callback',
     ],
 
 ];

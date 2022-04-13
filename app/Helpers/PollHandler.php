@@ -2,17 +2,16 @@
 
 namespace App\Helpers;
 
-use Exception;
 use App\Exceptions\CheckedOptionsException;
 use App\Exceptions\OptionsInvalidNumberProvidedException;
 use App\Exceptions\OptionsNotProvidedException;
 use App\Exceptions\RemoveVotedOptionException;
 use App\Poll;
+use Exception;
 use InvalidArgumentException;
 
 class PollHandler
 {
-
     /**
      * Create a Poll from Request
      *
@@ -24,10 +23,9 @@ class PollHandler
      */
     public static function createFromRequest($request)
     {
-
         $poll = new Poll([
             'question' => $request['question'],
-            'canVisitorsVote' => isset($request['canVisitorsVote'])
+            'canVisitorsVote' => isset($request['canVisitorsVote']),
         ]);
 
         $poll->addOptions($request['options']);
@@ -67,11 +65,10 @@ class PollHandler
         if (array_key_exists('close', $data)) {
             if (isset($data['close']) && $data['close']) {
                 $poll->lock();
+
                 return;
             }
         }
-
-
 
         $poll->update([
             'question' => $data['question'],
@@ -90,12 +87,15 @@ class PollHandler
      */
     public static function getMessage(Exception $e)
     {
-        if ($e instanceof OptionsInvalidNumberProvidedException || $e instanceof OptionsNotProvidedException)
+        if ($e instanceof OptionsInvalidNumberProvidedException || $e instanceof OptionsNotProvidedException) {
             return 'A poll should have two options at least';
-        if ($e instanceof RemoveVotedOptionException)
+        }
+        if ($e instanceof RemoveVotedOptionException) {
             return 'You can not remove an option that has a vote';
-        if ($e instanceof CheckedOptionsException)
+        }
+        if ($e instanceof CheckedOptionsException) {
             return 'You should edit the number of checkable options first.';
+        }
 
         if ($e instanceof  InvalidArgumentException) {
             return $e->getMessage();

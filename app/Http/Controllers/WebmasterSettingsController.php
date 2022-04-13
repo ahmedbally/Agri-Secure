@@ -28,7 +28,7 @@ class WebmasterSettingsController extends Controller
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -49,9 +49,8 @@ class WebmasterSettingsController extends Controller
 
         $id = $this->getId();
         $WebmasterSetting = WebmasterSetting::find($id);
-        if (!empty($WebmasterSetting)) {
-            return view("backEnd.webmaster.settings", compact("WebmasterSetting", "GeneralWebmasterSections", "ParentMenus", "WebmasterBanners", "ContactsGroups", "SitePages", "PermissionsGroups"));
-
+        if (! empty($WebmasterSetting)) {
+            return view('backEnd.webmaster.settings', compact('WebmasterSetting', 'GeneralWebmasterSections', 'ParentMenus', 'WebmasterBanners', 'ContactsGroups', 'SitePages', 'PermissionsGroups'));
         } else {
             return redirect()->route('adminHome');
         }
@@ -79,8 +78,7 @@ class WebmasterSettingsController extends Controller
         //
         $id = $this->getId();
         $WebmasterSetting = WebmasterSetting::find($id);
-        if (!empty($WebmasterSetting)) {
-
+        if (! empty($WebmasterSetting)) {
             $WebmasterSetting->ar_box_status = $request->ar_box_status;
             $WebmasterSetting->en_box_status = $request->en_box_status;
             $WebmasterSetting->seo_status = $request->seo_status;
@@ -188,10 +186,9 @@ class WebmasterSettingsController extends Controller
                 'BITBUCKET_STATUS'       => $request->login_bitbucket_status,
                 'BITBUCKET_ID'       => $request->login_bitbucket_client_id,
                 'BITBUCKET_SECRET'       => $request->login_bitbucket_client_secret,
-                'TIMEZONE'       => $request->timezone
+                'TIMEZONE'       => $request->timezone,
 
             ]);
-
 
             return redirect()->action('WebmasterSettingsController@edit')
                 ->with('doneMessage', trans('backLang.saveDone'))
@@ -201,30 +198,30 @@ class WebmasterSettingsController extends Controller
         }
     }
 
-
-    public function changeEnv($data = array()){
-        if(count($data) > 0){
+    public function changeEnv($data = [])
+    {
+        if (count($data) > 0) {
 
             // Read .env-file
-            $env = file_get_contents(base_path() . '/.env');
+            $env = file_get_contents(base_path().'/.env');
 
             // Split string on every " " and write into array
-            $env = preg_split('/\s+/', $env);;
+            $env = preg_split('/\s+/', $env);
 
             // Loop through given data
-            foreach((array)$data as $key => $value){
+            foreach ((array) $data as $key => $value) {
 
                 // Loop through .env-data
-                foreach($env as $env_key => $env_value){
+                foreach ($env as $env_key => $env_value) {
 
                     // Turn the value into an array and stop after the first split
                     // So it's not possible to split e.g. the App-Key by accident
-                    $entry = explode("=", $env_value, 2);
+                    $entry = explode('=', $env_value, 2);
 
                     // Check, if new key fits the actual .env-key
-                    if($entry[0] == $key){
+                    if ($entry[0] == $key) {
                         // If yes, overwrite it with the new one
-                        $env[$env_key] = $key . "=" . $value;
+                        $env[$env_key] = $key.'='.$value;
                     } else {
                         // If not, keep the old one
                         $env[$env_key] = $env_value;
@@ -236,12 +233,11 @@ class WebmasterSettingsController extends Controller
             $env = implode("\n", $env);
 
             // And overwrite the .env with the new data
-            file_put_contents(base_path() . '/.env', $env);
+            file_put_contents(base_path().'/.env', $env);
 
             return true;
         } else {
             return false;
         }
     }
-
 }

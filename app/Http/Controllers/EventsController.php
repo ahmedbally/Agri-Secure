@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class EventsController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -41,9 +40,9 @@ class EventsController extends Controller
             $Events = Event::orderby('start_date', 'asc')->get();
         }
         $DefaultDate = date('Y-m-d');
-        $EStatus = "";
+        $EStatus = '';
 
-        return view("backEnd.calendar", compact("GeneralWebmasterSections", "Events", "DefaultDate", "EStatus"));
+        return view('backEnd.calendar', compact('GeneralWebmasterSections', 'Events', 'DefaultDate', 'EStatus'));
     }
 
     /**
@@ -65,9 +64,9 @@ class EventsController extends Controller
             $Events = Event::orderby('start_date', 'asc')->get();
         }
         $DefaultDate = date('Y-m-d');
-        $EStatus = "new";
+        $EStatus = 'new';
 
-        return view("backEnd.calendar", compact("GeneralWebmasterSections", "Events", "DefaultDate", "EStatus"));
+        return view('backEnd.calendar', compact('GeneralWebmasterSections', 'Events', 'DefaultDate', 'EStatus'));
     }
 
     /**
@@ -114,7 +113,6 @@ class EventsController extends Controller
         return redirect()->action('EventsController@index')->with('doneMessage', trans('backLang.addDone'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -137,16 +135,16 @@ class EventsController extends Controller
             $EditEvent = Event::find($id);
         }
 
-        if (!empty($EditEvent)) {
+        if (! empty($EditEvent)) {
             $DefaultDate = date('Y-m-d', strtotime($EditEvent->start_date));
-            $EStatus = "edit";
-            return view("backEnd.calendar",
-                compact("GeneralWebmasterSections", "Events", "EditEvent", "DefaultDate", "EStatus"));
+            $EStatus = 'edit';
+
+            return view('backEnd.calendar',
+                compact('GeneralWebmasterSections', 'Events', 'EditEvent', 'DefaultDate', 'EStatus'));
         } else {
             return redirect()->action('EventsController@index');
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -159,11 +157,10 @@ class EventsController extends Controller
     {
         //
         $Event = Event::find($id);
-        if (!empty($Event)) {
-
+        if (! empty($Event)) {
             $this->validate($request, [
                 'type' => 'required',
-                'title' => 'required'
+                'title' => 'required',
             ]);
 
             $Event->type = $request->type;
@@ -188,12 +185,12 @@ class EventsController extends Controller
             }
             $Event->updated_by = Auth::user()->id;
             $Event->save();
+
             return redirect()->action('EventsController@index', $id)->with('doneMessage', trans('backLang.saveDone'));
         } else {
             return redirect()->action('EventsController@index');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -209,14 +206,14 @@ class EventsController extends Controller
         } else {
             $Event = Event::find($id);
         }
-        if (!empty($Event)) {
+        if (! empty($Event)) {
             $Event->delete();
+
             return redirect()->action('EventsController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
             return redirect()->action('EventsController@index');
         }
     }
-
 
     /**
      * Update all resources in storage.
@@ -226,10 +223,10 @@ class EventsController extends Controller
     public function updateAll()
     {
         //
-        Event::where('user_id', "=", Auth::user()->id)->delete();
+        Event::where('user_id', '=', Auth::user()->id)->delete();
+
         return redirect()->action('EventsController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -242,16 +239,15 @@ class EventsController extends Controller
     {
         //
         $Event = Event::find($id);
-        if (!empty($Event)) {
-            if ($request->started_on != "") {
+        if (! empty($Event)) {
+            if ($request->started_on != '') {
                 $Event->start_date = date('Y-m-d H:i:s', strtotime($request->started_on));
             }
-            if ($request->ended_on != "") {
+            if ($request->ended_on != '') {
                 $Event->end_date = date('Y-m-d', strtotime($request->ended_on));
             }
             $Event->updated_by = Auth::user()->id;
             $Event->save();
         }
     }
-
 }

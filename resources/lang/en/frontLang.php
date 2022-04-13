@@ -83,5 +83,3 @@ return [
     'LatestProjects' => 'Latest Projects',
     'LatestProjectsSlug' => 'We carry out many economic projects in the economic affairs sector, among them',
 ];
-
-?>

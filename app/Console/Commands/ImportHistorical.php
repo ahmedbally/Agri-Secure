@@ -41,7 +41,7 @@ class ImportHistorical extends Command
     public function handle()
     {
         $this->output->title('Starting import');
-        Excel::import(new HistoricalPrice,'Prices_db.xls');
+        Excel::import(new HistoricalPrice, 'Prices_db.xls');
         $this->output->success('Import successful');
     }
 }

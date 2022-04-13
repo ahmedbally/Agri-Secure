@@ -8,7 +8,6 @@ class WebmasterSectionField extends Model
 {
     public function fields()
     {
-
-        return $this->hasMany('App\TopicField' , 'field_id')->orderby('id', 'asc');
+        return $this->hasMany('App\TopicField', 'field_id')->orderby('id', 'asc');
     }
 }

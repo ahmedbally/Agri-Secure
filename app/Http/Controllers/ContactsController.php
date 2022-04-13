@@ -16,8 +16,7 @@ use Redirect;
 
 class ContactsController extends Controller
 {
-
-    private $uploadPath = "uploads/contacts/";
+    private $uploadPath = 'uploads/contacts/';
 
     // Define Default Variables
 
@@ -26,11 +25,11 @@ class ContactsController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->newsletter_status) {
+        if (! @Auth::user()->permissionsGroup->newsletter_status) {
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -56,7 +55,7 @@ class ContactsController extends Controller
         }
 
         //List of Countries
-        $Countries = Country::orderby('title_' . trans('backLang.boxCode'), 'asc')->get();
+        $Countries = Country::orderby('title_'.trans('backLang.boxCode'), 'asc')->get();
 
         if (@Auth::user()->permissionsGroup->view_status) {
             if ($group_id > 0) {
@@ -64,12 +63,12 @@ class ContactsController extends Controller
                 $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('group_id', '=',
                     $group_id)->orderby('id',
                     'desc')->paginate(env('BACKEND_PAGINATION'));
-            } elseif ($group_id == "wait") {
+            } elseif ($group_id == 'wait') {
                 //List waiting activation Contacts
                 $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('status', '=',
                     '0')->orderby('id',
                     'desc')->paginate(env('BACKEND_PAGINATION'));
-            } elseif ($group_id == "blocked") {
+            } elseif ($group_id == 'blocked') {
                 //List waiting activation Contacts
                 $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('status', '=',
                     '2')->orderby('id',
@@ -84,11 +83,11 @@ class ContactsController extends Controller
                 //List of group contacts
                 $Contacts = Contact::where('group_id', '=', $group_id)->orderby('id',
                     'desc')->paginate(env('BACKEND_PAGINATION'));
-            } elseif ($group_id == "wait") {
+            } elseif ($group_id == 'wait') {
                 //List waiting activation Contacts
                 $Contacts = Contact::where('status', '=', '0')->orderby('id',
                     'desc')->paginate(env('BACKEND_PAGINATION'));
-            } elseif ($group_id == "blocked") {
+            } elseif ($group_id == 'blocked') {
                 //List waiting activation Contacts
                 $Contacts = Contact::where('status', '=', '2')->orderby('id',
                     'desc')->paginate(env('BACKEND_PAGINATION'));
@@ -120,12 +119,11 @@ class ContactsController extends Controller
             $AllContactsCount = Contact::count();
         }
 
+        $search_word = '';
 
-        $search_word = "";
-
-        return view("backEnd.contacts",
-            compact("Contacts", "GeneralWebmasterSections", "ContactsGroups", "Countries", "WaitContactsCount",
-                "BlockedContactsCount", "AllContactsCount", "group_id", "search_word"));
+        return view('backEnd.contacts',
+            compact('Contacts', 'GeneralWebmasterSections', 'ContactsGroups', 'Countries', 'WaitContactsCount',
+                'BlockedContactsCount', 'AllContactsCount', 'group_id', 'search_word'));
     }
 
     /**
@@ -149,17 +147,17 @@ class ContactsController extends Controller
         }
 
         //List of Countries
-        $Countries = Country::orderby('title_' . trans('backLang.boxCode'), 'asc')->get();
+        $Countries = Country::orderby('title_'.trans('backLang.boxCode'), 'asc')->get();
 
         if (@Auth::user()->permissionsGroup->view_status) {
-            if ($request->q != "") {
+            if ($request->q != '') {
                 //find Contacts
                 $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('first_name', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('last_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('company', 'like', '%' . $request->q . '%')
-                    ->orwhere('city', 'like', '%' . $request->q . '%')
-                    ->orwhere('notes', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('last_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('company', 'like', '%'.$request->q.'%')
+                    ->orwhere('city', 'like', '%'.$request->q.'%')
+                    ->orwhere('notes', 'like', '%'.$request->q.'%')
                     ->orwhere('phone', '=', $request->q)
                     ->orwhere('email', '=', $request->q)
                     ->orderby('id', 'desc')->paginate(env('BACKEND_PAGINATION'));
@@ -169,13 +167,13 @@ class ContactsController extends Controller
                     'desc')->paginate(env('BACKEND_PAGINATION'));
             }
         } else {
-            if ($request->q != "") {
+            if ($request->q != '') {
                 //find Contacts
-                $Contacts = Contact::where('first_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('last_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('company', 'like', '%' . $request->q . '%')
-                    ->orwhere('city', 'like', '%' . $request->q . '%')
-                    ->orwhere('notes', 'like', '%' . $request->q . '%')
+                $Contacts = Contact::where('first_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('last_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('company', 'like', '%'.$request->q.'%')
+                    ->orwhere('city', 'like', '%'.$request->q.'%')
+                    ->orwhere('notes', 'like', '%'.$request->q.'%')
                     ->orwhere('phone', '=', $request->q)
                     ->orwhere('email', '=', $request->q)
                     ->orderby('id', 'desc')->paginate(env('BACKEND_PAGINATION'));
@@ -205,12 +203,12 @@ class ContactsController extends Controller
             //Count of All Contacts
             $AllContactsCount = Contact::count();
         }
-        $group_id = "";
+        $group_id = '';
         $search_word = $request->q;
 
-        return view("backEnd.contacts",
-            compact("Contacts", "GeneralWebmasterSections", "ContactsGroups", "Countries", "WaitContactsCount",
-                "BlockedContactsCount", "AllContactsCount", "group_id", "search_word"));
+        return view('backEnd.contacts',
+            compact('Contacts', 'GeneralWebmasterSections', 'ContactsGroups', 'Countries', 'WaitContactsCount',
+                'BlockedContactsCount', 'AllContactsCount', 'group_id', 'search_word'));
     }
 
     /**
@@ -222,7 +220,7 @@ class ContactsController extends Controller
     public function storeGroup(Request $request)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -246,23 +244,22 @@ class ContactsController extends Controller
     public function store(Request $request)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
 
         //
         $this->validate($request, [
             'email' => 'email|required',
-            'file' => 'mimes:png,jpeg,jpg,gif|max:3000'
+            'file' => 'mimes:png,jpeg,jpg,gif|max:3000',
         ]);
 
-
         // Start of Upload Files
-        $formFileName = "file";
-        $fileFinalName_ar = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
+        $formFileName = 'file';
+        $fileFinalName_ar = '';
+        if ($request->$formFileName != '') {
+            $fileFinalName_ar = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
@@ -296,7 +293,7 @@ class ContactsController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -309,7 +306,7 @@ class ContactsController extends Controller
     {
         //
         $ContactToEdit = Contact::find($id);
-        if (!empty($ContactToEdit)) {
+        if (! empty($ContactToEdit)) {
             return redirect()->action('ContactsController@index', $ContactToEdit->group_id)->with('ContactToEdit',
                 $ContactToEdit);
         } else {
@@ -326,7 +323,7 @@ class ContactsController extends Controller
     public function editGroup($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->edit_status) {
+        if (! @Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -339,13 +336,12 @@ class ContactsController extends Controller
         } else {
             $EditContactsGroup = ContactsGroup::find($id);
         }
-        if (!empty($EditContactsGroup)) {
+        if (! empty($EditContactsGroup)) {
             return redirect()->action('ContactsController@index')->with('EditContactsGroup', $EditContactsGroup);
         } else {
             return redirect()->action('ContactsController@index');
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -357,7 +353,7 @@ class ContactsController extends Controller
     public function update(Request $request, $id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->edit_status) {
+        if (! @Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -366,21 +362,18 @@ class ContactsController extends Controller
         } else {
             $Contact = Contact::find($id);
         }
-        if (!empty($Contact)) {
-
-
+        if (! empty($Contact)) {
             $this->validate($request, [
                 'email' => 'email|required',
-                'file' => 'mimes:png,jpeg,jpg,gif|max:3000'
+                'file' => 'mimes:png,jpeg,jpg,gif|max:3000',
             ]);
 
-
             // Start of Upload Files
-            $formFileName = "file";
-            $fileFinalName_ar = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'file';
+            $fileFinalName_ar = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName_ar = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
@@ -399,10 +392,10 @@ class ContactsController extends Controller
             $Contact->address = $request->address;
             $Contact->notes = $request->notes;
 
-            if ($fileFinalName_ar != "") {
+            if ($fileFinalName_ar != '') {
                 // Delete a Contact file
-                if ($Contact->photo != "") {
-                    File::delete($this->getUploadPath() . $Contact->photo);
+                if ($Contact->photo != '') {
+                    File::delete($this->getUploadPath().$Contact->photo);
                 }
 
                 $Contact->photo = $fileFinalName_ar;
@@ -411,13 +404,13 @@ class ContactsController extends Controller
             $Contact->status = $request->status;
             $Contact->updated_by = Auth::user()->id;
             $Contact->save();
+
             return redirect()->action('ContactsController@index')->with('ContactToEdit', $Contact)->with('doneMessage2',
                 trans('backLang.saveDone'));
         } else {
             return redirect()->action('ContactsController@index');
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -430,11 +423,12 @@ class ContactsController extends Controller
     {
         //
         $ContactsGroup = ContactsGroup::find($id);
-        if (!empty($ContactsGroup)) {
+        if (! empty($ContactsGroup)) {
             $ContactsGroup->name = $request->name;
             $ContactsGroup->updated_by = Auth::user()->id;
             $ContactsGroup->save();
         }
+
         return redirect()->action('ContactsController@index');
     }
 
@@ -447,7 +441,7 @@ class ContactsController extends Controller
     public function destroy($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->delete_status) {
+        if (! @Auth::user()->permissionsGroup->delete_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -456,22 +450,22 @@ class ContactsController extends Controller
         } else {
             $Contact = Contact::find($id);
         }
-        if (!empty($Contact)) {
+        if (! empty($Contact)) {
             // Delete a Contact file
-            if ($Contact->photo != "") {
-                File::delete($this->getUploadPath() . $Contact->photo);
+            if ($Contact->photo != '') {
+                File::delete($this->getUploadPath().$Contact->photo);
             }
 
             $Contact->delete();
         }
-        return redirect()->action('ContactsController@index');
 
+        return redirect()->action('ContactsController@index');
     }
 
     public function destroyGroup($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->delete_status) {
+        if (! @Auth::user()->permissionsGroup->delete_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -480,8 +474,9 @@ class ContactsController extends Controller
         } else {
             $ContactsGroup = ContactsGroup::find($id);
         }
-        if (!empty($ContactsGroup)) {
+        if (! empty($ContactsGroup)) {
             $ContactsGroup->delete();
+
             return redirect()->action('ContactsController@index');
         } else {
             return redirect()->action('ContactsController@index');
@@ -498,35 +493,31 @@ class ContactsController extends Controller
     public function updateAll(Request $request)
     {
         //
-        if($request->ids != "") {
-            if ($request->action == "activate") {
+        if ($request->ids != '') {
+            if ($request->action == 'activate') {
                 Contact::wherein('id', $request->ids)
                     ->update(['status' => 1]);
-
-            } elseif ($request->action == "block") {
+            } elseif ($request->action == 'block') {
                 Contact::wherein('id', $request->ids)
                     ->update(['status' => 0]);
-
-            } elseif ($request->action == "delete") {
+            } elseif ($request->action == 'delete') {
                 // Check Permissions
-                if (!@Auth::user()->permissionsGroup->delete_status) {
+                if (! @Auth::user()->permissionsGroup->delete_status) {
                     return Redirect::to(route('NoPermission'))->send();
                 }
                 // Delete Contacts file
                 $Contacts = Contact::wherein('id', $request->ids)->get();
                 foreach ($Contacts as $Contact) {
-                    if ($Contact->photo != "") {
-                        File::delete($this->getUploadPath() . $Contact->photo);
+                    if ($Contact->photo != '') {
+                        File::delete($this->getUploadPath().$Contact->photo);
                     }
                 }
 
                 Contact::wherein('id', $request->ids)
                     ->delete();
-
             }
         }
+
         return redirect()->action('ContactsController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
-
-
 }

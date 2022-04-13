@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\ContactsGroup;
+use Illuminate\Database\Seeder;
 
 class ContactsGroupsSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class ContactsGroupsSeeder extends Seeder
     {
         // News Letter Group
         $ContactsGroup = new ContactsGroup();
-        $ContactsGroup->name = "Newsletter Emails";
+        $ContactsGroup->name = 'Newsletter Emails';
         $ContactsGroup->created_by = 1;
         $ContactsGroup->save();
     }

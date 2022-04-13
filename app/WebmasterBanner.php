@@ -9,7 +9,6 @@ class WebmasterBanner extends Model
     //
     public function banners()
     {
-
         return $this->hasMany('App\Banner', 'section_id');
     }
 }

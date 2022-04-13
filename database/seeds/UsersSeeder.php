@@ -18,11 +18,11 @@ class UsersSeeder extends Seeder
         //  - All webmaster settings
 
         $newuser = new User();
-        $newuser->name = "admin";
-        $newuser->email = "admin@site.com";
-        $newuser->password = bcrypt("admin");
-        $newuser->permissions_id = "1";
-        $newuser->status = "1";
+        $newuser->name = 'admin';
+        $newuser->email = 'admin@site.com';
+        $newuser->password = bcrypt('admin');
+        $newuser->permissions_id = '1';
+        $newuser->status = '1';
         $newuser->created_by = 1;
         $newuser->save();
     }

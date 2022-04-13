@@ -1,4 +1,5 @@
 <?php
+
 use App\WebmasterSection;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Site pages
         $sections = new WebmasterSection();
         $sections->row_no = 1;
-        $sections->name = "sitePages";
+        $sections->name = 'sitePages';
         $sections->type = 0;
         $sections->sections_status = 0;
         $sections->comments_status = 0;
@@ -35,7 +36,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Services
         $sections = new WebmasterSection();
         $sections->row_no = 2;
-        $sections->name = "services";
+        $sections->name = 'services';
         $sections->type = 0;
         $sections->sections_status = 0;
         $sections->comments_status = 0;
@@ -56,7 +57,7 @@ class WebmasterSectionsSeeder extends Seeder
         // News
         $sections = new WebmasterSection();
         $sections->row_no = 3;
-        $sections->name = "news";
+        $sections->name = 'news';
         $sections->type = 0;
         $sections->sections_status = 0;
         $sections->comments_status = 1;
@@ -77,7 +78,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Photos
         $sections = new WebmasterSection();
         $sections->row_no = 4;
-        $sections->name = "photos";
+        $sections->name = 'photos';
         $sections->type = 1;
         $sections->sections_status = 0;
         $sections->comments_status = 1;
@@ -98,7 +99,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Videos
         $sections = new WebmasterSection();
         $sections->row_no = 5;
-        $sections->name = "videos";
+        $sections->name = 'videos';
         $sections->type = 2;
         $sections->sections_status = 1;
         $sections->comments_status = 1;
@@ -119,7 +120,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Sounds
         $sections = new WebmasterSection();
         $sections->row_no = 6;
-        $sections->name = "sounds";
+        $sections->name = 'sounds';
         $sections->type = 3;
         $sections->sections_status = 1;
         $sections->comments_status = 1;
@@ -140,7 +141,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Articles
         $sections = new WebmasterSection();
         $sections->row_no = 7;
-        $sections->name = "blog";
+        $sections->name = 'blog';
         $sections->type = 0;
         $sections->sections_status = 1;
         $sections->comments_status = 1;
@@ -161,7 +162,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Products
         $sections = new WebmasterSection();
         $sections->row_no = 8;
-        $sections->name = "products";
+        $sections->name = 'products';
         $sections->type = 0;
         $sections->sections_status = 2;
         $sections->comments_status = 1;
@@ -182,7 +183,7 @@ class WebmasterSectionsSeeder extends Seeder
         // Partners
         $sections = new WebmasterSection();
         $sections->row_no = 9;
-        $sections->name = "partners";
+        $sections->name = 'partners';
         $sections->type = 0;
         $sections->sections_status = 0;
         $sections->comments_status = 0;
@@ -199,7 +200,5 @@ class WebmasterSectionsSeeder extends Seeder
         $sections->status = 1;
         $sections->created_by = 1;
         $sections->save();
-
-
     }
 }

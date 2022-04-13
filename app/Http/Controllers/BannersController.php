@@ -15,8 +15,7 @@ use Redirect;
 
 class BannersController extends Controller
 {
-
-    private $uploadPath = "uploads/banners/";
+    private $uploadPath = 'uploads/banners/';
 
     // Define Default Variables
 
@@ -25,11 +24,11 @@ class BannersController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->banners_status) {
+        if (! @Auth::user()->permissionsGroup->banners_status) {
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -58,7 +57,8 @@ class BannersController extends Controller
             $Banners = Banner::orderby('section_id', 'asc')->orderby('row_no',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
-        return view("backEnd.banners", compact("Banners", "GeneralWebmasterSections", "WebmasterBanners"));
+
+        return view('backEnd.banners', compact('Banners', 'GeneralWebmasterSections', 'WebmasterBanners'));
     }
 
     /**
@@ -69,7 +69,7 @@ class BannersController extends Controller
     public function create($sectionId)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -80,7 +80,7 @@ class BannersController extends Controller
         //Banner Sections Details
         $WebmasterBanner = WebmasterBanner::find($sectionId);
 
-        return view("backEnd.banners.create", compact("GeneralWebmasterSections", "WebmasterBanner"));
+        return view('backEnd.banners.create', compact('GeneralWebmasterSections', 'WebmasterBanner'));
     }
 
     /**
@@ -92,7 +92,7 @@ class BannersController extends Controller
     public function store(Request $request)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -101,9 +101,8 @@ class BannersController extends Controller
             'file2_ar' => 'mimes:mp4,ogv,webm',
             'file2_en' => 'mimes:mp4,ogv,webm',
             'file_ar' => 'required|mimes:png,jpeg,jpg,gif|max:3000',
-            'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000'
+            'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000',
         ]);
-
 
         $next_nor_no = Banner::max('row_no');
         if ($next_nor_no < 1) {
@@ -113,38 +112,38 @@ class BannersController extends Controller
         }
 
         // Start of Upload Files
-        $formFileName = "file_ar";
-        $fileFinalName_ar = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
+        $formFileName = 'file_ar';
+        $fileFinalName_ar = '';
+        if ($request->$formFileName != '') {
+            $fileFinalName_ar = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
-        $formFileName = "file_en";
-        $fileFinalName_en = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName_en = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
+        $formFileName = 'file_en';
+        $fileFinalName_en = '';
+        if ($request->$formFileName != '') {
+            $fileFinalName_en = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_en);
         }
-        if ($fileFinalName_ar == "") {
-            $formFileName = "file2_ar";
-            $fileFinalName_ar = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+        if ($fileFinalName_ar == '') {
+            $formFileName = 'file2_ar';
+            $fileFinalName_ar = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName_ar = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
         }
-        if ($fileFinalName_en == "") {
-            $formFileName = "file2_en";
-            $fileFinalName_en = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_en = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+        if ($fileFinalName_en == '') {
+            $formFileName = 'file2_en';
+            $fileFinalName_en = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName_en = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_en);
             }
@@ -184,7 +183,7 @@ class BannersController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -196,7 +195,7 @@ class BannersController extends Controller
     public function edit($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->edit_status) {
+        if (! @Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -209,11 +208,11 @@ class BannersController extends Controller
         } else {
             $Banners = Banner::find($id);
         }
-        if (!empty($Banners)) {
+        if (! empty($Banners)) {
             //Banner Sections Details
             $WebmasterBanner = WebmasterBanner::find($Banners->section_id);
 
-            return view("backEnd.banners.edit", compact("Banners", "GeneralWebmasterSections", "WebmasterBanner"));
+            return view('backEnd.banners.edit', compact('Banners', 'GeneralWebmasterSections', 'WebmasterBanner'));
         } else {
             return redirect()->action('BannersController@index');
         }
@@ -229,56 +228,53 @@ class BannersController extends Controller
     public function update(Request $request, $id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
         $Banner = Banner::find($id);
-        if (!empty($Banner)) {
-
-
+        if (! empty($Banner)) {
             $this->validate($request, [
                 'title_ar' => 'required',
                 'file2_ar' => 'mimes:mp4,ogv,webm',
                 'file2_en' => 'mimes:mp4,ogv,webm',
                 'file_ar' => 'mimes:png,jpeg,jpg,gif|max:3000',
-                'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000'
+                'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000',
             ]);
 
-
             // Start of Upload Files
-            $formFileName = "file_ar";
-            $fileFinalName_ar = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'file_ar';
+            $fileFinalName_ar = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName_ar = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
-            $formFileName = "file_en";
-            $fileFinalName_en = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_en = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'file_en';
+            $fileFinalName_en = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName_en = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_en);
             }
-            if ($fileFinalName_ar == "") {
-                $formFileName = "file2_ar";
-                $fileFinalName_ar = "";
-                if ($request->$formFileName != "") {
-                    $fileFinalName_ar = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+            if ($fileFinalName_ar == '') {
+                $formFileName = 'file2_ar';
+                $fileFinalName_ar = '';
+                if ($request->$formFileName != '') {
+                    $fileFinalName_ar = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName_ar);
                 }
             }
-            if ($fileFinalName_en == "") {
-                $formFileName = "file2_en";
-                $fileFinalName_en = "";
-                if ($request->$formFileName != "") {
-                    $fileFinalName_en = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+            if ($fileFinalName_en == '') {
+                $formFileName = 'file2_en';
+                $fileFinalName_en = '';
+                if ($request->$formFileName != '') {
+                    $fileFinalName_en = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName_en);
                 }
@@ -292,17 +288,17 @@ class BannersController extends Controller
             $Banner->details_en = $request->details_en;
             $Banner->code = $request->code;
 
-            if ($fileFinalName_ar != "") {
+            if ($fileFinalName_ar != '') {
                 // Delete a banner file
-                if ($Banner->file_ar != "") {
-                    File::delete($this->getUploadPath() . $Banner->file_ar);
+                if ($Banner->file_ar != '') {
+                    File::delete($this->getUploadPath().$Banner->file_ar);
                 }
 
                 $Banner->file_ar = $fileFinalName_ar;
             }
-            if ($fileFinalName_en != "") {
-                if ($Banner->file_en != "") {
-                    File::delete($this->getUploadPath() . $Banner->file_en);
+            if ($fileFinalName_en != '') {
+                if ($Banner->file_en != '') {
+                    File::delete($this->getUploadPath().$Banner->file_en);
                 }
                 $Banner->file_en = $fileFinalName_en;
             }
@@ -317,6 +313,7 @@ class BannersController extends Controller
             $Banner->status = $request->status;
             $Banner->updated_by = Auth::user()->id;
             $Banner->save();
+
             return redirect()->action('BannersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
         } else {
             return redirect()->action('BannersController@index');
@@ -332,7 +329,7 @@ class BannersController extends Controller
     public function destroy($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->delete_status) {
+        if (! @Auth::user()->permissionsGroup->delete_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -341,22 +338,22 @@ class BannersController extends Controller
         } else {
             $Banner = Banner::find($id);
         }
-        if (!empty($Banner)) {
+        if (! empty($Banner)) {
             // Delete a banner file
-            if ($Banner->file_ar != "") {
-                File::delete($this->getUploadPath() . $Banner->file_ar);
+            if ($Banner->file_ar != '') {
+                File::delete($this->getUploadPath().$Banner->file_ar);
             }
-            if ($Banner->file_en != "") {
-                File::delete($this->getUploadPath() . $Banner->file_en);
+            if ($Banner->file_en != '') {
+                File::delete($this->getUploadPath().$Banner->file_en);
             }
 
             $Banner->delete();
+
             return redirect()->action('BannersController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
             return redirect()->action('BannersController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -368,50 +365,45 @@ class BannersController extends Controller
     public function updateAll(Request $request)
     {
         //
-        if ($request->action == "order") {
+        if ($request->action == 'order') {
             foreach ($request->row_ids as $rowId) {
                 $Banner = Banner::find($rowId);
-                if (!empty($Banner)) {
-                    $row_no_val = "row_no_" . $rowId;
+                if (! empty($Banner)) {
+                    $row_no_val = 'row_no_'.$rowId;
                     $Banner->row_no = $request->$row_no_val;
                     $Banner->save();
                 }
             }
-
         } else {
-            if ($request->ids != "") {
-                if ($request->action == "activate") {
+            if ($request->ids != '') {
+                if ($request->action == 'activate') {
                     Banner::wherein('id', $request->ids)
                         ->update(['status' => 1]);
-
-                } elseif ($request->action == "block") {
+                } elseif ($request->action == 'block') {
                     Banner::wherein('id', $request->ids)
                         ->update(['status' => 0]);
-
-                } elseif ($request->action == "delete") {
+                } elseif ($request->action == 'delete') {
                     // Check Permissions
-                    if (!@Auth::user()->permissionsGroup->delete_status) {
+                    if (! @Auth::user()->permissionsGroup->delete_status) {
                         return Redirect::to(route('NoPermission'))->send();
                     }
                     // Delete banners files
                     $Banners = Banner::wherein('id', $request->ids)->get();
                     foreach ($Banners as $banner) {
-                        if ($banner->file_ar != "") {
-                            File::delete($this->getUploadPath() . $banner->file_ar);
+                        if ($banner->file_ar != '') {
+                            File::delete($this->getUploadPath().$banner->file_ar);
                         }
-                        if ($banner->file_en != "") {
-                            File::delete($this->getUploadPath() . $banner->file_en);
+                        if ($banner->file_en != '') {
+                            File::delete($this->getUploadPath().$banner->file_en);
                         }
                     }
 
                     Banner::wherein('id', $request->ids)
                         ->delete();
-
                 }
             }
         }
+
         return redirect()->action('BannersController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
-
-
 }

@@ -11,7 +11,6 @@ use Redirect;
 
 class MenusController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -21,7 +20,7 @@ class MenusController extends Controller
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -52,13 +51,13 @@ class MenusController extends Controller
                 $EditedMenu = Menu::find($Menusfirst->id);
             } else {
                 $Menus = Menu::where('father_id', '0')->orderby('row_no', 'asc')->paginate(env('BACKEND_PAGINATION'));
-                $EditedMenu = "";
+                $EditedMenu = '';
             }
         }
         //Parent Menus
         $ParentMenus = Menu::where('father_id', '0')->orderby('row_no', 'asc')->get();
 
-        return view("backEnd.menus", compact("Menus", "GeneralWebmasterSections", "ParentMenus", "EditedMenu"));
+        return view('backEnd.menus', compact('Menus', 'GeneralWebmasterSections', 'ParentMenus', 'EditedMenu'));
     }
 
     /**
@@ -76,8 +75,8 @@ class MenusController extends Controller
         //Father Menus
         $FatherMenus = Menu::where('father_id', $ParentMenuId)->where('type', 0)->orderby('row_no', 'asc')->get();
 
-        return view("backEnd.menus.create",
-            compact("GeneralWebmasterSections", "ParentMenuId", "FatherMenus"));
+        return view('backEnd.menus.create',
+            compact('GeneralWebmasterSections', 'ParentMenuId', 'FatherMenus'));
     }
 
     /**
@@ -122,7 +121,6 @@ class MenusController extends Controller
             $ParentMenuId)->with('doneMessage2', trans('backLang.addDone'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -132,7 +130,7 @@ class MenusController extends Controller
     public function storeMenu(Request $request)
     {
         //
-        $next_nor_no = Menu::where('father_id', "0")->max('row_no');
+        $next_nor_no = Menu::where('father_id', '0')->max('row_no');
         if ($next_nor_no < 1) {
             $next_nor_no = 1;
         } else {
@@ -151,7 +149,6 @@ class MenusController extends Controller
         return redirect()->action('MenusController@index');
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -167,17 +164,16 @@ class MenusController extends Controller
         // General END
 
         //Father Menus
-        $FatherMenus = Menu::where('father_id', $ParentMenuId)->where('type', 0)->where('id', "!=", $id)->orderby('row_no', 'asc')->get();
+        $FatherMenus = Menu::where('father_id', $ParentMenuId)->where('type', 0)->where('id', '!=', $id)->orderby('row_no', 'asc')->get();
 
         $Menus = Menu::find($id);
-        if (!empty($Menus)) {
-            return view("backEnd.menus.edit",
-                compact("Menus", "GeneralWebmasterSections", "ParentMenuId", "FatherMenus"));
+        if (! empty($Menus)) {
+            return view('backEnd.menus.edit',
+                compact('Menus', 'GeneralWebmasterSections', 'ParentMenuId', 'FatherMenus'));
         } else {
             return redirect()->action('MenusController@index');
         }
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -193,8 +189,8 @@ class MenusController extends Controller
         // General END
 
         $Menus = Menu::find($id);
-        if (!empty($Menus)) {
-            return redirect()->action('MenusController@index', $id)->with('EditMenu', "Yes");
+        if (! empty($Menus)) {
+            return redirect()->action('MenusController@index', $id)->with('EditMenu', 'Yes');
         } else {
             return redirect()->action('MenusController@index');
         }
@@ -216,8 +212,7 @@ class MenusController extends Controller
         ]);
 
         $Menu = Menu::find($id);
-        if (!empty($Menu)) {
-
+        if (! empty($Menu)) {
             $Menu->father_id = $request->father_id;
             $Menu->title_ar = $request->title_ar;
             $Menu->title_en = $request->title_en;
@@ -227,14 +222,14 @@ class MenusController extends Controller
             $Menu->status = $request->status;
             $Menu->updated_by = Auth::user()->id;
             $Menu->save();
+
             return redirect()->action('MenusController@index',
-                ["id" => $id, "ParentMenuId" => $request->ParentMenuId])->with('doneMessage2',
+                ['id' => $id, 'ParentMenuId' => $request->ParentMenuId])->with('doneMessage2',
                 trans('backLang.saveDone'));
         } else {
             return redirect()->action('MenusController@index');
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -247,13 +242,14 @@ class MenusController extends Controller
     {
         //
         $Menu = Menu::find($id);
-        if (!empty($Menu)) {
+        if (! empty($Menu)) {
             $Menu->title_ar = $request->title_ar;
             $Menu->title_en = $request->title_en;
             $Menu->updated_by = Auth::user()->id;
             $Menu->save();
+
             return redirect()->action('MenusController@index',
-                ["id" => $id, "ParentMenuId" => $request->ParentMenuId])->with('doneMessage2',
+                ['id' => $id, 'ParentMenuId' => $request->ParentMenuId])->with('doneMessage2',
                 trans('backLang.saveDone'));
         } else {
             return redirect()->action('MenusController@index');
@@ -270,26 +266,27 @@ class MenusController extends Controller
     {
         //
         $Menu = Menu::find($id);
-        if (!empty($Menu)) {
+        if (! empty($Menu)) {
             $Menu->delete();
+
             return redirect()->action('MenusController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
             return redirect()->action('MenusController@index');
         }
     }
 
-
     public function destroyMenu($id)
     {
         //
         $Menu = Menu::find($id);
-        if (!empty($Menu)) {
+        if (! empty($Menu)) {
             $subMenus = Menu::where('father_id', $Menu->id)->get();
             foreach ($subMenus as $subMenu) {
                 Menu::where('father_id', $subMenu->id)->delete();
             }
             Menu::where('father_id', $Menu->id)->delete();
             $Menu->delete();
+
             return redirect()->action('MenusController@index')->with('doneMessage2', trans('backLang.deleteDone'));
         } else {
             return redirect()->action('MenusController@index');
@@ -306,37 +303,32 @@ class MenusController extends Controller
     public function updateAll(Request $request)
     {
         //
-        if ($request->action == "order") {
+        if ($request->action == 'order') {
             foreach ($request->row_ids as $rowId) {
                 $Menu = Menu::find($rowId);
-                if (!empty($Menu)) {
-                    $row_no_val = "row_no_" . $rowId;
+                if (! empty($Menu)) {
+                    $row_no_val = 'row_no_'.$rowId;
                     $Menu->row_no = $request->$row_no_val;
                     $Menu->save();
                 }
             }
-
         } else {
-            if ($request->ids != "") {
-                if ($request->action == "activate") {
+            if ($request->ids != '') {
+                if ($request->action == 'activate') {
                     Menu::wherein('id', $request->ids)
                         ->update(['status' => 1]);
-
-                } elseif ($request->action == "block") {
+                } elseif ($request->action == 'block') {
                     Menu::wherein('id', $request->ids)
                         ->update(['status' => 0]);
-
-                } elseif ($request->action == "delete") {
-
+                } elseif ($request->action == 'delete') {
                     Menu::wherein('father_id', $request->ids)->delete();
                     Menu::wherein('id', $request->ids)
                         ->delete();
-
                 }
             }
         }
+
         return redirect()->action('MenusController@index', $request->ParentMenuId)->with('doneMessage2',
             trans('backLang.saveDone'));
     }
-
 }

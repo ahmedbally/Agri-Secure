@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -51,7 +51,6 @@ class HomeController extends Controller
             $Events = Event::where('created_by', '=', Auth::user()->id)->where('start_date', '>=',
                 date('Y-m-d 00:00:00'))->orderby('start_date', 'asc')->limit(5)->get();
 
-
             //List of all contacts
             $Contacts = Contact::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->limit(5)->get();
         } else {
@@ -63,7 +62,6 @@ class HomeController extends Controller
             $Events = Event::where('start_date', '>=',
                 date('Y-m-d 00:00:00'))->orderby('start_date', 'asc')->limit(5)->get();
 
-
             //List of all contacts
             $Contacts = Contact::orderby('id', 'desc')->limit(5)->get();
         }
@@ -74,9 +72,9 @@ class HomeController extends Controller
         // Last 7 Days
         $daterangepicker_start = date('Y-m-d', strtotime('-6 day'));
         $daterangepicker_end = date('Y-m-d');
-        $stat = "date";
+        $stat = 'date';
 
-        $Last7DaysVisitors = array();
+        $Last7DaysVisitors = [];
 
         $AnalyticsVisitors = AnalyticsVisitor::where('date', '>=', $daterangepicker_start)
             ->where('date', '<=', $daterangepicker_end)
@@ -85,7 +83,6 @@ class HomeController extends Controller
             ->get();
         $ix = 0;
         foreach ($AnalyticsVisitors as $AnalyticsV) {
-
             $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
                 ->where('date', '>=', $daterangepicker_start)
                 ->where('date', '<=', $daterangepicker_end)->count();
@@ -96,22 +93,22 @@ class HomeController extends Controller
                 ->get()
                 ->toArray();
 
-            $TotalP = AnalyticsPage::whereIn("visitor_id", $AllVArray)->count();
+            $TotalP = AnalyticsPage::whereIn('visitor_id', $AllVArray)->count();
 
-            $newdata = array(
+            $newdata = [
                 'name' => $AnalyticsV->$stat,
                 'visits' => $TotalV,
-                'pages' => $TotalP
-            );
+                'pages' => $TotalP,
+            ];
             array_push($Last7DaysVisitors, $newdata);
             $ix++;
         }
 
         // Today By Country
         $date_today = date('Y-m-d');
-        $stat = "country";
+        $stat = 'country';
 
-        $TodayByCountry = array();
+        $TodayByCountry = [];
 
         $AnalyticsVisitors = AnalyticsVisitor::where('date', $date_today)
             ->groupBy($stat)
@@ -119,7 +116,6 @@ class HomeController extends Controller
             ->get();
         $ix = 0;
         foreach ($AnalyticsVisitors as $AnalyticsV) {
-
             $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
                 ->where('date', $date_today)->count();
 
@@ -128,14 +124,14 @@ class HomeController extends Controller
                 ->get()
                 ->toArray();
 
-            $TotalP = AnalyticsPage::whereIn("visitor_id", $AllVArray)->count();
+            $TotalP = AnalyticsPage::whereIn('visitor_id', $AllVArray)->count();
 
-            $newdata = array(
+            $newdata = [
                 'name' => $AnalyticsV->$stat,
                 'code' => substr($AnalyticsV->country_code, 0, 2),
                 'visits' => $TotalV,
-                'pages' => $TotalP
-            );
+                'pages' => $TotalP,
+            ];
             array_push($TodayByCountry, $newdata);
             $ix++;
         }
@@ -145,9 +141,9 @@ class HomeController extends Controller
 
         // Today By Browser
         $date_today = date('Y-m-d');
-        $stat = "browser";
+        $stat = 'browser';
 
-        $TodayByBrowsers = array();
+        $TodayByBrowsers = [];
 
         $AnalyticsVisitors = AnalyticsVisitor::where('date', '>=', $daterangepicker_start)
             ->where('date', '<=', $daterangepicker_end)
@@ -156,24 +152,23 @@ class HomeController extends Controller
             ->get();
         $ix = 0;
         foreach ($AnalyticsVisitors as $AnalyticsV) {
-
             $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
                 ->where('date', '>=', $daterangepicker_start)
                 ->where('date', '<=', $daterangepicker_end)->count();
 
-            $newdata = array(
+            $newdata = [
                 'name' => $AnalyticsV->$stat,
-                'visits' => $TotalV
-            );
+                'visits' => $TotalV,
+            ];
             array_push($TodayByBrowsers, $newdata);
             $ix++;
         }
         usort($TodayByBrowsers, function ($a, $b) {
             return $b['visits'] - $a['visits'];
         });
-        $TodayByBrowser1 = "";
+        $TodayByBrowser1 = '';
         $TodayByBrowser1_val = 0;
-        $TodayByBrowser2 = "Other Browsers";
+        $TodayByBrowser2 = 'Other Browsers';
         $TodayByBrowser2_val = 0;
         $ix = 0;
         $emptyB = 0;
@@ -187,7 +182,7 @@ class HomeController extends Controller
                 foreach ($TodayByBrowser as $key => $val) {
                     if ($ix2 == 0) {
                         $TodayByBrowser1 = $val;
-                        if ($TodayByBrowser1 != "") {
+                        if ($TodayByBrowser1 != '') {
                             $emptyB = 1;
                         }
                     }
@@ -210,11 +205,11 @@ class HomeController extends Controller
 
         // Visitor Rate today
         $day_date = date('Y-m-d');
-        $TodayVisitorsRate = "";
-        $fsla = "";
+        $TodayVisitorsRate = '';
+        $fsla = '';
         for ($ii = 0; $ii < 24; $ii = $ii + 2) {
             if ($ii != 0) {
-                $fsla = ", ";
+                $fsla = ', ';
             }
             $stepis = $ii + 2;
             $timeis1 = "$ii:00:00<br>";
@@ -223,16 +218,16 @@ class HomeController extends Controller
                 ->where('time', '>=', $timeis1)
                 ->where('time', '<', $timeis2)
                 ->count();
-            if($TotalV==0){
+            if ($TotalV == 0) {
                 $TotalV = 1;
             }
-            $TodayVisitorsRate = $TodayVisitorsRate . $fsla . "[$ii,$TotalV]";
+            $TodayVisitorsRate = $TodayVisitorsRate.$fsla."[$ii,$TotalV]";
         }
 
         return view('backEnd.home',
-            compact("GeneralWebmasterSections", "Webmails", "Events", "Contacts", "TodayVisitors", "TodayPages",
-                "Last7DaysVisitors", "TodayByCountry", "TodayByBrowser1", "TodayByBrowser1_val", "TodayByBrowser2",
-                "TodayByBrowser2_val", "TodayVisitorsRate"));
+            compact('GeneralWebmasterSections', 'Webmails', 'Events', 'Contacts', 'TodayVisitors', 'TodayPages',
+                'Last7DaysVisitors', 'TodayByCountry', 'TodayByBrowser1', 'TodayByBrowser1_val', 'TodayByBrowser2',
+                'TodayByBrowser2_val', 'TodayVisitorsRate'));
     }
 
     /**
@@ -245,18 +240,17 @@ class HomeController extends Controller
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
-        $search_word = "";
+        $search_word = '';
         $active_tab = 0;
 
-        $Webmails  = array();
-        $Events  = array();
-        $Contacts  = array();
-        $Sections  = array();
-        $Topics  = array();
+        $Webmails = [];
+        $Events = [];
+        $Contacts = [];
+        $Sections = [];
+        $Topics = [];
 
-        return view('backEnd.search', compact("GeneralWebmasterSections", "search_word", "active_tab", "Webmails", "Events", "Contacts", "Sections", "Topics"));
+        return view('backEnd.search', compact('GeneralWebmasterSections', 'search_word', 'active_tab', 'Webmails', 'Events', 'Contacts', 'Sections', 'Topics'));
     }
-
 
     /**
      * Search resource in storage.
@@ -271,96 +265,95 @@ class HomeController extends Controller
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-        $Webmails  = array();
-        $Events  = array();
-        $Contacts  = array();
-        $Sections  = array();
-        $Topics  = array();
+        $Webmails = [];
+        $Events = [];
+        $Contacts = [];
+        $Sections = [];
+        $Topics = [];
 
         $active_tab = 0;
-        if ($request->q != "") {
+        if ($request->q != '') {
             if (@Auth::user()->permissionsGroup->view_status) {
                 //find Contacts
                 $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('first_name', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('last_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('company', 'like', '%' . $request->q . '%')
-                    ->orwhere('city', 'like', '%' . $request->q . '%')
-                    ->orwhere('notes', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('last_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('company', 'like', '%'.$request->q.'%')
+                    ->orwhere('city', 'like', '%'.$request->q.'%')
+                    ->orwhere('notes', 'like', '%'.$request->q.'%')
                     ->orwhere('phone', '=', $request->q)
                     ->orwhere('email', '=', $request->q)
                     ->orderby('id', 'desc')->get();
 
                 //find Webmails
                 $Webmails = Webmail::where('created_by', '=', Auth::user()->id)->where('title', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('from_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('from_email', 'like', '%' . $request->q . '%')
-                    ->orwhere('from_phone', 'like', '%' . $request->q . '%')
-                    ->orwhere('to_email', 'like', '%' . $request->q . '%')
-                    ->orwhere('to_name', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('from_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('from_email', 'like', '%'.$request->q.'%')
+                    ->orwhere('from_phone', 'like', '%'.$request->q.'%')
+                    ->orwhere('to_email', 'like', '%'.$request->q.'%')
+                    ->orwhere('to_name', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
 
                 //find Events
                 $Events = Event::where('created_by', '=', Auth::user()->id)->where('title', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('details', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('details', 'like', '%'.$request->q.'%')
                     ->orderby('start_date', 'desc')->get();
 
                 //find Topics
                 $Topics = Topic::where('created_by', '=', Auth::user()->id)->where('title_ar', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('title_en', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('title_en', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_en', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
 
                 //find Sections
                 $Sections = Section::where('created_by', '=', Auth::user()->id)->where('title_ar', 'like',
-                    '%' . $request->q . '%')
-                    ->orwhere('title_en', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
+                    '%'.$request->q.'%')
+                    ->orwhere('title_en', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_en', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
             } else {
                 //find Contacts
-                $Contacts = Contact::where('first_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('last_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('company', 'like', '%' . $request->q . '%')
-                    ->orwhere('city', 'like', '%' . $request->q . '%')
-                    ->orwhere('notes', 'like', '%' . $request->q . '%')
+                $Contacts = Contact::where('first_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('last_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('company', 'like', '%'.$request->q.'%')
+                    ->orwhere('city', 'like', '%'.$request->q.'%')
+                    ->orwhere('notes', 'like', '%'.$request->q.'%')
                     ->orwhere('phone', '=', $request->q)
                     ->orwhere('email', '=', $request->q)
                     ->orderby('id', 'desc')->get();
 
                 //find Webmails
-                $Webmails = Webmail::where('title', 'like', '%' . $request->q . '%')
-                    ->orwhere('from_name', 'like', '%' . $request->q . '%')
-                    ->orwhere('from_email', 'like', '%' . $request->q . '%')
-                    ->orwhere('from_phone', 'like', '%' . $request->q . '%')
-                    ->orwhere('to_email', 'like', '%' . $request->q . '%')
-                    ->orwhere('to_name', 'like', '%' . $request->q . '%')
+                $Webmails = Webmail::where('title', 'like', '%'.$request->q.'%')
+                    ->orwhere('from_name', 'like', '%'.$request->q.'%')
+                    ->orwhere('from_email', 'like', '%'.$request->q.'%')
+                    ->orwhere('from_phone', 'like', '%'.$request->q.'%')
+                    ->orwhere('to_email', 'like', '%'.$request->q.'%')
+                    ->orwhere('to_name', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
 
                 //find Events
-                $Events = Event::where('title', 'like', '%' . $request->q . '%')
-                    ->orwhere('details', 'like', '%' . $request->q . '%')
+                $Events = Event::where('title', 'like', '%'.$request->q.'%')
+                    ->orwhere('details', 'like', '%'.$request->q.'%')
                     ->orderby('start_date', 'desc')->get();
 
                 //find Topics
-                $Topics = Topic::where('title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('title_en', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
+                $Topics = Topic::where('title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('title_en', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_en', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
 
                 //find Sections
-                $Sections = Section::where('title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('title_en', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
-                    ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
+                $Sections = Section::where('title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('title_en', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_ar', 'like', '%'.$request->q.'%')
+                    ->orwhere('seo_title_en', 'like', '%'.$request->q.'%')
                     ->orderby('id', 'desc')->get();
-
             }
             if (count($Webmails) > 0) {
                 $active_tab = 5;
@@ -377,15 +370,13 @@ class HomeController extends Controller
             if (count($Topics) > 0) {
                 $active_tab = 1;
             }
-
         } else {
             return redirect()->action('HomeController@search');
         }
         $search_word = $request->q;
 
-        return view("backEnd.search",
-            compact("GeneralWebmasterSections", "search_word", "Webmails", "Contacts", "Events", "Topics", "Sections",
-                "active_tab"));
+        return view('backEnd.search',
+            compact('GeneralWebmasterSections', 'search_word', 'Webmails', 'Contacts', 'Events', 'Topics', 'Sections',
+                'active_tab'));
     }
-
 }

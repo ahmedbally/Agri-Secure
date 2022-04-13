@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Votable;
+use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
@@ -12,6 +12,7 @@ class Option extends Model
     protected $fillable = ['name'];
 
     protected $table = 'larapoll_options';
+
     /**
      * An option belongs to one poll
      *

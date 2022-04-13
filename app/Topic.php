@@ -9,7 +9,6 @@ class Topic extends Model
     //Relation to webmasterSections
     public function webmasterSection()
     {
-
         return $this->belongsTo('App\WebmasterSection', 'webmaster_id');
     }
 
@@ -34,14 +33,12 @@ class Topic extends Model
     //Relation to Photos
     public function photos()
     {
-
         return $this->hasMany('App\Photo', 'topic_id')->orderby('row_no', 'asc');
     }
 
     //Relation to Attach Files
     public function attachFiles()
     {
-
         return $this->hasMany('App\AttachFile', 'topic_id')->orderby('row_no', 'asc');
     }
 
@@ -54,10 +51,8 @@ class Topic extends Model
     //Relation to Maps
     public function maps()
     {
-
         return $this->hasMany('App\Map', 'topic_id')->orderby('row_no', 'asc');
     }
-
 
     //Relation to Comments
     public function comments()
@@ -68,7 +63,6 @@ class Topic extends Model
     //Relation to New Comments
     public function newComments()
     {
-
         return $this->hasMany('App\Comment', 'topic_id')->where('status', '=', 0)->orderby('row_no', 'asc');
     }
 
@@ -81,7 +75,6 @@ class Topic extends Model
     //Relation to Additional Fields
     public function fields()
     {
-
         return $this->hasMany('App\TopicField', 'topic_id')->orderby('id', 'asc');
     }
 }

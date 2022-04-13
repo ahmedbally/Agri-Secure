@@ -41,7 +41,7 @@ class ImportIntPrice extends Command
     public function handle()
     {
         $this->output->title('Starting import');
-        Excel::import(new InternationalPrice,'Exchange_report.xlsx');
+        Excel::import(new InternationalPrice, 'Exchange_report.xlsx');
         $this->output->success('Import successful');
     }
 }

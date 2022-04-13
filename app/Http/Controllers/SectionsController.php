@@ -17,14 +17,14 @@ use Redirect;
 
 class SectionsController extends Controller
 {
-    private $uploadPath = "uploads/sections/";
+    private $uploadPath = 'uploads/sections/';
 
     // Define Default Variables
 
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -39,8 +39,8 @@ class SectionsController extends Controller
     public function index($webmasterId)
     {
         // Check Permissions
-        $data_sections_arr = explode(",", Auth::user()->permissionsGroup->data_sections);
-        if (!in_array($webmasterId, $data_sections_arr)) {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -61,24 +61,24 @@ class SectionsController extends Controller
                 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
         // count topics by Category
-        $category_and_topics_count = array();
-        if (!empty($WebmasterSection)) {
+        $category_and_topics_count = [];
+        if (! empty($WebmasterSection)) {
             $AllSections = Section::where('webmaster_id', '=', $WebmasterSection->id)->where('status', 1)->orderby('row_no', 'asc')->get();
             if (count($AllSections) > 0) {
                 foreach ($AllSections as $AllSection) {
-                    $category_topics = array();
+                    $category_topics = [];
                     $TopicCategories = TopicCategory::where('section_id', $AllSection->id)->get();
                     foreach ($TopicCategories as $category) {
                         $category_topics[] = $category->topic_id;
                     }
 
-                    $Topics = Topic::where([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', null]])->whereIn('id', $category_topics)->orderby('row_no', 'asc')->get();
+                    $Topics = Topic::where([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', null]])->whereIn('id', $category_topics)->orderby('row_no', 'asc')->get();
                     $category_and_topics_count[$AllSection->id] = count($Topics);
                 }
             }
         }
 
-        return view("backEnd.sections", compact("Sections", "GeneralWebmasterSections", "WebmasterSection", "category_and_topics_count"));
+        return view('backEnd.sections', compact('Sections', 'GeneralWebmasterSections', 'WebmasterSection', 'category_and_topics_count'));
     }
 
     /**
@@ -100,8 +100,8 @@ class SectionsController extends Controller
         $fatherSections = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=',
             '0')->orderby('row_no', 'asc')->get();
 
-        return view("backEnd.sections.create",
-            compact("GeneralWebmasterSections", "WebmasterSection", "fatherSections"));
+        return view('backEnd.sections.create',
+            compact('GeneralWebmasterSections', 'WebmasterSection', 'fatherSections'));
     }
 
     /**
@@ -119,7 +119,6 @@ class SectionsController extends Controller
             'title_ar' => 'required',
         ]);
 
-
         $next_nor_no = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=',
             $request->father_id)->max('row_no');
         if ($next_nor_no < 1) {
@@ -129,11 +128,11 @@ class SectionsController extends Controller
         }
 
         // Start of Upload Files
-        $formFileName = "photo";
-        $fileFinalName = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
+        $formFileName = 'photo';
+        $fileFinalName = '';
+        if ($request->$formFileName != '') {
+            $fileFinalName = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName);
         }
@@ -146,25 +145,23 @@ class SectionsController extends Controller
         $Section->details_ar = $request->details_ar;
         $Section->details_en = $request->details_en;
         $Section->icon = $request->icon;
-        if ($fileFinalName != "") {
+        if ($fileFinalName != '') {
             $Section->photo = $fileFinalName;
         }
         $Section->webmaster_id = $webmasterId;
-        $Section->father_id = (!empty($request->father_id_second))? $request->father_id_second :  $request->father_id;
+        $Section->father_id = (! empty($request->father_id_second)) ? $request->father_id_second : $request->father_id;
         $Section->visits = 0;
         $Section->status = 1;
         $Section->created_by = Auth::user()->id;
-
 
         // Meta title
         $Section->seo_title_ar = $request->title_ar;
         $Section->seo_title_en = $request->title_en;
 
         //URL Slugs
-        $slugs = Helper::URLSlug($request->title_ar, $request->title_en, "category", 0);
+        $slugs = Helper::URLSlug($request->title_ar, $request->title_en, 'category', 0);
         $Section->seo_url_slug_ar = $slugs['slug_ar'];
         $Section->seo_url_slug_en = $slugs['slug_en'];
-
 
         $Section->save();
 
@@ -179,7 +176,7 @@ class SectionsController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -201,7 +198,7 @@ class SectionsController extends Controller
         } else {
             $Sections = Section::find($id);
         }
-        if (!empty($Sections)) {
+        if (! empty($Sections)) {
             //Section Sections Details
             $WebmasterSection = WebmasterSection::find($Sections->webmaster_id);
 
@@ -210,13 +207,13 @@ class SectionsController extends Controller
             $level1Father = Section::find($Sections->father_id);
             if ($level1Father) {
                 $childSections = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=', $level1Father->father_id)->orderby('row_no', 'asc')->get();
-            }else{
-                 $childSections =[];
-                 $level1Father =[];
+            } else {
+                $childSections = [];
+                $level1Father = [];
             }
             // print_r($fatherSections);die();
-            return view("backEnd.sections.edit",
-                compact("Sections", "GeneralWebmasterSections", "WebmasterSection", "fatherSections", "level1Father", "childSections"));
+            return view('backEnd.sections.edit',
+                compact('Sections', 'GeneralWebmasterSections', 'WebmasterSection', 'fatherSections', 'level1Father', 'childSections'));
         } else {
             return redirect()->action('SectionsController@index', $webmasterId);
         }
@@ -234,22 +231,22 @@ class SectionsController extends Controller
     {
         //
         $Section = Section::find($id);
-        if (!empty($Section)) {
+        if (! empty($Section)) {
             $this->validate($request, [
                 'title_ar' => 'required',
             ]);
 
             // Start of Upload Files
-            $formFileName = "photo";
-            $fileFinalName = "";
-            if ($request->$formFileName != "") {
+            $formFileName = 'photo';
+            $fileFinalName = '';
+            if ($request->$formFileName != '') {
                 // Delete a Section photo
-                if ($Section->photo != "") {
-                    File::delete($this->getUploadPath() . $Section->photo);
+                if ($Section->photo != '') {
+                    File::delete($this->getUploadPath().$Section->photo);
                 }
 
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
@@ -262,20 +259,21 @@ class SectionsController extends Controller
             $Section->icon = $request->icon;
             if ($request->photo_delete == 1) {
                 // Delete photo
-                if ($Section->photo != "") {
-                    File::delete($this->getUploadPath() . $Section->photo);
+                if ($Section->photo != '') {
+                    File::delete($this->getUploadPath().$Section->photo);
                 }
 
-                $Section->photo = "";
+                $Section->photo = '';
             }
 
-            if ($fileFinalName != "") {
+            if ($fileFinalName != '') {
                 $Section->photo = $fileFinalName;
             }
-            $Section->father_id = (!empty($request->father_id_second))? $request->father_id_second :  $request->father_id;
+            $Section->father_id = (! empty($request->father_id_second)) ? $request->father_id_second : $request->father_id;
             $Section->status = $request->status;
             $Section->updated_by = Auth::user()->id;
             $Section->save();
+
             return redirect()->action('SectionsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'));
         } else {
@@ -287,8 +285,7 @@ class SectionsController extends Controller
     {
         //
         $Section = Section::find($id);
-        if (!empty($Section)) {
-
+        if (! empty($Section)) {
             $Section->seo_title_ar = $request->seo_title_ar;
             $Section->seo_title_en = $request->seo_title_en;
             $Section->seo_description_ar = $request->seo_description_ar;
@@ -298,11 +295,12 @@ class SectionsController extends Controller
             $Section->updated_by = Auth::user()->id;
 
             //URL Slugs
-            $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, "category", $id);
+            $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, 'category', $id);
             $Section->seo_url_slug_ar = $slugs['slug_ar'];
             $Section->seo_url_slug_en = $slugs['slug_en'];
 
             $Section->save();
+
             return redirect()->action('SectionsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'seo');
         } else {
@@ -326,20 +324,20 @@ class SectionsController extends Controller
             $Section = Section::find($id);
         }
 
-        if (!empty($Section)) {
+        if (! empty($Section)) {
             // Delete a Section photo
-            if ($Section->photo != "") {
-                File::delete($this->getUploadPath() . $Section->photo);
+            if ($Section->photo != '') {
+                File::delete($this->getUploadPath().$Section->photo);
             }
             Section::where('father_id', $Section->id)->delete();
             $Section->delete();
+
             return redirect()->action('SectionsController@index', $webmasterId)->with('doneMessage',
                 trans('backLang.deleteDone'));
         } else {
             return redirect()->action('SectionsController@index', $webmasterId);
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -351,44 +349,42 @@ class SectionsController extends Controller
     public function updateAll(Request $request, $webmasterId)
     {
         //
-        if ($request->action == "order") {
+        if ($request->action == 'order') {
             foreach ($request->row_ids as $rowId) {
                 $Section = Section::find($rowId);
-                if (!empty($Section)) {
-                    $row_no_val = "row_no_" . $rowId;
+                if (! empty($Section)) {
+                    $row_no_val = 'row_no_'.$rowId;
                     $Section->row_no = $request->$row_no_val;
                     $Section->save();
                 }
             }
-
         } else {
-            if ($request->ids != "") {
-                if ($request->action == "activate") {
+            if ($request->ids != '') {
+                if ($request->action == 'activate') {
                     Section::wherein('id', $request->ids)
                         ->update(['status' => 1]);
-
-                } elseif ($request->action == "block") {
+                } elseif ($request->action == 'block') {
                     Section::wherein('id', $request->ids)
                         ->update(['status' => 0]);
-
-                } elseif ($request->action == "delete") {
+                } elseif ($request->action == 'delete') {
                     // Delete Sections photo
                     $Sections = Section::wherein('id', $request->ids)->get();
                     foreach ($Sections as $Section) {
-                        if ($Section->photo != "") {
-                            File::delete($this->getUploadPath() . $Section->photo);
+                        if ($Section->photo != '') {
+                            File::delete($this->getUploadPath().$Section->photo);
                         }
                     }
                     Section::wherein('father_id', $request->ids)->delete();
                     Section::wherein('id', $request->ids)
                         ->delete();
-
                 }
             }
         }
+
         return redirect()->action('SectionsController@index', $webmasterId)->with('doneMessage',
             trans('backLang.saveDone'));
     }
+
     /**
      * Show the form for import resources.
      *
@@ -396,10 +392,10 @@ class SectionsController extends Controller
      */
     public function import()
     {
-        $name = "title_" . trans('backLang.boxCode');
+        $name = 'title_'.trans('backLang.boxCode');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         $WebmasterSection = WebmasterSection::find(16);
@@ -407,25 +403,27 @@ class SectionsController extends Controller
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
-        $imports=array_flip(["الانتاج النباتي"=>"PlantProduction","التركيب المحصولي"=>"CropStructure","الميزان الغذائي"=>"FoodBalance","أسعار محلية (تاريخية)"=>"HistoricalPrice","أسعار عالمية"=>"InternationalPrice","أسعار يومية"=>"DailyPrice"]);
-        return view("backEnd.databases.import", compact("GeneralWebmasterSections","imports","WebmasterSection"));
+        $imports = array_flip(['الانتاج النباتي'=>'PlantProduction', 'التركيب المحصولي'=>'CropStructure', 'الميزان الغذائي'=>'FoodBalance', 'أسعار محلية (تاريخية)'=>'HistoricalPrice', 'أسعار عالمية'=>'InternationalPrice', 'أسعار يومية'=>'DailyPrice']);
+
+        return view('backEnd.databases.import', compact('GeneralWebmasterSections', 'imports', 'WebmasterSection'));
     }
-    public function upload(Request $request){
-        $this->validate($request,[
-            'database' => Rule::in(['PlantProduction','CropStructure','FoodBalance','HistoricalPrice','InternationalPrice','DailyPrice']),
+
+    public function upload(Request $request)
+    {
+        $this->validate($request, [
+            'database' => Rule::in(['PlantProduction', 'CropStructure', 'FoodBalance', 'HistoricalPrice', 'InternationalPrice', 'DailyPrice']),
             'file' => [
                 'required',
-                'mimes:xlsx,xls'
-            ]
+                'mimes:xlsx,xls',
+            ],
         ]);
-        try{
-            $database = 'App\\Imports\\' . $request->input('database');
+        try {
+            $database = 'App\\Imports\\'.$request->input('database');
             Excel::import(new $database(), request()->file('file'));
-        }catch (\Exception $e) {
-            return redirect()->action('SectionsController@index',[16]);
+        } catch (\Exception $e) {
+            return redirect()->action('SectionsController@index', [16]);
         }
+
         return redirect()->action('SectionsController@import')->with('doneMessage', trans('backLang.addDone'));
-
     }
-
 }

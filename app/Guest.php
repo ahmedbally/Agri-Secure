@@ -2,10 +2,8 @@
 
 namespace App;
 
-
 use App\Traits\Voter;
 use Illuminate\Http\Request;
-
 
 class Guest
 {
@@ -15,6 +13,6 @@ class Guest
 
     public function __construct(Request $request)
     {
-            $this->user_id = $request->ip();
+        $this->user_id = $request->ip();
     }
 }

@@ -25,7 +25,7 @@ class APIsController extends Controller
     public function __construct()
     {
         // Check API Status
-        if (!Helper::GeneralWebmasterSettings("api_status")) {
+        if (! Helper::GeneralWebmasterSettings('api_status')) {
             // API disabled
             exit();
         }
@@ -84,7 +84,6 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         exit();
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -95,19 +94,20 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         // Get Site Settings
         $Setting = Setting::find(1);
         // Response Details
-        $msg = "";
+        $msg = '';
         if ($Setting->site_status == 0) {
             $msg = nl2br($Setting->close_msg);
         }
         $response_details = [
             'status' => $Setting->site_status,
-            'close_msg' => $msg
+            'close_msg' => $msg,
         ];
         // Response MSG
         $response = [
             'msg' => 'Website Status details',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -135,13 +135,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             'site_title' => $Setting->$site_title_var,
             'site_desc' => $Setting->$site_desc_var,
             'site_keywords' => $Setting->$site_keywords_var,
-            'site_webmails' => $Setting->site_webmails
+            'site_webmails' => $Setting->site_webmails,
         ];
         // Response MSG
         $response = [
             'msg' => 'Main information about the Website',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -151,11 +152,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
     public function getLanguage($lang)
     {
         // List of active languages for API
-        $languages = array("ar", "en");
+        $languages = ['ar', 'en'];
 
-        if ($lang == "" || !in_array($lang, $languages)) {
+        if ($lang == '' || ! in_array($lang, $languages)) {
             $lang = env('DEFAULT_LANGUAGE');
         }
+
         return $lang;
     }
 
@@ -181,13 +183,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             'fax' => $Setting->contact_t4,
             'mobile' => $Setting->contact_t5,
             'email' => $Setting->contact_t6,
-            'working_time' => $Setting->$working_time_var
+            'working_time' => $Setting->$working_time_var,
         ];
         // Response MSG
         $response = [
             'msg' => 'List of Contacts Details',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -207,26 +210,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
         // Response Details
         $response_details = [
-            'logo' => ($Setting->$style_logo_var != "") ? url("") . "/uploads/settings/" . $Setting->$style_logo_var : null,
-            'fav_icon' => ($Setting->style_fav != "") ? url("") . "/uploads/settings/" . $Setting->style_fav : null,
-            'apple_icon' => ($Setting->style_apple != "") ? url("") . "/uploads/settings/" . $Setting->style_apple : null,
+            'logo' => ($Setting->$style_logo_var != '') ? url('').'/uploads/settings/'.$Setting->$style_logo_var : null,
+            'fav_icon' => ($Setting->style_fav != '') ? url('').'/uploads/settings/'.$Setting->style_fav : null,
+            'apple_icon' => ($Setting->style_apple != '') ? url('').'/uploads/settings/'.$Setting->style_apple : null,
             'style_color_1' => $Setting->style_color1,
             'style_color_2' => $Setting->style_color2,
             'layout_mode' => $Setting->style_type,
             'bg_type' => $Setting->style_bg_type,
-            'bg_pattern' => ($Setting->style_bg_pattern != "") ? url("") . "/uploads/pattern/" . $Setting->style_bg_pattern : null,
+            'bg_pattern' => ($Setting->style_bg_pattern != '') ? url('').'/uploads/pattern/'.$Setting->style_bg_pattern : null,
             'bg_color' => $Setting->style_bg_color,
-            'bg_image' => ($Setting->style_bg_image != "") ? url("") . "/uploads/settings/" . $Setting->style_bg_image : null,
+            'bg_image' => ($Setting->style_bg_image != '') ? url('').'/uploads/settings/'.$Setting->style_bg_image : null,
             'footer_style' => $Setting->style_footer,
-            'footer_bg' => ($Setting->style_footer_bg != "") ? url("") . "/uploads/settings/" . $Setting->style_footer_bg : null,
+            'footer_bg' => ($Setting->style_footer_bg != '') ? url('').'/uploads/settings/'.$Setting->style_footer_bg : null,
             'newsletter_subscribe_status' => $Setting->style_subscribe,
-            'preload_status' => $Setting->style_preload
+            'preload_status' => $Setting->style_preload,
         ];
         // Response MSG
         $response = [
             'msg' => 'List of Style Settings',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -256,8 +260,9 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         // Response MSG
         $response = [
             'msg' => 'List of Social Networks Links',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -288,13 +293,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             'home_content3_section_id' => $WebmasterSetting->home_content3_section_id,
             'home_banners_section_id' => $WebmasterSetting->home_banners_section_id,
             'home_text_banners_section_id' => $WebmasterSetting->home_text_banners_section_id,
-            'side_banners_section_id' => $WebmasterSetting->side_banners_section_id
+            'side_banners_section_id' => $WebmasterSetting->side_banners_section_id,
         ];
         // Response MSG
         $response = [
             'msg' => 'General Website Settings',
-            'details' => $response_details
+            'details' => $response_details,
         ];
+
         return response()->json($response, 200);
     }
 
@@ -320,7 +326,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     $sub_response_details = [];
                     if (count($SubMenu) > 0) {
                         foreach ($SubMenu as $SubMenuLink) {
-                            $m_link = "";
+                            $m_link = '';
                             if ($SubMenuLink->type == 3 || $SubMenuLink->type == 2) {
                                 $m_link = $SubMenuLink->webmasterSection->name;
                             } elseif ($SubMenuLink->type == 1) {
@@ -330,12 +336,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                                 'id' => $SubMenuLink->id,
                                 'title' => $SubMenuLink->$title_var,
                                 'section_id' => $SubMenuLink->cat_id,
-                                'href' => $m_link
+                                'href' => $m_link,
                             ];
                         }
                     }
 
-                    $m_link = "";
+                    $m_link = '';
                     $sub_count = count($SubMenu);
                     if ($MenuLink->type == 3) {
                         // Section with drop list
@@ -346,7 +352,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                                 'id' => $SubSection->id,
                                 'title' => $SubSection->$title_var,
                                 'section_id' => $MenuLink->cat_id,
-                                'href' => "topics/cat/" . $SubSection->id
+                                'href' => 'topics/cat/'.$SubSection->id,
                             ];
                         }
                     } elseif ($MenuLink->type == 2) {
@@ -361,30 +367,32 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'section_id' => $MenuLink->cat_id,
                         'href' => $m_link,
                         'sub_links_count' => $sub_count,
-                        'sub_links' => $sub_response_details
+                        'sub_links' => $sub_response_details,
                     ];
                     // sub links
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'List of Menu Links',
                     'links_count' => count($Menu),
-                    'links' => $response_details
+                    'links' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
@@ -408,18 +416,18 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
                 // Response Details
                 $response_details = [];
-                $type = "";
+                $type = '';
                 foreach ($Banners as $Banner) {
                     $type = $Banner->webmasterBanner->type;
                     $response_details[] = [
                         'id' => $Banner->id,
                         'title' => $Banner->$title_var,
                         'details' => nl2br($Banner->$details_var),
-                        'file' => ($Banner->$file_var != "") ? url("") . "/uploads/banners/" . $Banner->$file_var : null,
+                        'file' => ($Banner->$file_var != '') ? url('').'/uploads/banners/'.$Banner->$file_var : null,
                         'video_type' => $Banner->video_type,
                         'youtube_link' => $Banner->youtube_link,
                         'link_url' => $Banner->link_url,
-                        'icon' => $Banner->icon
+                        'icon' => $Banner->icon,
                     ];
                 }
                 // Response MSG
@@ -427,25 +435,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'msg' => 'List of Banners',
                     'type' => $type,
                     'banners_count' => count($Banners),
-                    'banners' => $response_details
+                    'banners' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -461,10 +471,10 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $section_name = "";
-                $section_title = "";
-                $type = "";
-                $sections_status = "";
+                $section_name = '';
+                $section_title = '';
+                $type = '';
+                $sections_status = '';
 
                 // Response Details
                 $response_details = [];
@@ -472,34 +482,36 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     $type = $WebmasterSection->type;
                     $sections_status = $WebmasterSection->sections_status;
                     $section_name = $WebmasterSection->name;
-                    $section_title = trans('backLang.' . $WebmasterSection->name, [], $lang);
+                    $section_title = trans('backLang.'.$WebmasterSection->name, [], $lang);
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Website Section Details',
                     'section_id' => $section_id,
                     'title' => $section_title,
-                    'href' => "/" . $WebmasterSection->name,
+                    'href' => '/'.$WebmasterSection->name,
                     'type' => $type,
-                    'categories_status' => $sections_status
+                    'categories_status' => $sections_status,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -515,16 +527,16 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $section_name = "";
-                $type = "";
-                $section_title = "";
+                $section_name = '';
+                $type = '';
+                $section_title = '';
 
                 // Response Details
                 $response_details = [];
                 foreach ($Sections as $Section) {
                     $type = $Section->webmasterSection->type;
                     $section_name = $Section->webmasterSection->name;
-                    $section_title = trans('backLang.' . $Section->webmasterSection->name, [], $lang);
+                    $section_title = trans('backLang.'.$Section->webmasterSection->name, [], $lang);
 
                     $SubSections = Section::where('webmaster_id', $section_id)->where('father_id', $Section->id)->where('status', 1)->orderby('row_no', 'asc')->get();
                     $sub_response_details = [];
@@ -533,8 +545,8 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'id' => $SubSection->id,
                             'title' => $SubSection->$title_var,
                             'icon' => $SubSection->icon,
-                            'photo' => ($SubSection->photo != "") ? url("") . "/uploads/sections/" . $SubSection->photo : null,
-                            'href' => "topics/cat/" . $SubSection->id,
+                            'photo' => ($SubSection->photo != '') ? url('').'/uploads/sections/'.$SubSection->photo : null,
+                            'href' => 'topics/cat/'.$SubSection->id,
                         ];
                     }
 
@@ -542,12 +554,11 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'id' => $Section->id,
                         'title' => $Section->$title_var,
                         'icon' => $Section->icon,
-                        'photo' => ($Section->photo != "") ? url("") . "/uploads/sections/" . $Section->photo : null,
-                        'href' => "topics/cat/" . $Section->id,
+                        'photo' => ($Section->photo != '') ? url('').'/uploads/sections/'.$Section->photo : null,
+                        'href' => 'topics/cat/'.$Section->id,
                         'sub_categories_count' => count($SubSections),
-                        'sub_categories' => $sub_response_details
+                        'sub_categories' => $sub_response_details,
                     ];
-
                 }
                 // Response MSG
                 $response = [
@@ -556,25 +567,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'section_title' => $section_title,
                     'type' => $type,
                     'categories_count' => count($Sections),
-                    'categories' => $response_details
+                    'categories' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -593,7 +606,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topics
             $Topics = Topic::where([['webmaster_id', '=', $section_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['webmaster_id', '=', $section_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc');
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['webmaster_id', '=', $section_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc');
 
             if ($topics_count > 0) {
                 $Topics = $Topics->paginate($topics_count);
@@ -606,17 +619,16 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
                 $details_var = "details_ar$lang";
-                $section_name = "";
-                $type = "";
-                $section_title = "";
+                $section_name = '';
+                $type = '';
+                $section_title = '';
 
                 // Response Details
                 $response_details = [];
                 foreach ($Topics as $Topic) {
                     $type = $Topic->webmasterSection->type;
                     $section_name = $Topic->webmasterSection->name;
-                    $section_title = trans('backLang.' . $Topic->webmasterSection->name, [], $lang);
-
+                    $section_title = trans('backLang.'.$Topic->webmasterSection->name, [], $lang);
 
                     $Joined_categories = [];
                     foreach ($Topic->categories as $category) {
@@ -624,23 +636,22 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'id' => $category->id,
                             'title' => $category->section->$title_var,
                             'icon' => $category->section->icon,
-                            'photo' => ($category->section->photo != "") ? url("") . "/uploads/sections/" . $category->section->photo : null,
-                            'href' => "topics/cat/" . $category->id
+                            'photo' => ($category->section->photo != '') ? url('').'/uploads/sections/'.$category->section->photo : null,
+                            'href' => 'topics/cat/'.$category->id,
                         ];
                     }
 
                     // additional fields
                     $Additional_fields = [];
                     foreach ($Topic->webmasterSection->customFields as $customField) {
-
-                        $cf_saved_val = "";
-                        $cf_saved_val_array = array();
+                        $cf_saved_val = '';
+                        $cf_saved_val_array = [];
                         if (count($Topic->fields) > 0) {
                             foreach ($Topic->fields as $t_field) {
                                 if ($t_field->field_id == $customField->id) {
                                     if ($customField->type == 7) {
                                         // if multi check
-                                        $cf_saved_val_array = explode(", ", $t_field->field_value);
+                                        $cf_saved_val_array = explode(', ', $t_field->field_value);
                                     } else {
                                         $cf_saved_val = $t_field->field_value;
                                     }
@@ -648,7 +659,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             }
                         }
 
-                        if (($cf_saved_val != "" || count($cf_saved_val_array) > 0) && ($customField->lang_code == "all" || $customField->lang_code == "$lang")) {
+                        if (($cf_saved_val != '' || count($cf_saved_val_array) > 0) && ($customField->lang_code == 'all' || $customField->lang_code == "$lang")) {
                             $Additional_fields[] = [
                                 'type' => $customField->type,
                                 'title' => $customField->$title_var,
@@ -659,7 +670,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
                     $video_file = $Topic->video_file;
                     if ($Topic->video_type == 0) {
-                        $video_file = ($Topic->video_file != "") ? url("") . "/uploads/topics/" . $Topic->video_file : "";
+                        $video_file = ($Topic->video_file != '') ? url('').'/uploads/topics/'.$Topic->video_file : '';
                     }
 
                     $response_details[] = [
@@ -669,11 +680,11 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'date' => $Topic->date,
                         'video_type' => $Topic->video_type,
                         'video_file' => $video_file,
-                        'photo_file' => ($Topic->photo_file != "") ? url("") . "/uploads/topics/" . $Topic->photo_file : null,
-                        'audio_file' => ($Topic->audio_file != "") ? url("") . "/uploads/topics/" . $Topic->audio_file : null,
+                        'photo_file' => ($Topic->photo_file != '') ? url('').'/uploads/topics/'.$Topic->photo_file : null,
+                        'audio_file' => ($Topic->audio_file != '') ? url('').'/uploads/topics/'.$Topic->audio_file : null,
                         'icon' => $Topic->icon,
                         'visits' => $Topic->visits,
-                        'href' => "topic/" . $Topic->id,
+                        'href' => 'topic/'.$Topic->id,
                         'fields_count' => count($Additional_fields),
                         'fields' => $Additional_fields,
                         'Joined_categories_count' => count($Topic->categories),
@@ -681,11 +692,10 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'user' => [
                             'id' => $Topic->user->id,
                             'name' => $Topic->user->name,
-                            'href' => "user/" . $Topic->user->id . "/topics",
-                        ]
+                            'href' => 'user/'.$Topic->user->id.'/topics',
+                        ],
 
                     ];
-
                 }
                 // Response MSG
                 $response = [
@@ -694,25 +704,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'section_title' => $section_title,
                     'type' => $type,
                     'topics_count' => count($Topics),
-                    'topics' => $response_details
+                    'topics' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -725,17 +737,17 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
                 $details_var = "details_$lang";
-                $section_name = "";
-                $type = "";
-                $section_id = "";
-                $section_title = "";
+                $section_name = '';
+                $type = '';
+                $section_id = '';
+                $section_title = '';
 
                 // Response Details
                 $response_details = [];
@@ -743,20 +755,19 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     $type = $Topic->webmasterSection->type;
                     $section_id = $Topic->webmasterSection->id;
                     $section_name = $Topic->webmasterSection->name;
-                    $section_title = trans('backLang.' . $Topic->webmasterSection->name, [], $lang);
+                    $section_title = trans('backLang.'.$Topic->webmasterSection->name, [], $lang);
 
                     // additional fields
                     $Additional_fields = [];
                     foreach ($Topic->webmasterSection->customFields as $customField) {
-
-                        $cf_saved_val = "";
-                        $cf_saved_val_array = array();
+                        $cf_saved_val = '';
+                        $cf_saved_val_array = [];
                         if (count($Topic->fields) > 0) {
                             foreach ($Topic->fields as $t_field) {
                                 if ($t_field->field_id == $customField->id) {
                                     if ($customField->type == 7) {
                                         // if multi check
-                                        $cf_saved_val_array = explode(", ", $t_field->field_value);
+                                        $cf_saved_val_array = explode(', ', $t_field->field_value);
                                     } else {
                                         $cf_saved_val = $t_field->field_value;
                                     }
@@ -764,7 +775,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             }
                         }
 
-                        if (($cf_saved_val != "" || count($cf_saved_val_array) > 0) && ($customField->lang_code == "all" || $customField->lang_code == "$lang")) {
+                        if (($cf_saved_val != '' || count($cf_saved_val_array) > 0) && ($customField->lang_code == 'all' || $customField->lang_code == "$lang")) {
                             $Additional_fields[] = [
                                 'type' => $customField->type,
                                 'title' => $customField->$title_var,
@@ -780,8 +791,8 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'id' => $category->id,
                             'title' => $category->section->$title_var,
                             'icon' => $category->section->icon,
-                            'photo' => ($category->section->photo != "") ? url("") . "/uploads/sections/" . $category->section->photo : null,
-                            'href' => "topics/cat/" . $category->id
+                            'photo' => ($category->section->photo != '') ? url('').'/uploads/sections/'.$category->section->photo : null,
+                            'href' => 'topics/cat/'.$category->id,
                         ];
                     }
                     // photos
@@ -790,8 +801,8 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         $Photos[] = [
                             'id' => $photo->id,
                             'title' => $photo->title,
-                            'url' => ($photo->file != "") ? url("") . "/uploads/topics/" . $photo->file : null,
-                            'href' => "/topic/photo/" . $photo->id
+                            'url' => ($photo->file != '') ? url('').'/uploads/topics/'.$photo->file : null,
+                            'href' => '/topic/photo/'.$photo->id,
                         ];
                     }
                     // maps
@@ -803,7 +814,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'latitude' => $map->latitude,
                             'title' => $map->$title_var,
                             'details' => $map->$details_var,
-                            'href' => "/topic/map/" . $map->id
+                            'href' => '/topic/map/'.$map->id,
                         ];
                     }
                     // attach files
@@ -812,8 +823,8 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         $Attach_files[] = [
                             'id' => $attachFile->id,
                             'title' => $attachFile->$title_var,
-                            'url' => ($attachFile->file != "") ? url("") . "/uploads/topics/" . $attachFile->file : null,
-                            'href' => "/topic/file/" . $attachFile->id
+                            'url' => ($attachFile->file != '') ? url('').'/uploads/topics/'.$attachFile->file : null,
+                            'href' => '/topic/file/'.$attachFile->id,
                         ];
                     }
                     // comments
@@ -825,7 +836,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'email' => $comment->email,
                             'date' => $comment->date,
                             'comment' => nl2br($comment->comment),
-                            'href' => "/topic/comment/" . $comment->id
+                            'href' => '/topic/comment/'.$comment->id,
                         ];
                     }
                     // related topics
@@ -835,14 +846,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'id' => $relatedTopic->topic->id,
                             'title' => $relatedTopic->topic->$title_var,
                             'date' => $relatedTopic->topic->date,
-                            'href' => "topic/" . $relatedTopic->topic->id,
-                            'photo_file' => ($relatedTopic->topic->photo_file != "") ? url("") . "/uploads/topics/" . $relatedTopic->topic->photo_file : null
+                            'href' => 'topic/'.$relatedTopic->topic->id,
+                            'photo_file' => ($relatedTopic->topic->photo_file != '') ? url('').'/uploads/topics/'.$relatedTopic->topic->photo_file : null,
                         ];
                     }
 
                     $video_file = $Topic->video_file;
                     if ($Topic->video_type == 0) {
-                        $video_file = ($Topic->video_file != "") ? url("") . "/uploads/topics/" . $Topic->video_file : "";
+                        $video_file = ($Topic->video_file != '') ? url('').'/uploads/topics/'.$Topic->video_file : '';
                     }
 
                     $response_details[] = [
@@ -852,11 +863,11 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'date' => $Topic->date,
                         'video_type' => $Topic->video_type,
                         'video_file' => $video_file,
-                        'photo_file' => ($Topic->photo_file != "") ? url("") . "/uploads/topics/" . $Topic->photo_file : null,
-                        'audio_file' => ($Topic->audio_file != "") ? url("") . "/uploads/topics/" . $Topic->audio_file : null,
+                        'photo_file' => ($Topic->photo_file != '') ? url('').'/uploads/topics/'.$Topic->photo_file : null,
+                        'audio_file' => ($Topic->audio_file != '') ? url('').'/uploads/topics/'.$Topic->audio_file : null,
                         'icon' => $Topic->icon,
                         'visits' => $Topic->visits,
-                        'href' => "topic/" . $Topic->id,
+                        'href' => 'topic/'.$Topic->id,
                         'fields_count' => count($Additional_fields),
                         'fields' => $Additional_fields,
                         'Joined_categories_count' => count($Joined_categories),
@@ -874,11 +885,10 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'user' => [
                             'id' => $Topic->user->id,
                             'name' => $Topic->user->name,
-                            'href' => "user/" . $Topic->user->id . "/topics",
-                        ]
+                            'href' => 'user/'.$Topic->user->id.'/topics',
+                        ],
 
                     ];
-
                 }
                 // Response MSG
                 $response = [
@@ -886,25 +896,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'section_id' => $section_id,
                     'section_title' => $section_title,
                     'type' => $type,
-                    'topic' => $response_details
+                    'topic' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -917,14 +929,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -938,39 +950,40 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         $response_details[] = [
                             'id' => $photo->id,
                             'title' => $photo->title,
-                            'url' => ($photo->file != "") ? url("") . "/uploads/topics/" . $photo->file : null,
-                            'href' => "/topic/photo/" . $photo->id
+                            'url' => ($photo->file != '') ? url('').'/uploads/topics/'.$photo->file : null,
+                            'href' => '/topic/photo/'.$photo->id,
                         ];
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Photos of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'photos_count' => count($response_details),
-                    'photos' => $response_details
+                    'photos' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -984,42 +997,44 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             // Get Photo details
             $Photo = Photo::find($photo_id);
 
-            if (!empty($Photo)) {
+            if (! empty($Photo)) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 $response_details[] = [
                     'id' => $Photo->id,
                     'title' => $Photo->title,
-                    'url' => ($Photo->file != "") ? url("") . "/uploads/topics/" . $Photo->file : null
+                    'url' => ($Photo->file != '') ? url('').'/uploads/topics/'.$Photo->file : null,
                 ];
 
                 // Response MSG
                 $response = [
                     'msg' => 'Photo details',
                     'topic_id' => $Photo->topic_id,
-                    'photo' => $response_details
+                    'photo' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1032,15 +1047,15 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
                 $details_var = "details_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -1057,38 +1072,39 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'latitude' => $map->latitude,
                             'title' => $map->$title_var,
                             'details' => $map->$details_var,
-                            'href' => "/topic/map/" . $map->id
+                            'href' => '/topic/map/'.$map->id,
                         ];
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Maps of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'maps_count' => count($response_details),
-                    'maps' => $response_details
+                    'maps' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1102,7 +1118,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             // Get map details
             $Map = Map::find($map_id);
 
-            if (!empty($Map)) {
+            if (! empty($Map)) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
@@ -1113,32 +1129,34 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'longitude' => $Map->longitude,
                     'latitude' => $Map->latitude,
                     'title' => $Map->$title_var,
-                    'details' => $Map->$details_var
+                    'details' => $Map->$details_var,
                 ];
 
                 // Response MSG
                 $response = [
                     'msg' => 'Map details',
                     'topic_id' => $Map->topic_id,
-                    'map' => $response_details
+                    'map' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1151,14 +1169,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -1172,28 +1190,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         $response_details[] = [
                             'id' => $attachFile->id,
                             'title' => $attachFile->$title_var,
-                            'url' => ($attachFile->file != "") ? url("") . "/uploads/topics/" . $attachFile->file : null,
-                            'href' => "/topic/file/" . $attachFile->id
+                            'url' => ($attachFile->file != '') ? url('').'/uploads/topics/'.$attachFile->file : null,
+                            'href' => '/topic/file/'.$attachFile->id,
                         ];
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Attach files of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'files_count' => count($response_details),
-                    'files' => $response_details
+                    'files' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1201,13 +1218,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1221,7 +1237,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             // Get topic details
             $AttachFile = AttachFile::find($file_id);
 
-            if (!empty($AttachFile)) {
+            if (! empty($AttachFile)) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
@@ -1229,21 +1245,21 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $response_details[] = [
                     'id' => $AttachFile->id,
                     'title' => $AttachFile->$title_var,
-                    'url' => ($AttachFile->file != "") ? url("") . "/uploads/topics/" . $AttachFile->file : null
+                    'url' => ($AttachFile->file != '') ? url('').'/uploads/topics/'.$AttachFile->file : null,
                 ];
 
                 // Response MSG
                 $response = [
                     'msg' => 'Attach file details',
                     'topic_id' => $AttachFile->topic_id,
-                    'file' => $response_details
+                    'file' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1251,13 +1267,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1270,14 +1285,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -1294,26 +1309,26 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'email' => $comment->email,
                             'date' => $comment->date,
                             'comment' => nl2br($comment->comment),
-                            'href' => "/topic/comment/" . $comment->id
+                            'href' => '/topic/comment/'.$comment->id,
                         ];
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Comments of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'comments_count' => count($response_details),
-                    'comments' => $response_details
+                    'comments' => $response_details,
                 ];
+
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1321,13 +1336,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1341,26 +1355,26 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             // Get topic details
             $Comment = Comment::find($comment_id);
 
-            if (!empty($Comment)) {
+            if (! empty($Comment)) {
                 $response_details[] = [
                     'id' => $Comment->id,
                     'name' => $Comment->name,
                     'email' => $Comment->email,
                     'date' => $Comment->date,
-                    'comment' => nl2br($Comment->comment)
+                    'comment' => nl2br($Comment->comment),
                 ];
                 // Response MSG
                 $response = [
                     'msg' => 'Comment details',
                     'topic_id' => $Comment->topic_id,
-                    'comment' => $response_details
+                    'comment' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1368,13 +1382,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1387,14 +1400,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -1409,28 +1422,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             'id' => $relatedTopic->topic->id,
                             'title' => $relatedTopic->topic->$title_var,
                             'date' => $relatedTopic->topic->date,
-                            'href' => "topic/" . $relatedTopic->topic->id,
-                            'photo_file' => ($relatedTopic->topic->photo_file != "") ? url("") . "/uploads/topics/" . $relatedTopic->topic->photo_file : null,
+                            'href' => 'topic/'.$relatedTopic->topic->id,
+                            'photo_file' => ($relatedTopic->topic->photo_file != '') ? url('').'/uploads/topics/'.$relatedTopic->topic->photo_file : null,
                         ];
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Related topics of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'related_topics_count' => count($response_details),
-                    'related_topics' => $response_details
+                    'related_topics' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1438,13 +1450,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1457,14 +1468,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topic details
             $Topics = Topic::where([['id', '=', $topic_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['id', '=', $topic_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc')->get();
 
             if (count($Topics) > 0) {
                 // By Language
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
-                $topic_title = "";
-                $photo_file = "";
+                $topic_title = '';
+                $photo_file = '';
 
                 // Response Details
                 $response_details = [];
@@ -1475,15 +1486,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     // additional fields
                     $response_details = [];
                     foreach ($Topic->webmasterSection->customFields as $customField) {
-
-                        $cf_saved_val = "";
-                        $cf_saved_val_array = array();
+                        $cf_saved_val = '';
+                        $cf_saved_val_array = [];
                         if (count($Topic->fields) > 0) {
                             foreach ($Topic->fields as $t_field) {
                                 if ($t_field->field_id == $customField->id) {
                                     if ($customField->type == 7) {
                                         // if multi check
-                                        $cf_saved_val_array = explode(", ", $t_field->field_value);
+                                        $cf_saved_val_array = explode(', ', $t_field->field_value);
                                     } else {
                                         $cf_saved_val = $t_field->field_value;
                                     }
@@ -1491,7 +1501,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             }
                         }
 
-                        if (($cf_saved_val != "" || count($cf_saved_val_array) > 0) && ($customField->lang_code == "all" || $customField->lang_code == "$lang")) {
+                        if (($cf_saved_val != '' || count($cf_saved_val_array) > 0) && ($customField->lang_code == 'all' || $customField->lang_code == "$lang")) {
                             $response_details[] = [
                                 'type' => $customField->type,
                                 'title' => $customField->$title_var,
@@ -1499,24 +1509,23 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             ];
                         }
                     }
-
                 }
                 // Response MSG
                 $response = [
                     'msg' => 'Additional Fields of topic',
                     'topic_id' => $topic_id,
                     'topic_title' => $topic_title,
-                    'topic_link' => "topic/" . $topic_id,
-                    'topic_photo' => ($photo_file != "") ? url("") . "/uploads/topics/" . $photo_file : null,
+                    'topic_link' => 'topic/'.$topic_id,
+                    'topic_photo' => ($photo_file != '') ? url('').'/uploads/topics/'.$photo_file : null,
                     'fields_count' => count($response_details),
-                    'fields' => $response_details
+                    'fields' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1524,13 +1533,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
 
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Display a listing of the resource.
@@ -1549,7 +1557,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // Get topics
             $Topics = Topic::where([['created_by', '=', $user_id], ['status',
-                1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orWhere([['created_by', '=', $user_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc');
+                1, ], ['expire_date', '>=', date('Y-m-d')], ['expire_date', '<>', null]])->orWhere([['created_by', '=', $user_id], ['status', 1], ['expire_date', null]])->orderby('row_no', 'asc');
 
             if ($topics_count > 0) {
                 $Topics = $Topics->paginate($topics_count);
@@ -1562,7 +1570,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $lang = $this->getLanguage($lang);
                 $title_var = "title_$lang";
                 $details_var = "details_ar$lang";
-                $user_name = "";
+                $user_name = '';
 
                 // Response Details
                 $response_details = [];
@@ -1572,30 +1580,28 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     $section_id = $Topic->webmasterSection->id;
                     $user_name = $Topic->user->name;
 
-
                     $Joined_categories = [];
                     foreach ($Topic->categories as $category) {
                         $Joined_categories[] = [
                             'id' => $category->id,
                             'title' => $category->section->$title_var,
                             'icon' => $category->section->icon,
-                            'photo' => ($category->section->photo != "") ? url("") . "/uploads/sections/" . $category->section->photo : null,
-                            'href' => "topics/cat/" . $category->id
+                            'photo' => ($category->section->photo != '') ? url('').'/uploads/sections/'.$category->section->photo : null,
+                            'href' => 'topics/cat/'.$category->id,
                         ];
                     }
 
                     // additional fields
                     $Additional_fields = [];
                     foreach ($Topic->webmasterSection->customFields as $customField) {
-
-                        $cf_saved_val = "";
-                        $cf_saved_val_array = array();
+                        $cf_saved_val = '';
+                        $cf_saved_val_array = [];
                         if (count($Topic->fields) > 0) {
                             foreach ($Topic->fields as $t_field) {
                                 if ($t_field->field_id == $customField->id) {
                                     if ($customField->type == 7) {
                                         // if multi check
-                                        $cf_saved_val_array = explode(", ", $t_field->field_value);
+                                        $cf_saved_val_array = explode(', ', $t_field->field_value);
                                     } else {
                                         $cf_saved_val = $t_field->field_value;
                                     }
@@ -1603,7 +1609,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                             }
                         }
 
-                        if (($cf_saved_val != "" || count($cf_saved_val_array) > 0) && ($customField->lang_code == "all" || $customField->lang_code == "$lang")) {
+                        if (($cf_saved_val != '' || count($cf_saved_val_array) > 0) && ($customField->lang_code == 'all' || $customField->lang_code == "$lang")) {
                             $Additional_fields[] = [
                                 'type' => $customField->type,
                                 'title' => $customField->$title_var,
@@ -1614,7 +1620,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
                     $video_file = $Topic->video_file;
                     if ($Topic->video_type == 0) {
-                        $video_file = ($Topic->video_file != "") ? url("") . "/uploads/topics/" . $Topic->video_file : "";
+                        $video_file = ($Topic->video_file != '') ? url('').'/uploads/topics/'.$Topic->video_file : '';
                     }
 
                     $response_details[] = [
@@ -1624,11 +1630,11 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'date' => $Topic->date,
                         'video_type' => $Topic->video_type,
                         'video_file' => $video_file,
-                        'photo_file' => ($Topic->photo_file != "") ? url("") . "/uploads/topics/" . $Topic->photo_file : null,
-                        'audio_file' => ($Topic->audio_file != "") ? url("") . "/uploads/topics/" . $Topic->audio_file : null,
+                        'photo_file' => ($Topic->photo_file != '') ? url('').'/uploads/topics/'.$Topic->photo_file : null,
+                        'audio_file' => ($Topic->audio_file != '') ? url('').'/uploads/topics/'.$Topic->audio_file : null,
                         'icon' => $Topic->icon,
                         'visits' => $Topic->visits,
-                        'href' => "topic/" . $Topic->id,
+                        'href' => 'topic/'.$Topic->id,
                         'fields_count' => count($Additional_fields),
                         'fields' => $Additional_fields,
                         'Joined_categories_count' => count($Topic->categories),
@@ -1638,7 +1644,6 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                         'section_type' => $type,
 
                     ];
-
                 }
                 // Response MSG
                 $response = [
@@ -1646,14 +1651,14 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                     'user_id' => $user_id,
                     'user_name' => $user_name,
                     'topics_count' => count($Topics),
-                    'topics' => $response_details
+                    'topics' => $response_details,
                 ];
 
                 return response()->json($response, 200);
             } else {
                 // Empty MSG
                 $response = [
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
 
                 return response()->json($response, 200);
@@ -1661,12 +1666,12 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
         } else {
             // Empty MSG
             $response = [
-                'msg' => 'There is no data'
+                'msg' => 'There is no data',
             ];
+
             return response()->json($response, 404);
         }
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -1676,20 +1681,19 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
      */
     public function ContactPageSubmit(Request $request)
     {
-
         $this->validate($request, [
             'api_key' => 'required',
             'contact_name' => 'required',
             'contact_email' => 'required|email',
             'contact_subject' => 'required',
-            'contact_message' => 'required'
+            'contact_message' => 'required',
         ]);
 
         // check api_key
-        if ($request->api_key == Helper::GeneralWebmasterSettings("api_key")) {
+        if ($request->api_key == Helper::GeneralWebmasterSettings('api_key')) {
             // SITE SETTINGS
             $WebsiteSettings = Setting::find(1);
-            $site_title_var = "site_title_" . trans('backLang.boxCode');
+            $site_title_var = 'site_title_'.trans('backLang.boxCode');
             $site_email = $WebsiteSettings->site_webmails;
             $site_url = $WebsiteSettings->site_url;
             $site_title = $WebsiteSettings->$site_title_var;
@@ -1699,7 +1703,7 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             $Webmail->group_id = null;
             $Webmail->title = $request->contact_subject;
             $Webmail->details = $request->contact_message;
-            $Webmail->date = date("Y-m-d H:i:s");
+            $Webmail->date = date('Y-m-d H:i:s');
             $Webmail->from_email = $request->contact_email;
             $Webmail->from_name = $request->contact_name;
             $Webmail->from_phone = $request->contact_phone;
@@ -1711,18 +1715,17 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
 
             // SEND Notification Email
             if ($WebsiteSettings->notify_messages_status) {
-                if (env('MAIL_USERNAME') != "") {
+                if (env('MAIL_USERNAME') != '') {
                     Mail::send('backEnd.emails.webmail', [
-                        'title' => "NEW MESSAGE:" . $request->contact_subject,
+                        'title' => 'NEW MESSAGE:'.$request->contact_subject,
                         'details' => $request->contact_message,
                         'websiteURL' => $site_url,
-                        'websiteName' => $site_title
+                        'websiteName' => $site_title,
                     ], function ($message) use ($request, $site_email, $site_title) {
                         $message->from(env('NO_REPLAY_EMAIL', $request->contact_email), $request->contact_name);
                         $message->to($site_email);
                         $message->replyTo($request->contact_email, $site_title);
                         $message->subject($request->contact_subject);
-
                     });
                 }
             }
@@ -1730,15 +1733,17 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             // response MSG
             $response = [
                 'code' => '1',
-                'msg' => 'Message Sent successfully'
+                'msg' => 'Message Sent successfully',
             ];
+
             return response()->json($response, 201);
         } else {
             // Empty MSG
             $response = [
                 'code' => '-1',
-                'msg' => 'Authentication failed'
+                'msg' => 'Authentication failed',
             ];
+
             return response()->json($response, 500);
         }
     }
@@ -1751,14 +1756,13 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
      */
     public function subscribeSubmit(Request $request)
     {
-
         $this->validate($request, [
             'api_key' => 'required',
             'subscribe_name' => 'required',
-            'subscribe_email' => 'required|email'
+            'subscribe_email' => 'required|email',
         ]);
         // check api_key
-        if ($request->api_key == Helper::GeneralWebmasterSettings("api_key")) {
+        if ($request->api_key == Helper::GeneralWebmasterSettings('api_key')) {
             // General Webmaster Settings
             $WebmasterSettings = WebmasterSetting::find(1);
 
@@ -1767,8 +1771,9 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 // response MSG
                 $response = [
                     'code' => '2',
-                    'msg' => 'You are already subscribed'
+                    'msg' => 'You are already subscribed',
                 ];
+
                 return response()->json($response, 200);
             } else {
                 $subscribe_names = explode(' ', $request->subscribe_name, 2);
@@ -1781,20 +1786,21 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $Contact->status = 1;
                 $Contact->save();
 
-
                 // response MSG
                 $response = [
                     'code' => '1',
-                    'msg' => 'You have subscribed successfully'
+                    'msg' => 'You have subscribed successfully',
                 ];
+
                 return response()->json($response, 201);
             }
         } else {
             // Empty MSG
             $response = [
                 'code' => '-1',
-                'msg' => 'Authentication failed'
+                'msg' => 'Authentication failed',
             ];
+
             return response()->json($response, 500);
         }
     }
@@ -1807,17 +1813,16 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
      */
     public function commentSubmit(Request $request)
     {
-
         $this->validate($request, [
             'api_key' => 'required',
             'topic_id' => 'required',
             'comment_name' => 'required',
             'comment_email' => 'required|email',
-            'comment_message' => 'required'
+            'comment_message' => 'required',
         ]);
 
         // check api_key
-        if ($request->api_key == Helper::GeneralWebmasterSettings("api_key")) {
+        if ($request->api_key == Helper::GeneralWebmasterSettings('api_key')) {
             // General Webmaster Settings
             $WebmasterSettings = WebmasterSetting::find(1);
 
@@ -1833,38 +1838,37 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
             $Comment->name = $request->comment_name;
             $Comment->email = $request->comment_email;
             $Comment->comment = $request->comment_message;
-            $Comment->topic_id = $request->topic_id;;
-            $Comment->date = date("Y-m-d H:i:s");
+            $Comment->topic_id = $request->topic_id;
+            $Comment->date = date('Y-m-d H:i:s');
             $Comment->status = $WebmasterSettings->new_comments_status;
             $Comment->save();
 
             // Site Details
             $WebsiteSettings = Setting::find(1);
-            $site_title_var = "site_title_" . trans('backLang.boxCode');
+            $site_title_var = 'site_title_'.trans('backLang.boxCode');
             $site_email = $WebsiteSettings->site_webmails;
             $site_url = $WebsiteSettings->site_url;
             $site_title = $WebsiteSettings->$site_title_var;
 
             // Topic details
             $Topic = Topic::where('status', 1)->find($request->topic_id);
-            if (!empty($Topic)) {
-                $tpc_title_var = "title_" . trans('backLang.boxCode');
+            if (! empty($Topic)) {
+                $tpc_title_var = 'title_'.trans('backLang.boxCode');
                 $tpc_title = $WebsiteSettings->$tpc_title_var;
 
                 // SEND Notification Email
                 if ($WebsiteSettings->notify_comments_status) {
-                    if (env('MAIL_USERNAME') != "") {
+                    if (env('MAIL_USERNAME') != '') {
                         Mail::send('backEnd.emails.webmail', [
-                            'title' => "NEW Comment on :" . $tpc_title,
+                            'title' => 'NEW Comment on :'.$tpc_title,
                             'details' => $request->comment_message,
                             'websiteURL' => $site_url,
-                            'websiteName' => $site_title
+                            'websiteName' => $site_title,
                         ], function ($message) use ($request, $site_email, $site_title, $tpc_title) {
                             $message->from(env('NO_REPLAY_EMAIL', $request->comment_email), $request->comment_name);
                             $message->to($site_email);
                             $message->replyTo($request->comment_email, $site_title);
-                            $message->subject("NEW Comment on :" . $tpc_title);
-
+                            $message->subject('NEW Comment on :'.$tpc_title);
                         });
                     }
                 }
@@ -1872,27 +1876,29 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 // response MSG
                 $response = [
                     'code' => '1',
-                    'msg' => 'Your Comment Sent successfully'
+                    'msg' => 'Your Comment Sent successfully',
                 ];
+
                 return response()->json($response, 201);
             } else {
                 // response MSG
                 $response = [
                     'code' => '0',
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 404);
             }
         } else {
             // Empty MSG
             $response = [
                 'code' => '-1',
-                'msg' => 'Authentication failed'
+                'msg' => 'Authentication failed',
             ];
+
             return response()->json($response, 500);
         }
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -1902,27 +1908,26 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
      */
     public function orderSubmit(Request $request)
     {
-
         $this->validate($request, [
             'api_key' => 'required',
             'topic_id' => 'required',
             'order_name' => 'required',
             'order_phone' => 'required',
             'order_email' => 'required|email',
-            'order_qty' => 'required'
+            'order_qty' => 'required',
         ]);
 
         // check api_key
-        if ($request->api_key == Helper::GeneralWebmasterSettings("api_key")) {
+        if ($request->api_key == Helper::GeneralWebmasterSettings('api_key')) {
             $WebsiteSettings = Setting::find(1);
-            $site_title_var = "site_title_" . trans('backLang.boxCode');
+            $site_title_var = 'site_title_'.trans('backLang.boxCode');
             $site_email = $WebsiteSettings->site_webmails;
             $site_url = $WebsiteSettings->site_url;
             $site_title = $WebsiteSettings->$site_title_var;
 
             $Topic = Topic::where('status', 1)->find($request->topic_id);
-            if (!empty($Topic)) {
-                $tpc_title_var = "title_" . trans('backLang.boxCode');
+            if (! empty($Topic)) {
+                $tpc_title_var = 'title_'.trans('backLang.boxCode');
                 $tpc_title = $WebsiteSettings->$tpc_title_var;
 
                 $Webmail = new Webmail;
@@ -1930,9 +1935,9 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $Webmail->group_id = null;
                 $Webmail->contact_id = null;
                 $Webmail->father_id = null;
-                $Webmail->title = "ORDER " . ", Qty=" . $request->order_qty . ", " . $Topic->$tpc_title_var;
+                $Webmail->title = 'ORDER '.', Qty='.$request->order_qty.', '.$Topic->$tpc_title_var;
                 $Webmail->details = $request->order_message;
-                $Webmail->date = date("Y-m-d H:i:s");
+                $Webmail->date = date('Y-m-d H:i:s');
                 $Webmail->from_email = $request->order_email;
                 $Webmail->from_name = $request->order_name;
                 $Webmail->from_phone = $request->order_phone;
@@ -1942,22 +1947,20 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 $Webmail->flag = 0;
                 $Webmail->save();
 
-
                 // SEND Notification Email
-                $msg_details = "$tpc_title <br> Qty = " . $request->order_qty . "<hr>" . $request->order_message;
+                $msg_details = "$tpc_title <br> Qty = ".$request->order_qty.'<hr>'.$request->order_message;
                 if ($WebsiteSettings->notify_orders_status) {
-                    if (env('MAIL_USERNAME') != "") {
+                    if (env('MAIL_USERNAME') != '') {
                         Mail::send('backEnd.emails.webmail', [
-                            'title' => "NEW Order on :" . $tpc_title,
+                            'title' => 'NEW Order on :'.$tpc_title,
                             'details' => $msg_details,
                             'websiteURL' => $site_url,
-                            'websiteName' => $site_title
+                            'websiteName' => $site_title,
                         ], function ($message) use ($request, $site_email, $site_title, $tpc_title) {
                             $message->from(env('NO_REPLAY_EMAIL', $request->order_email), $request->order_name);
                             $message->to($site_email);
                             $message->replyTo($request->order_email, $site_title);
-                            $message->subject("NEW Comment on :" . $tpc_title);
-
+                            $message->subject('NEW Comment on :'.$tpc_title);
                         });
                     }
                 }
@@ -1965,25 +1968,27 @@ For more details check <a href='http://smartfordesign.net/smartend/documentation
                 // response MSG
                 $response = [
                     'code' => '1',
-                    'msg' => 'Your Order Sent successfully'
+                    'msg' => 'Your Order Sent successfully',
                 ];
+
                 return response()->json($response, 201);
             } else {
                 // response MSG
                 $response = [
                     'code' => '0',
-                    'msg' => 'There is no data'
+                    'msg' => 'There is no data',
                 ];
+
                 return response()->json($response, 404);
             }
         } else {
             // Empty MSG
             $response = [
                 'code' => '-1',
-                'msg' => 'Authentication failed'
+                'msg' => 'Authentication failed',
             ];
+
             return response()->json($response, 500);
         }
-
     }
 }

@@ -21,7 +21,7 @@ use Redirect;
 
 class WebmasterSectionsController extends Controller
 {
-    private $uploadPath = "uploads/topics/";
+    private $uploadPath = 'uploads/topics/';
 
     public function __construct()
     {
@@ -32,11 +32,10 @@ class WebmasterSectionsController extends Controller
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
-
     }
 
     /**
@@ -55,7 +54,8 @@ class WebmasterSectionsController extends Controller
         } else {
             $WebmasterSections = WebmasterSection::orderby('row_no', 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
-        return view("backEnd.webmaster.sections", compact("WebmasterSections", "GeneralWebmasterSections"));
+
+        return view('backEnd.webmaster.sections', compact('WebmasterSections', 'GeneralWebmasterSections'));
     }
 
     /**
@@ -69,7 +69,7 @@ class WebmasterSectionsController extends Controller
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
-        return view("backEnd.webmaster.sections.create", compact("GeneralWebmasterSections"));
+        return view('backEnd.webmaster.sections.create', compact('GeneralWebmasterSections'));
     }
 
     /**
@@ -109,22 +109,21 @@ class WebmasterSectionsController extends Controller
         $WebmasterSection->created_by = Auth::user()->id;
 
         //URL Slugs
-        $slugs = Helper::URLSlug($request->name, $request->name, "section", 0);
+        $slugs = Helper::URLSlug($request->name, $request->name, 'section', 0);
         $WebmasterSection->seo_url_slug_ar = $slugs['slug_ar'];
         $WebmasterSection->seo_url_slug_en = $slugs['slug_en'];
-
 
         $WebmasterSection->save();
 
         $Permissions = Permissions::find(Auth::user()->permissionsGroup->id);
-        if (!empty($Permissions)) {
-            $Permissions->data_sections = $Permissions->data_sections . "," . $WebmasterSection->id;
+        if (! empty($Permissions)) {
+            $Permissions->data_sections = $Permissions->data_sections.','.$WebmasterSection->id;
             $Permissions->save();
         }
         if (Auth::user()->permissionsGroup->id != 1) {
             $Permissions = Permissions::find(1);
-            if (!empty($Permissions)) {
-                $Permissions->data_sections = $Permissions->data_sections . "," . $WebmasterSection->id;
+            if (! empty($Permissions)) {
+                $Permissions->data_sections = $Permissions->data_sections.','.$WebmasterSection->id;
                 $Permissions->save();
             }
         }
@@ -150,8 +149,8 @@ class WebmasterSectionsController extends Controller
         } else {
             $WebmasterSections = WebmasterSection::find($id);
         }
-        if (!empty($WebmasterSections)) {
-            return view("backEnd.webmaster.sections.edit", compact("WebmasterSections", "GeneralWebmasterSections"));
+        if (! empty($WebmasterSections)) {
+            return view('backEnd.webmaster.sections.edit', compact('WebmasterSections', 'GeneralWebmasterSections'));
         } else {
             return redirect()->action('WebmasterSectionsController@index');
         }
@@ -168,7 +167,7 @@ class WebmasterSectionsController extends Controller
     {
         //
         $WebmasterSection = WebmasterSection::find($id);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             $WebmasterSection->name = $request->name;
             $WebmasterSection->type = $request->type;
             $WebmasterSection->sections_status = $request->sections_status;
@@ -188,6 +187,7 @@ class WebmasterSectionsController extends Controller
             $WebmasterSection->status = $request->status;
             $WebmasterSection->updated_by = Auth::user()->id;
             $WebmasterSection->save();
+
             return redirect()->action('WebmasterSectionsController@edit', $id)->with('doneMessage',
                 trans('backLang.saveDone'));
         } else {
@@ -199,8 +199,7 @@ class WebmasterSectionsController extends Controller
     {
         //
         $WebmasterSection = WebmasterSection::find($id);
-        if (!empty($WebmasterSection)) {
-
+        if (! empty($WebmasterSection)) {
             $WebmasterSection->seo_title_ar = $request->seo_title_ar;
             $WebmasterSection->seo_title_en = $request->seo_title_en;
             $WebmasterSection->seo_description_ar = $request->seo_description_ar;
@@ -210,11 +209,12 @@ class WebmasterSectionsController extends Controller
             $WebmasterSection->updated_by = Auth::user()->id;
 
             //URL Slugs
-            $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, "section", $id);
+            $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, 'section', $id);
             $WebmasterSection->seo_url_slug_ar = $slugs['slug_ar'];
             $WebmasterSection->seo_url_slug_en = $slugs['slug_en'];
 
             $WebmasterSection->save();
+
             return redirect()->action('WebmasterSectionsController@edit', $id)->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'seo');
         } else {
@@ -236,23 +236,22 @@ class WebmasterSectionsController extends Controller
         } else {
             $WebmasterSection = WebmasterSection::find($id);
         }
-        if (!empty($WebmasterSection)) {
-
+        if (! empty($WebmasterSection)) {
             if (count($WebmasterSection->topics) > 0) {
                 foreach ($WebmasterSection->topics as $Topic) {
                     //delete topics
                     // Delete a Topic photo
-                    if ($Topic->photo_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->photo_file);
+                    if ($Topic->photo_file != '') {
+                        File::delete($this->getUploadPath().$Topic->photo_file);
                     }
-                    if ($Topic->attach_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->attach_file);
+                    if ($Topic->attach_file != '') {
+                        File::delete($this->getUploadPath().$Topic->attach_file);
                     }
-                    if ($Topic->audio_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->audio_file);
+                    if ($Topic->audio_file != '') {
+                        File::delete($this->getUploadPath().$Topic->audio_file);
                     }
-                    if ($Topic->video_type == 0 && $Topic->video_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->video_file);
+                    if ($Topic->video_type == 0 && $Topic->video_file != '') {
+                        File::delete($this->getUploadPath().$Topic->video_file);
                     }
                     //delete additional fields
                     TopicField::where('topic_id', $Topic->id)->delete();
@@ -268,8 +267,8 @@ class WebmasterSectionsController extends Controller
                     $PhotoFiles = Photo::where('topic_id', $Topic->id)->get();
                     if (count($PhotoFiles) > 0) {
                         foreach ($PhotoFiles as $PhotoFile) {
-                            if ($PhotoFile->file != "") {
-                                File::delete($this->getUploadPath() . $PhotoFile->file);
+                            if ($PhotoFile->file != '') {
+                                File::delete($this->getUploadPath().$PhotoFile->file);
                             }
                         }
                     }
@@ -278,8 +277,8 @@ class WebmasterSectionsController extends Controller
                     $AttachFiles = AttachFile::where('topic_id', $Topic->id)->get();
                     if (count($AttachFiles) > 0) {
                         foreach ($AttachFiles as $AttachFile) {
-                            if ($AttachFile->file != "") {
-                                File::delete($this->getUploadPath() . $AttachFile->file);
+                            if ($AttachFile->file != '') {
+                                File::delete($this->getUploadPath().$AttachFile->file);
                             }
                         }
                     }
@@ -305,6 +304,7 @@ class WebmasterSectionsController extends Controller
             WebmasterSectionField::where('webmaster_id', $id)->delete();
             //delete section
             $WebmasterSection->delete();
+
             return redirect()->action('WebmasterSectionsController@index')->with('doneMessage',
                 trans('backLang.deleteDone'));
         } else {
@@ -319,7 +319,7 @@ class WebmasterSectionsController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -332,45 +332,40 @@ class WebmasterSectionsController extends Controller
     public function updateAll(Request $request)
     {
         //
-        if ($request->ids != "") {
-            if ($request->action == "order") {
+        if ($request->ids != '') {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $WebmasterSection = WebmasterSection::find($rowId);
-                    if (!empty($WebmasterSection)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($WebmasterSection)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $WebmasterSection->row_no = $request->$row_no_val;
                         $WebmasterSection->save();
                     }
                 }
-
-            } elseif ($request->action == "activate") {
+            } elseif ($request->action == 'activate') {
                 WebmasterSection::wherein('id', $request->ids)
                     ->update(['status' => 1]);
-
-            } elseif ($request->action == "block") {
+            } elseif ($request->action == 'block') {
                 WebmasterSection::wherein('id', $request->ids)
                     ->update(['status' => 0]);
-
-            } elseif ($request->action == "delete") {
-
+            } elseif ($request->action == 'delete') {
                 $WebmasterSections = WebmasterSection::wherein('id', $request->ids)->get();
                 foreach ($WebmasterSections as $WebmasterSection) {
-
                     if (count($WebmasterSection->topics) > 0) {
                         foreach ($WebmasterSection->topics as $Topic) {
                             //delete topics
                             // Delete a Topic photo
-                            if ($Topic->photo_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->photo_file);
+                            if ($Topic->photo_file != '') {
+                                File::delete($this->getUploadPath().$Topic->photo_file);
                             }
-                            if ($Topic->attach_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->attach_file);
+                            if ($Topic->attach_file != '') {
+                                File::delete($this->getUploadPath().$Topic->attach_file);
                             }
-                            if ($Topic->audio_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->audio_file);
+                            if ($Topic->audio_file != '') {
+                                File::delete($this->getUploadPath().$Topic->audio_file);
                             }
-                            if ($Topic->video_type == 0 && $Topic->video_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->video_file);
+                            if ($Topic->video_type == 0 && $Topic->video_file != '') {
+                                File::delete($this->getUploadPath().$Topic->video_file);
                             }
                             //delete additional fields
                             TopicField::where('topic_id', $Topic->id)->delete();
@@ -386,8 +381,8 @@ class WebmasterSectionsController extends Controller
                             $PhotoFiles = Photo::where('topic_id', $Topic->id)->get();
                             if (count($PhotoFiles) > 0) {
                                 foreach ($PhotoFiles as $PhotoFile) {
-                                    if ($PhotoFile->file != "") {
-                                        File::delete($this->getUploadPath() . $PhotoFile->file);
+                                    if ($PhotoFile->file != '') {
+                                        File::delete($this->getUploadPath().$PhotoFile->file);
                                     }
                                 }
                             }
@@ -396,8 +391,8 @@ class WebmasterSectionsController extends Controller
                             $AttachFiles = AttachFile::where('topic_id', $Topic->id)->get();
                             if (count($AttachFiles) > 0) {
                                 foreach ($AttachFiles as $AttachFile) {
-                                    if ($AttachFile->file != "") {
-                                        File::delete($this->getUploadPath() . $AttachFile->file);
+                                    if ($AttachFile->file != '') {
+                                        File::delete($this->getUploadPath().$AttachFile->file);
                                     }
                                 }
                             }
@@ -425,15 +420,13 @@ class WebmasterSectionsController extends Controller
                 //delete section
                 WebmasterSection::wherein('id', $request->ids)
                     ->delete();
-
             }
         }
+
         return redirect()->action('WebmasterSectionsController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
 
-
-
-// Fields Functions
+    // Fields Functions
 
     /**
      * Show all Fields.
@@ -441,11 +434,10 @@ class WebmasterSectionsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function webmasterFields($webmasterId)
+    public function webmasterFields($webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('activeTab', 'fields');
         } else {
             return redirect()->route('NotFound');
@@ -458,11 +450,10 @@ class WebmasterSectionsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsCreate($webmasterId)
+    public function fieldsCreate($webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('activeTab',
                 'fields')->with('fieldST', 'create');
         } else {
@@ -477,14 +468,13 @@ class WebmasterSectionsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsStore(Request $request, $webmasterId)
+    public function fieldsStore(Request $request, $webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
-                'type' => 'required'
+                'type' => 'required',
             ]);
 
             $next_nor_no = WebmasterSectionField::where('webmaster_id', '=', $webmasterId)->max('row_no');
@@ -511,12 +501,10 @@ class WebmasterSectionsController extends Controller
 
             return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'fields');
-
         } else {
             return redirect()->route('NotFound');
         }
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -525,13 +513,12 @@ class WebmasterSectionsController extends Controller
      * @param  int $field_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsEdit($webmasterId, $field_id)
+    public function fieldsEdit($webmasterId, $field_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             $WebmasterSectionField = WebmasterSectionField::find($field_id);
-            if (!empty($WebmasterSectionField)) {
+            if (! empty($WebmasterSectionField)) {
                 return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('activeTab',
                     'fields')->with('fieldST', 'edit')->with('WebmasterSectionField', $WebmasterSectionField);
             } else {
@@ -550,17 +537,14 @@ class WebmasterSectionsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsUpdate(Request $request, $webmasterId, $file_id)
+    public function fieldsUpdate(Request $request, $webmasterId, $file_id)
     {
-
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
 
             $WebmasterSectionField = WebmasterSectionField::find($file_id);
-            if (!empty($WebmasterSectionField)) {
-
+            if (! empty($WebmasterSectionField)) {
                 $WebmasterSectionField->title_ar = $request->title_ar;
                 $WebmasterSectionField->title_en = $request->title_en;
                 $WebmasterSectionField->default_value = $request->default_value;
@@ -583,7 +567,6 @@ class WebmasterSectionsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -591,14 +574,14 @@ class WebmasterSectionsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsDestroy($webmasterId, $file_id)
+    public function fieldsDestroy($webmasterId, $file_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             $WebmasterSectionField = WebmasterSectionField::find($file_id);
-            if (!empty($WebmasterSectionField)) {
+            if (! empty($WebmasterSectionField)) {
                 $WebmasterSectionField->delete();
+
                 return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'fields');
             } else {
@@ -609,7 +592,6 @@ class WebmasterSectionsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -617,45 +599,39 @@ class WebmasterSectionsController extends Controller
      * @param  buttonNames , array $ids[],$webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function fieldsUpdateAll(Request $request, $webmasterId)
+    public function fieldsUpdateAll(Request $request, $webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $WebmasterSectionField = WebmasterSectionField::find($rowId);
-                    if (!empty($WebmasterSectionField)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($WebmasterSectionField)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $WebmasterSectionField->row_no = $request->$row_no_val;
                         $WebmasterSectionField->save();
                     }
                 }
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "activate") {
+                if ($request->ids != '') {
+                    if ($request->action == 'activate') {
                         WebmasterSectionField::wherein('id', $request->ids)
                             ->update(['status' => 1]);
-
-                    } elseif ($request->action == "block") {
+                    } elseif ($request->action == 'block') {
                         WebmasterSectionField::wherein('id', $request->ids)
                             ->update(['status' => 0]);
-
-                    } elseif ($request->action == "delete") {
-
+                    } elseif ($request->action == 'delete') {
                         WebmasterSectionField::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('WebmasterSectionsController@edit', [$webmasterId])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'fields');
         } else {
             return redirect()->route('NotFound');
         }
     }
-
-
 }

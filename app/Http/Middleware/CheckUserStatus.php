@@ -19,11 +19,12 @@ class CheckUserStatus
         if (
             $request->user() &&
             (
-            !$request->user()->status
+            ! $request->user()->status
             )
-        ){
+        ) {
             \Auth::logout();
         }
+
         return $next($request);
     }
 }

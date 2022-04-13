@@ -2,8 +2,6 @@
 
 namespace App\Http\Request;
 
-
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddOptionsRequest extends FormRequest
@@ -26,7 +24,7 @@ class AddOptionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'options.*' => 'present|required'
+            'options.*' => 'present|required',
         ];
     }
 

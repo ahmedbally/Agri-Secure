@@ -40,7 +40,7 @@ class ImportStructure extends Command
     public function handle()
     {
         $this->output->title('Starting import');
-        Excel::import(new CropStructure,'تركيب2010-2018_db.xls');
+        Excel::import(new CropStructure, 'تركيب2010-2018_db.xls');
         $this->output->success('Import successful');
     }
 }

@@ -41,7 +41,7 @@ class ImportBalance extends Command
     public function handle()
     {
         $this->output->title('Starting import');
-        Excel::import(new FoodBalance,'الميزان الغذائى_DB_2010-2018 (2).xlsx');
+        Excel::import(new FoodBalance, 'الميزان الغذائى_DB_2010-2018 (2).xlsx');
         $this->output->success('Import successful');
     }
 }

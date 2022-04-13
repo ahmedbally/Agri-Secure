@@ -21,7 +21,6 @@ return [
     'calendarLanguage' => 'en',
     'mapsLanguage' => 'en',
 
-
     // Main Menu & General Titles
     'home' => 'Home',
     'main' => 'Main',
@@ -405,7 +404,6 @@ return [
     'perDelete' => 'DELETE',
     'selectPermissionsType' => 'Select Permissions Type',
 
-
     // Menus
     'newLink' => 'New Link',
     'newMenu' => 'New Menu',
@@ -591,5 +589,3 @@ return [
     'agri-counter' =>'Agrical Counter',
 
 ];
-
-?>

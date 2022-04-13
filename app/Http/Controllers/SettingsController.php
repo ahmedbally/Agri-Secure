@@ -14,7 +14,8 @@ class SettingsController extends Controller
 {
     // Define Default Settings ID
     private $id = 1;
-    private $uploadPath = "uploads/settings/";
+
+    private $uploadPath = 'uploads/settings/';
 
     public function __construct()
     {
@@ -25,7 +26,7 @@ class SettingsController extends Controller
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -41,9 +42,8 @@ class SettingsController extends Controller
 
         $id = $this->getId();
         $Setting = Setting::find($id);
-        if (!empty($Setting)) {
-            return view("backEnd.settings.settings", compact("Setting", "GeneralWebmasterSections"));
-
+        if (! empty($Setting)) {
+            return view('backEnd.settings.settings', compact('Setting', 'GeneralWebmasterSections'));
         } else {
             return redirect()->route('adminHome');
         }
@@ -71,15 +71,14 @@ class SettingsController extends Controller
         //
         $id = $this->getId();
         $Setting = Setting::find($id);
-        if (!empty($Setting)) {
-
+        if (! empty($Setting)) {
             $this->validate($request, [
                 'style_logo_en' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'style_logo_ar' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'style_fav' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'style_apple' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'style_bg_image' => 'mimes:png,jpeg,jpg,gif|max:5000',
-                'style_footer_bg' => 'mimes:png,jpeg,jpg,gif|max:5000'
+                'style_footer_bg' => 'mimes:png,jpeg,jpg,gif|max:5000',
             ]);
 
             $Setting->site_title_ar = $request->site_title_ar;
@@ -94,107 +93,103 @@ class SettingsController extends Controller
             $Setting->notify_orders_status = $request->notify_orders_status;
             $Setting->site_url = $request->site_url;
 
-
             // Start of Upload Files
-            $formFileName = "style_logo_en";
-            $fileFinalName = "";
-            if ($request->$formFileName != "") {
+            $formFileName = 'style_logo_en';
+            $fileFinalName = '';
+            if ($request->$formFileName != '') {
                 // Delete a style_logo_en photo
-                if ($Setting->style_logo_en != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_logo_en);
+                if ($Setting->style_logo_en != '') {
+                    File::delete($this->getUploadPath().$Setting->style_logo_en);
                 }
 
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
-            $formFileNameAr = "style_logo_ar";
-            $fileFinalNameAr = "";
-            if ($request->$formFileNameAr != "") {
+            $formFileNameAr = 'style_logo_ar';
+            $fileFinalNameAr = '';
+            if ($request->$formFileNameAr != '') {
                 // Delete a style_logo_ar photo
-                if ($Setting->style_logo_ar != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_logo_ar);
+                if ($Setting->style_logo_ar != '') {
+                    File::delete($this->getUploadPath().$Setting->style_logo_ar);
                 }
 
-                $fileFinalNameAr = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileNameAr)->guessExtension();
+                $fileFinalNameAr = time().rand(1111,
+                        9999).'.'.$request->file($formFileNameAr)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileNameAr)->move($path, $fileFinalNameAr);
             }
 
-            $formFileName2 = "style_fav";
-            $fileFinalName2 = "";
-            if ($request->$formFileName2 != "") {
+            $formFileName2 = 'style_fav';
+            $fileFinalName2 = '';
+            if ($request->$formFileName2 != '') {
                 // Delete a style_fav photo
-                if ($Setting->style_fav != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_fav);
+                if ($Setting->style_fav != '') {
+                    File::delete($this->getUploadPath().$Setting->style_fav);
                 }
 
-                $fileFinalName2 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName2)->guessExtension();
+                $fileFinalName2 = time().rand(1111,
+                        9999).'.'.$request->file($formFileName2)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName2)->move($path, $fileFinalName2);
             }
 
-
-            $formFileName3 = "style_apple";
-            $fileFinalName3 = "";
-            if ($request->$formFileName3 != "") {
+            $formFileName3 = 'style_apple';
+            $fileFinalName3 = '';
+            if ($request->$formFileName3 != '') {
                 // Delete a style_apple photo
-                if ($Setting->style_apple != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_apple);
+                if ($Setting->style_apple != '') {
+                    File::delete($this->getUploadPath().$Setting->style_apple);
                 }
 
-                $fileFinalName3 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName3)->guessExtension();
+                $fileFinalName3 = time().rand(1111,
+                        9999).'.'.$request->file($formFileName3)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName3)->move($path, $fileFinalName3);
             }
 
-
-            $formFileName4 = "style_bg_image";
-            $fileFinalName4 = "";
-            if ($request->$formFileName4 != "") {
+            $formFileName4 = 'style_bg_image';
+            $fileFinalName4 = '';
+            if ($request->$formFileName4 != '') {
                 // Delete a style_bg_image photo
-                if ($Setting->style_bg_image != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_bg_image);
+                if ($Setting->style_bg_image != '') {
+                    File::delete($this->getUploadPath().$Setting->style_bg_image);
                 }
 
-                $fileFinalName4 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName4)->guessExtension();
+                $fileFinalName4 = time().rand(1111,
+                        9999).'.'.$request->file($formFileName4)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName4)->move($path, $fileFinalName4);
             }
 
-
-            $formFileName5 = "style_footer_bg";
-            $fileFinalName5 = "";
-            if ($request->$formFileName5 != "") {
+            $formFileName5 = 'style_footer_bg';
+            $fileFinalName5 = '';
+            if ($request->$formFileName5 != '') {
                 // Delete a style_footer_bg photo
-                if ($Setting->style_footer_bg != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_footer_bg);
+                if ($Setting->style_footer_bg != '') {
+                    File::delete($this->getUploadPath().$Setting->style_footer_bg);
                 }
 
-                $fileFinalName5 = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName5)->guessExtension();
+                $fileFinalName5 = time().rand(1111,
+                        9999).'.'.$request->file($formFileName5)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName5)->move($path, $fileFinalName5);
             }
 
             // End of Upload Files
 
-            if ($fileFinalName != "") {
+            if ($fileFinalName != '') {
                 $Setting->style_logo_en = $fileFinalName;
             }
 
-            if ($fileFinalNameAr != "") {
+            if ($fileFinalNameAr != '') {
                 $Setting->style_logo_ar = $fileFinalNameAr;
             }
-            if ($fileFinalName2 != "") {
+            if ($fileFinalName2 != '') {
                 $Setting->style_fav = $fileFinalName2;
             }
-            if ($fileFinalName3 != "") {
+            if ($fileFinalName3 != '') {
                 $Setting->style_apple = $fileFinalName3;
             }
 
@@ -204,7 +199,7 @@ class SettingsController extends Controller
             $Setting->style_bg_type = $request->style_bg_type;
             $Setting->style_bg_pattern = $request->style_bg_pattern;
             $Setting->style_bg_color = $request->style_bg_color;
-            if ($fileFinalName4 != "") {
+            if ($fileFinalName4 != '') {
                 $Setting->style_bg_image = $fileFinalName4;
             }
             $Setting->style_subscribe = $request->style_subscribe;
@@ -212,14 +207,14 @@ class SettingsController extends Controller
             $Setting->style_header = $request->style_header;
             if ($request->photo_delete == 1) {
                 // Delete style_footer_bg
-                if ($Setting->style_footer_bg != "") {
-                    File::delete($this->getUploadPath() . $Setting->style_footer_bg);
+                if ($Setting->style_footer_bg != '') {
+                    File::delete($this->getUploadPath().$Setting->style_footer_bg);
                 }
 
-                $Setting->style_footer_bg = "";
+                $Setting->style_footer_bg = '';
             }
 
-            if ($fileFinalName5 != "") {
+            if ($fileFinalName5 != '') {
                 $Setting->style_footer_bg = $fileFinalName5;
             }
             $Setting->style_preload = $request->style_preload;
@@ -247,10 +242,10 @@ class SettingsController extends Controller
             $Setting->site_status = $request->site_status;
             $Setting->close_msg = $request->close_msg;
 
-
             $Setting->updated_by = Auth::user()->id;
 
             $Setting->save();
+
             return redirect()->action('SettingsController@edit')
                 ->with('doneMessage', trans('backLang.saveDone'))
                 ->with('active_tab', $request->active_tab);
@@ -259,8 +254,6 @@ class SettingsController extends Controller
         }
     }
 
-
-
     // update tab of site status
 
     public function getUploadPath()
@@ -268,12 +261,10 @@ class SettingsController extends Controller
         return $this->uploadPath;
     }
 
-
     // update tab of Style Settings
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
-
 }

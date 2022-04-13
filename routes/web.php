@@ -11,19 +11,17 @@
 |
 */
 
-
 // Language Route
-Route::post('/lang', array(
+Route::post('/lang', [
     'Middleware' => 'LanguageSwitcher',
     'uses' => 'LanguageController@index',
-))->name('lang');
+])->name('lang');
 // For Language direct URL link
-Route::get('/lang/{lang}', array(
+Route::get('/lang/{lang}', [
     'Middleware' => 'LanguageSwitcher',
     'uses' => 'LanguageController@change',
-))->name('langChange');
+])->name('langChange');
 // .. End of Language Route
-
 
 // Backend Routes
 Auth::routes();
@@ -147,7 +145,6 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
     Route::get('/cities_crops/destroy/{id}', 'CitiesCropsController@destroy')->name('CitiesCropsDestroy');
     Route::post('/cities_crops/updateAll', 'CitiesCropsController@updateAll')->name('CitiesCropsUpdateAll');
 
-
     // Sections
 
     Route::get('/{webmasterId}/sections', 'SectionsController@index')->name('sections');
@@ -192,7 +189,6 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
         'TopicsController@filesDestroy')->name('topicsFilesDestroy');
     Route::post('/{webmasterId}/topics/{id}/files/updateAll',
         'TopicsController@filesUpdateAll')->name('topicsFilesUpdateAll');
-
 
     // Topics :Related
     Route::get('/{webmasterId}/topics/{id}/related', 'TopicsController@topicsRelated')->name('topicsRelated');
@@ -291,7 +287,6 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
-
     // Menus
     Route::post('/menus/store/parent', 'MenusController@storeMenu')->name('parentMenusStore');
     Route::get('/menus/parent/{id}/edit', 'MenusController@editMenu')->name('parentMenusEdit');
@@ -306,11 +301,11 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
     Route::get('/menus/destroy/{id}', 'MenusController@destroy')->name('menusDestroy');
     Route::post('/menus/updateAll', 'MenusController@updateAll')->name('menusUpdateAll');
 
-
     // Clear Cache
     Route::get('/cache-clear', function () {
         Artisan::call('cache:clear');
         Artisan::call('view:clear');
+
         return redirect()->route('adminHome')->with('doneMessage', trans('backLang.cashClearDone'));
     })->name('cacheClear');
 });
@@ -360,10 +355,10 @@ Route::middleware('auth')->prefix(env('BACKEND_PATH'))->group(function () {
 
 Route::post('/getNextSelect', 'FrontendHomeController@getNextSelect')->name('getNextSelect');
 Route::get('/databases_search/{cat}', 'FrontendHomeController@databases')->name('databasesSearch');
-Route::get('/search','FrontendHomeController@search')->name('Search');
-Route::get('/map','FrontendHomeController@map')->name('Map');
-Route::get('/map/{year}/{crop}/{value}','FrontendHomeController@crops');
-Route::get('/city/{id}','FrontendHomeController@city');
+Route::get('/search', 'FrontendHomeController@search')->name('Search');
+Route::get('/map', 'FrontendHomeController@map')->name('Map');
+Route::get('/map/{year}/{crop}/{value}', 'FrontendHomeController@crops');
+Route::get('/city/{id}', 'FrontendHomeController@city');
 Route::get('/polls', 'FrontendHomeController@polls');
 Route::get('/polls/{poll}', 'FrontendHomeController@poll');
 // ../site map
@@ -413,9 +408,8 @@ Route::get('/{seo_url_slug}', 'FrontendHomeController@SEO')->name('FrontendSEO')
 
 // ..if page by name and language( ex: www.site.com/ar/about )
 //Route::get('/{lang?}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendPageByLang');
-Route::post('sub-cat-query','FrontendHomeController@subCatQuery');
+Route::post('sub-cat-query', 'FrontendHomeController@subCatQuery');
 Route::post('/vote/polls/{poll}', 'VoteManagerController@vote')->name('poll.vote');
-
 
 // .. End of Frontend Route
 /*

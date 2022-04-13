@@ -21,59 +21,59 @@ use Auth;
 
 class Helper
 {
-
-
-    static function GeneralWebmasterSettings($var)
+    public static function GeneralWebmasterSettings($var)
     {
         $WebmasterSetting = WebmasterSetting::find(1);
+
         return $WebmasterSetting->$var;
     }
 
-    static function GeneralSiteSettings($var)
+    public static function GeneralSiteSettings($var)
     {
         $Setting = Setting::find(1);
+
         return $Setting->$var;
     }
 
-
-    static function CustomVisits($page = null)
+    public static function CustomVisits($page = null)
     {
         if ($page) {
-            $visit = Visit::where('page',$page)->first();
-            if (!$visit) {
+            $visit = Visit::where('page', $page)->first();
+            if (! $visit) {
                 $visit = new Visit();
-                $visit->page=$page;
-                $visit->visits=1;
+                $visit->page = $page;
+                $visit->visits = 1;
                 $visit->save();
-
-            }else{
-                $curVisits= $visit->visits;
-                $visit->visits=intval($curVisits)+1;
+            } else {
+                $curVisits = $visit->visits;
+                $visit->visits = intval($curVisits) + 1;
                 $visit->save();
             }
-            
-            if($page!='home'){return $visit->visits;};
-        }else{
+
+            if ($page != 'home') {
+                return $visit->visits;
+            }
+        } else {
             return Visit::sum('visits');
         }
     }
 
-
     // Get Events Alerts
-    static function eventsAlerts()
+    public static function eventsAlerts()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $Events = Event::where('created_by', '=', Auth::user()->id)->where('start_date', '>=',
-                "'" . date('Y-m-d H:i:s') . "'")->orderby('start_date', 'asc')->limit(10)->get();
+                "'".date('Y-m-d H:i:s')."'")->orderby('start_date', 'asc')->limit(10)->get();
         } else {
             $Events = Event::where('start_date', '>=',
-                "'" . date('Y-m-d H:i:s') . "'")->orderby('start_date', 'asc')->limit(10)->get();
+                "'".date('Y-m-d H:i:s')."'")->orderby('start_date', 'asc')->limit(10)->get();
         }
+
         return $Events;
     }
 
     // Get Webmails Alerts
-    static function webmailsAlerts()
+    public static function webmailsAlerts()
     {
 
         //List of all Webmails
@@ -90,7 +90,7 @@ class Helper
     }
 
     // Get Webmails Alerts
-    static function webmailsNewCount()
+    public static function webmailsNewCount()
     {
         //List of all Webmails
         if (@Auth::user()->permissionsGroup->view_status) {
@@ -99,24 +99,24 @@ class Helper
         } else {
             $Webmails = Webmail::orderby('id', 'desc')->where('status', '=', 0)->where('cat_id', '=', 0)->get();
         }
+
         return count($Webmails);
     }
 
-
     // Banners array List
-    static function BannersList($BannersSettingsId)
+    public static function BannersList($BannersSettingsId)
     {
         return Banner::where('section_id', $BannersSettingsId)->where('status', 1)->orderby('row_no', 'asc')->get();
     }
 
     // Menu array List
-    static function MenuList($GroupId)
+    public static function MenuList($GroupId)
     {
         return Menu::where('father_id', $GroupId)->where('status', 1)->orderby('row_no', 'asc')->get();
     }
 
     // Visitors Data
-    static function SaveVisitorInfo($PageTitle)
+    public static function SaveVisitorInfo($PageTitle)
     {
         function getBrowser()
         {
@@ -124,17 +124,18 @@ class Helper
             preg_match('/Trident\/(.*)/', $_SERVER['HTTP_USER_AGENT'], $matches);
             if ($matches) {
                 $version = intval($matches[1]) + 4;     // Trident 4 for IE8, 5 for IE9, etc
-                return 'Internet Explorer ' . ($version < 11 ? $version : $version);
+
+                return 'Internet Explorer '.($version < 11 ? $version : $version);
             }
 
             preg_match('/MSIE (.*)/', $_SERVER['HTTP_USER_AGENT'], $matches);
             if ($matches) {
-                return 'Internet Explorer ' . intval($matches[1]);
+                return 'Internet Explorer '.intval($matches[1]);
             }
 
             // check if Firefox, Opera, Chrome, Safari
-            foreach (array('Firefox', 'OPR', 'Chrome', 'Safari') as $browser) {
-                preg_match('/' . $browser . '/', $_SERVER['HTTP_USER_AGENT'], $matches);
+            foreach (['Firefox', 'OPR', 'Chrome', 'Safari'] as $browser) {
+                preg_match('/'.$browser.'/', $_SERVER['HTTP_USER_AGENT'], $matches);
                 if ($matches) {
                     return str_replace('OPR', 'Opera',
                         $browser);   // we don't care about the version, because this is a modern browser that updates itself unlike IE
@@ -142,15 +143,13 @@ class Helper
             }
         }
 
-
         function getOS()
         {
-
             $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-            $os_platform = "unknown";
+            $os_platform = 'unknown';
 
-            $os_array = array(
+            $os_array = [
                 '/windows nt 6.3/i' => 'Windows 8.1',
                 '/windows nt 6.2/i' => 'Windows 8',
                 '/windows nt 6.1/i' => 'Windows 7',
@@ -172,21 +171,17 @@ class Helper
                 '/ipad/i' => 'iPad',
                 '/android/i' => 'Android',
                 '/blackberry/i' => 'BlackBerry',
-                '/webos/i' => 'Mobile'
-            );
+                '/webos/i' => 'Mobile',
+            ];
 
             foreach ($os_array as $regex => $value) {
-
                 if (preg_match($regex, $user_agent)) {
                     $os_platform = $value;
                 }
-
             }
 
             return $os_platform;
-
         }
-
 
         $visitor_ip = $_SERVER['REMOTE_ADDR'];
         $current_page_full_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -200,17 +195,17 @@ class Helper
                 $visitor_ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$visitor_ip}/json"));
 
                 $visitor_city = @$visitor_ip_details->city;
-                if ($visitor_city == "") {
-                    $visitor_city = "unknown";
+                if ($visitor_city == '') {
+                    $visitor_city = 'unknown';
                 }
                 $visitor_region = @$visitor_ip_details->region;
-                if ($visitor_region == "") {
-                    $visitor_region = "unknown";
+                if ($visitor_region == '') {
+                    $visitor_region = 'unknown';
                 }
                 $visitor_country_code = @$visitor_ip_details->country;
-                if ($visitor_country_code == "") {
-                    $visitor_country_code = "unknown";
-                    $visitor_country = "unknown";
+                if ($visitor_country_code == '') {
+                    $visitor_country_code = 'unknown';
+                    $visitor_country = 'unknown';
                 } else {
                     $v_country = Country::where('code', '=', $visitor_country_code)->first();
                     $visitor_country = $v_country->title_en;
@@ -220,39 +215,37 @@ class Helper
 
                 $visitor_loc = explode(',', @$visitor_ip_details->loc);
                 $visitor_loc_0 = @$visitor_loc[0];
-                if ($visitor_loc_0 == "") {
-                    $visitor_loc_0 = "unknown";
+                if ($visitor_loc_0 == '') {
+                    $visitor_loc_0 = 'unknown';
                 }
                 $visitor_loc_1 = @$visitor_loc[1];
-                if ($visitor_loc_1 == "") {
-                    $visitor_loc_1 = "unknown";
+                if ($visitor_loc_1 == '') {
+                    $visitor_loc_1 = 'unknown';
                 }
 
                 $visitor_org = @$visitor_ip_details->org;
-                if ($visitor_org == "") {
-                    $visitor_org = "unknown";
+                if ($visitor_org == '') {
+                    $visitor_org = 'unknown';
                 }
                 $visitor_hostname = @$visitor_ip_details->hostname;
-                if ($visitor_hostname == "") {
-                    $visitor_hostname = "No Hostname";
+                if ($visitor_hostname == '') {
+                    $visitor_hostname = 'No Hostname';
                 }
-
-
             } catch (Exception $e) {
-                $visitor_city = "unknown";
-                $visitor_region = "unknown";
-                $visitor_country_code = "unknown";
-                $visitor_country = "unknown";
-                $visitor_loc_0 = "unknown";
-                $visitor_loc_1 = "unknown";
-                $visitor_org = "unknown";
-                $visitor_hostname = "No Hostname";
+                $visitor_city = 'unknown';
+                $visitor_region = 'unknown';
+                $visitor_country_code = 'unknown';
+                $visitor_country = 'unknown';
+                $visitor_loc_0 = 'unknown';
+                $visitor_loc_1 = 'unknown';
+                $visitor_org = 'unknown';
+                $visitor_hostname = 'No Hostname';
             }
 
-            $visitor_referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "unknown";
+            $visitor_referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'unknown';
             $visitor_browser = getBrowser();
             $visitor_os = getOS();
-            $visitor_screen_res = "unknown";
+            $visitor_screen_res = 'unknown';
 
             // Start saving to database
             $Visitor = new AnalyticsVisitor;
@@ -279,14 +272,12 @@ class Helper
             $VisitedPage->visitor_id = $Visitor->id;
             $VisitedPage->ip = $visitor_ip;
             $VisitedPage->title = $PageTitle;
-            $VisitedPage->name = "unknown";
+            $VisitedPage->name = 'unknown';
             $VisitedPage->query = $current_page_full_link;
             $VisitedPage->load_time = $page_load_time;
             $VisitedPage->date = date('Y-m-d');
             $VisitedPage->time = date('H:i:s');
             $VisitedPage->save();
-
-
         } else {
             // Already Saved to analyticsVisitors
             // Check if page saved
@@ -297,22 +288,19 @@ class Helper
                 $VisitedPage->visitor_id = $SavedVisitor->id;
                 $VisitedPage->ip = $visitor_ip;
                 $VisitedPage->title = $PageTitle;
-                $VisitedPage->name = "unknown";
+                $VisitedPage->name = 'unknown';
                 $VisitedPage->query = $current_page_full_link;
                 $VisitedPage->load_time = $page_load_time;
                 $VisitedPage->date = date('Y-m-d');
                 $VisitedPage->time = date('H:i:s');
                 $VisitedPage->save();
             }
-
         }
-
     }
-
 
     // Videos Check Functions
 
-    static function Get_youtube_video_id($url)
+    public static function Get_youtube_video_id($url)
     {
         if (preg_match('/youtu\.be/i', $url) || preg_match('/youtube\.com\/watch/i', $url)) {
             $pattern = '/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/';
@@ -325,7 +313,7 @@ class Helper
         return '';
     }
 
-    static function Get_vimeo_video_id($url)
+    public static function Get_vimeo_video_id($url)
     {
         if (preg_match('/vimeo\.com/i', $url)) {
             $pattern = '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/';
@@ -338,72 +326,70 @@ class Helper
         return '';
     }
 
-
     // Social Share links
-    static function SocialShare($social, $title)
+    public static function SocialShare($social, $title)
     {
-        $shareLink = "";
+        $shareLink = '';
         $URL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
         switch ($social) {
-            case "facebook":
-                $shareLink = "https://www.facebook.com/sharer/sharer.php?u=" . urlencode($URL);
+            case 'facebook':
+                $shareLink = 'https://www.facebook.com/sharer/sharer.php?u='.urlencode($URL);
                 break;
-            case "twitter":
-                $shareLink = "https://twitter.com/intent/tweet?text=$title&url=" . urlencode($URL);
+            case 'twitter':
+                $shareLink = "https://twitter.com/intent/tweet?text=$title&url=".urlencode($URL);
                 break;
-            case "google":
-                $shareLink = "https://plus.google.com/share?url=" . urlencode($URL);
+            case 'google':
+                $shareLink = 'https://plus.google.com/share?url='.urlencode($URL);
                 break;
-            case "linkedin":
-                $shareLink = "http://www.linkedin.com/shareArticle?mini=true&url=" . urlencode($URL) . "&title=$title";
+            case 'linkedin':
+                $shareLink = 'http://www.linkedin.com/shareArticle?mini=true&url='.urlencode($URL)."&title=$title";
                 break;
-            case "tumblr":
-                $shareLink = "http://www.tumblr.com/share/link?url=" . urlencode($URL);
+            case 'tumblr':
+                $shareLink = 'http://www.tumblr.com/share/link?url='.urlencode($URL);
                 break;
         }
 
-        Return $shareLink;
+        return $shareLink;
     }
 
-
-    static function GetIcon($path, $file)
+    public static function GetIcon($path, $file)
     {
-        $ext = strrchr($file, ".");
+        $ext = strrchr($file, '.');
         $ext = strtolower($ext);
-        $icon = "<i class=\"fa fa-file-o\"></i>";
-        if ($ext == ".pdf") {
+        $icon = '<i class="fa fa-file-o"></i>';
+        if ($ext == '.pdf') {
             $icon = "<i class=\"fa fa-file-pdf-o\" style='color: red;font-size: 20px'></i>";
         }
         if ($ext == '.png' or $ext == '.jpg' or $ext == '.jpeg' or $ext == '.gif') {
             $icon = "<img src='$path/$file' style='width: auto;height: 20px' title=''>";
         }
-        if ($ext == ".xls" or $ext == '.xlsx') {
+        if ($ext == '.xls' or $ext == '.xlsx') {
             $icon = "<i class=\"fa fa-file-excel-o\" style='color: green;font-size: 20px'></i>";
         }
-        if ($ext == ".ppt" or $ext == '.pptx' or $ext == '.pptm') {
+        if ($ext == '.ppt' or $ext == '.pptx' or $ext == '.pptm') {
             $icon = "<i class=\"fa fa-file-powerpoint-o\" style='color: #1066E7;font-size: 20px'></i>";
         }
-        if ($ext == ".doc" or $ext == '.docx') {
+        if ($ext == '.doc' or $ext == '.docx') {
             $icon = "<i class=\"fa fa-file-word-o\" style='color: #0EA8DD;font-size: 20px'></i>";
         }
-        if ($ext == ".zip" or $ext == '.rar') {
+        if ($ext == '.zip' or $ext == '.rar') {
             $icon = "<i class=\"fa fa-file-zip-o\" style='color: #C8841D;font-size: 20px'></i>";
         }
-        if ($ext == ".txt" or $ext == '.rtf') {
+        if ($ext == '.txt' or $ext == '.rtf') {
             $icon = "<i class=\"fa fa-file-text-o\" style='color: #7573AA;font-size: 20px'></i>";
         }
-        if ($ext == ".mp3" or $ext == '.wav') {
+        if ($ext == '.mp3' or $ext == '.wav') {
             $icon = "<i class=\"fa fa-file-audio-o\" style='color: #8EA657;font-size: 20px'></i>";
         }
-        if ($ext == ".mp4" or $ext == '.avi') {
+        if ($ext == '.mp4' or $ext == '.avi') {
             $icon = "<i class=\"fa fa-file-video-o\" style='color: #D30789;font-size: 20px'></i>";
         }
-        return $icon;
 
+        return $icon;
     }
 
-    static function URLSlug($url_ar, $url_en, $type = "", $id = 0)
+    public static function URLSlug($url_ar, $url_en, $type = '', $id = 0)
     {
         $Check_SEO_st_ar = true;
         $Check_SEO_st_en = true;
@@ -411,20 +397,19 @@ class Helper
         $seo_url_slug_ar = str_slug($url_ar, '-');
         $seo_url_slug_en = str_slug($url_en, '-');
 
-        $ReservedURLs = array(
-            "home",
-            "about",
-            "privacy",
-            "terms",
-            "contact",
-            "search",
-            "comment",
-            "order",
-            "sitemap"
-        );
+        $ReservedURLs = [
+            'home',
+            'about',
+            'privacy',
+            'terms',
+            'contact',
+            'search',
+            'comment',
+            'order',
+            'sitemap',
+        ];
 
-
-        if ($type == "section" && $id > 0) {
+        if ($type == 'section' && $id > 0) {
             // .. ..  Webmaster Sections
             $check_WebmasterSection = WebmasterSection::where([['seo_url_slug_ar', $seo_url_slug_ar], ['id', '!=', $id]])->orWhere([['seo_url_slug_en', $seo_url_slug_ar], ['id', '!=', $id]])->get();
             if (count($check_WebmasterSection) > 0) {
@@ -446,7 +431,7 @@ class Helper
             }
         }
 
-        if ($type == "category" && $id > 0) {
+        if ($type == 'category' && $id > 0) {
             // .. ..  Sections
             $check_Section = Section::where([['seo_url_slug_ar', $seo_url_slug_ar], ['id', '!=', $id]])->orWhere([['seo_url_slug_en', $seo_url_slug_ar], ['id', '!=', $id]])->get();
             if (count($check_Section) > 0) {
@@ -468,7 +453,7 @@ class Helper
             }
         }
 
-        if ($type == "topic" && $id > 0) {
+        if ($type == 'topic' && $id > 0) {
             // .. ..  Topics
             $check_Topic = Topic::where([['seo_url_slug_ar', $seo_url_slug_ar], ['id', '!=', $id]])->orWhere([['seo_url_slug_en', $seo_url_slug_ar], ['id', '!=', $id]])->get();
             if (count($check_Topic) > 0) {
@@ -496,25 +481,22 @@ class Helper
         if (in_array($seo_url_slug_en, $ReservedURLs)) {
             $Check_SEO_st_en = false;
         }
-        if ($seo_url_slug_ar == "") {
+        if ($seo_url_slug_ar == '') {
             $Check_SEO_st_ar = true;
         }
-        if ($seo_url_slug_en == "") {
+        if ($seo_url_slug_en == '') {
             $Check_SEO_st_en = true;
         }
 
-        $ar_slug = "";
+        $ar_slug = '';
         if ($Check_SEO_st_ar) {
             $ar_slug = $seo_url_slug_ar;
         }
-        $en_slug = "";
+        $en_slug = '';
         if ($Check_SEO_st_en) {
             $en_slug = $seo_url_slug_en;
         }
-        return array("slug_ar" => $ar_slug, "slug_en" => $en_slug);
+
+        return ['slug_ar' => $ar_slug, 'slug_en' => $en_slug];
     }
-
 }
-
-
-?>

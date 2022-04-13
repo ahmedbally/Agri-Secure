@@ -9,7 +9,6 @@ class WebmailsGroup extends Model
     //
     public function webmails()
     {
-
         return $this->hasMany('App\Webmail', 'group_id');
     }
 }

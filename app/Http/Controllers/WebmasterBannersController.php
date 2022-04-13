@@ -6,15 +6,13 @@ use App\Http\Requests;
 use App\WebmasterBanner;
 use App\WebmasterSection;
 use Auth;
+use File;
 use Illuminate\Http\Request;
 use Redirect;
-use File;
 
 class WebmasterBannersController extends Controller
 {
-
-
-    private $uploadPath = "uploads/banners/";
+    private $uploadPath = 'uploads/banners/';
 
     public function __construct()
     {
@@ -25,7 +23,7 @@ class WebmasterBannersController extends Controller
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -38,7 +36,7 @@ class WebmasterBannersController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -59,7 +57,8 @@ class WebmasterBannersController extends Controller
         } else {
             $WebmasterBanners = WebmasterBanner::orderby('row_no', 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
-        return view("backEnd.webmaster.banners", compact("WebmasterBanners", "GeneralWebmasterSections"));
+
+        return view('backEnd.webmaster.banners', compact('WebmasterBanners', 'GeneralWebmasterSections'));
     }
 
     /**
@@ -74,7 +73,7 @@ class WebmasterBannersController extends Controller
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-        return view("backEnd.webmaster.banners.create", compact("GeneralWebmasterSections"));
+        return view('backEnd.webmaster.banners.create', compact('GeneralWebmasterSections'));
     }
 
     /**
@@ -109,7 +108,6 @@ class WebmasterBannersController extends Controller
         return redirect()->action('WebmasterBannersController@index')->with('doneMessage', trans('backLang.addDone'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -127,8 +125,8 @@ class WebmasterBannersController extends Controller
         } else {
             $WebmasterBanners = WebmasterBanner::find($id);
         }
-        if (!empty($WebmasterBanners)) {
-            return view("backEnd.webmaster.banners.edit", compact("WebmasterBanners", "GeneralWebmasterSections"));
+        if (! empty($WebmasterBanners)) {
+            return view('backEnd.webmaster.banners.edit', compact('WebmasterBanners', 'GeneralWebmasterSections'));
         } else {
             return redirect()->action('WebmasterBannersController@index');
         }
@@ -145,7 +143,7 @@ class WebmasterBannersController extends Controller
     {
         //
         $WebmasterBanner = WebmasterBanner::find($id);
-        if (!empty($WebmasterBanner)) {
+        if (! empty($WebmasterBanner)) {
             $WebmasterBanner->name = $request->name;
             $WebmasterBanner->width = $request->width;
             $WebmasterBanner->height = $request->height;
@@ -156,6 +154,7 @@ class WebmasterBannersController extends Controller
             $WebmasterBanner->status = $request->status;
             $WebmasterBanner->updated_by = Auth::user()->id;
             $WebmasterBanner->save();
+
             return redirect()->action('WebmasterBannersController@edit', $id)->with('doneMessage',
                 trans('backLang.saveDone'));
         } else {
@@ -177,30 +176,30 @@ class WebmasterBannersController extends Controller
         } else {
             $WebmasterBanner = WebmasterBanner::find($id);
         }
-        if (!empty($WebmasterBanner)) {
+        if (! empty($WebmasterBanner)) {
 
             //delete banners
             if (count($WebmasterBanner->banners) > 0) {
                 foreach ($WebmasterBanner->banners as $Banner) {
                     // Delete a banner file
-                    if ($Banner->file_ar != "") {
-                        File::delete($this->getUploadPath() . $Banner->file_ar);
+                    if ($Banner->file_ar != '') {
+                        File::delete($this->getUploadPath().$Banner->file_ar);
                     }
-                    if ($Banner->file_en != "") {
-                        File::delete($this->getUploadPath() . $Banner->file_en);
+                    if ($Banner->file_en != '') {
+                        File::delete($this->getUploadPath().$Banner->file_en);
                     }
                     $Banner->delete();
                 }
             }
 
             $WebmasterBanner->delete();
+
             return redirect()->action('WebmasterBannersController@index')->with('doneMessage',
                 trans('backLang.deleteDone'));
         } else {
             return redirect()->action('WebmasterBannersController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -212,39 +211,35 @@ class WebmasterBannersController extends Controller
     public function updateAll(Request $request)
     {
         //
-        if ($request->action == "order") {
+        if ($request->action == 'order') {
             foreach ($request->row_ids as $rowId) {
                 $WebmasterBanner = WebmasterBanner::find($rowId);
-                if (!empty($WebmasterBanner)) {
-                    $row_no_val = "row_no_" . $rowId;
+                if (! empty($WebmasterBanner)) {
+                    $row_no_val = 'row_no_'.$rowId;
                     $WebmasterBanner->row_no = $request->$row_no_val;
                     $WebmasterBanner->save();
                 }
             }
-
         } else {
-            if ($request->ids != "") {
-                if ($request->action == "activate") {
+            if ($request->ids != '') {
+                if ($request->action == 'activate') {
                     WebmasterBanner::wherein('id', $request->ids)
                         ->update(['status' => 1]);
-
-                } elseif ($request->action == "block") {
+                } elseif ($request->action == 'block') {
                     WebmasterBanner::wherein('id', $request->ids)
                         ->update(['status' => 0]);
-
-                } elseif ($request->action == "delete") {
-
+                } elseif ($request->action == 'delete') {
                     $WebmasterBanners = WebmasterBanner::wherein('id', $request->ids)->get();
                     foreach ($WebmasterBanners as $WebmasterBanner) {
                         //delete banners
                         if (count($WebmasterBanner->banners) > 0) {
                             foreach ($WebmasterBanner->banners as $Banner) {
                                 // Delete a banner file
-                                if ($Banner->file_ar != "") {
-                                    File::delete($this->getUploadPath() . $Banner->file_ar);
+                                if ($Banner->file_ar != '') {
+                                    File::delete($this->getUploadPath().$Banner->file_ar);
                                 }
-                                if ($Banner->file_en != "") {
-                                    File::delete($this->getUploadPath() . $Banner->file_en);
+                                if ($Banner->file_en != '') {
+                                    File::delete($this->getUploadPath().$Banner->file_en);
                                 }
                                 $Banner->delete();
                             }
@@ -253,12 +248,10 @@ class WebmasterBannersController extends Controller
 
                     WebmasterBanner::wherein('id', $request->ids)
                         ->delete();
-
                 }
             }
         }
+
         return redirect()->action('WebmasterBannersController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
-
-
 }

@@ -1,9 +1,9 @@
 <?php
 
-
 namespace App\Exceptions;
 
 use Exception;
+
 class VoteInClosedPollException extends Exception
 {
     /**

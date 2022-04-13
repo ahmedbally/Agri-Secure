@@ -40,7 +40,7 @@ class ImportPlant extends Command
     public function handle()
     {
         $this->output->title('Starting import');
-        Excel::import(new PlantProduction(),'Crops_DB_2.xls');
+        Excel::import(new PlantProduction(), 'Crops_DB_2.xls');
         $this->output->success('Import successful');
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Exceptions\DuplicatedOptionsException;
 use App\Helpers\PollHandler;
+use App\Http\Controllers\Controller;
 use App\Http\Request\PollCreationRequest;
 use App\Poll;
-use App\Exceptions\DuplicatedOptionsException;
 use App\WebmasterSection;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class PollManagerController extends Controller
@@ -22,7 +22,7 @@ class PollManagerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -32,8 +32,10 @@ class PollManagerController extends Controller
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
-        return view('backEnd.poll.home', compact("GeneralWebmasterSections", "WebmasterSection"));
+
+        return view('backEnd.poll.home', compact('GeneralWebmasterSections', 'WebmasterSection'));
     }
+
     /**
      * Show all the Polls in the database
      *
@@ -47,7 +49,8 @@ class PollManagerController extends Controller
         $polls = Poll::withCount('options', 'votes')->latest()->paginate(
             config('larapoll_config.pagination')
         );
-        return view('backEnd.poll.index', compact('polls', "GeneralWebmasterSections", "WebmasterSection"));
+
+        return view('backEnd.poll.index', compact('polls', 'GeneralWebmasterSections', 'WebmasterSection'));
     }
 
     /**
@@ -83,7 +86,8 @@ class PollManagerController extends Controller
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
-        return view('backEnd.poll.edit', compact('poll',"GeneralWebmasterSections", "WebmasterSection"));
+
+        return view('backEnd.poll.edit', compact('poll', 'GeneralWebmasterSections', 'WebmasterSection'));
     }
 
     /**
@@ -96,6 +100,7 @@ class PollManagerController extends Controller
     public function update(Poll $poll, PollCreationRequest $request)
     {
         PollHandler::modify($poll, $request->all());
+
         return redirect(route('poll.index'))
             ->with('success', 'Your poll has been updated successfully');
     }
@@ -113,12 +118,13 @@ class PollManagerController extends Controller
         return redirect(route('poll.index'))
             ->with('success', 'Your poll has been deleted successfully');
     }
+
     public function create()
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
 
-        return view('backEnd.poll.create', compact("GeneralWebmasterSections", "WebmasterSection"));
+        return view('backEnd.poll.create', compact('GeneralWebmasterSections', 'WebmasterSection'));
     }
 
     /**
@@ -130,6 +136,7 @@ class PollManagerController extends Controller
     public function lock(Poll $poll)
     {
         $poll->lock();
+
         return redirect(route('poll.index'))
             ->with('success', 'Your poll has been locked successfully');
     }
@@ -143,6 +150,7 @@ class PollManagerController extends Controller
     public function unlock(Poll $poll)
     {
         $poll->unLock();
+
         return redirect(route('poll.index'))
             ->with('success', 'Your poll has been unlocked successfully');
     }

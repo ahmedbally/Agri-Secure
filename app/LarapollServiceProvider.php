@@ -1,13 +1,13 @@
 <?php
+
 namespace App;
 
-use Illuminate\Support\ServiceProvider;
 use App\Helpers\PollWriter;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\ServiceProvider;
 
 class LarapollServiceProvider extends ServiceProvider
 {
-
     /**
      * Register the service provider.
      *
@@ -20,7 +20,6 @@ class LarapollServiceProvider extends ServiceProvider
 
     /**
      * Boot What is needed
-     *
      */
     public function boot()
     {

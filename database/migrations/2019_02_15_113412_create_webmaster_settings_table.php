@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateWebmasterSettingsTable extends Migration
 {
@@ -91,7 +91,6 @@ class CreateWebmasterSettingsTable extends Migration
 
             $table->tinyInteger('dashboard_link_status');
             $table->string('timezone');
-
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

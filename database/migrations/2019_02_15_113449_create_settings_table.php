@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSettingsTable extends Migration
 {
@@ -49,7 +49,7 @@ class CreateSettingsTable extends Migration
 
             $table->string('style_logo_ar')->nullable();
             $table->string('style_logo_en')->nullable();
-            $table->string('style_fav')->nullable();;
+            $table->string('style_fav')->nullable();
             $table->string('style_apple')->nullable();
             $table->string('style_color1')->nullable();
             $table->string('style_color2')->nullable();

@@ -2,12 +2,12 @@
 
 namespace App;
 
+use App\Traits\Voter;
 use Cog\Laravel\Optimus\Facades\Optimus;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Traits\Voter;
+use Illuminate\Notifications\Notifiable;
 use Vanthao03596\LaravelPasswordHistory\HasPasswordHistory;
 
 class User extends Authenticatable
@@ -35,7 +35,7 @@ class User extends Authenticatable
         'connect_password',
         'provider_id',
         'provider',
-        'access_token'
+        'access_token',
     ];
 
     /**
@@ -50,7 +50,6 @@ class User extends Authenticatable
     // relation with Permissions
     public function permissionsGroup()
     {
-
         return $this->belongsTo('App\Permissions', 'permissions_id');
     }
 }

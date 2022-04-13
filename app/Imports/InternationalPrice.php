@@ -5,23 +5,27 @@ namespace App\Imports;
 use App\ReportInternationalPrice;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Jenssegers\Date\Date;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Jenssegers\Date\Date;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class InternationalPrice implements ToModel,WithStartRow
+class InternationalPrice implements ToModel, WithStartRow
 {
     public function __construct()
     {
         ReportInternationalPrice::query()->truncate();
     }
+
     /**
      * @param array $row
      */
     public function model(array $row)
     {
-        if(!$row[0]) return;
+        if (! $row[0]) {
+            return;
+        }
+
         return new ReportInternationalPrice([
             'crop'=>$row[0],
             'unit'=>$row[1],

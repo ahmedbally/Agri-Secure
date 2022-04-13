@@ -9,7 +9,6 @@ class AnalyticsVisitor extends Model
     //Relation to AnalyticsPage
     public function vPages()
     {
-
-        return $this->hasMany('App\AnalyticsPage',"visitor_id");
+        return $this->hasMany('App\AnalyticsPage', 'visitor_id');
     }
 }

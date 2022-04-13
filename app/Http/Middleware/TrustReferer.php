@@ -29,6 +29,7 @@ class TrustReferer
     protected function validateDomain(string $host, string $referrer): bool
     {
         $referrerHost = parse_url($referrer, PHP_URL_HOST);
+
         return $host === $referrerHost;
     }
 }

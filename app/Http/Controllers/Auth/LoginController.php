@@ -56,29 +56,30 @@ class LoginController extends Controller
         // General for all pages
         $WebsiteSettings = Setting::find(1);
         $FooterMenuLinks_father = Menu::find($WebmasterSettings->footer_menu_id);
-        $FooterMenuLinks_name_ar = "";
-        $FooterMenuLinks_name_en = "";
-        if (!empty($FooterMenuLinks_father)) {
+        $FooterMenuLinks_name_ar = '';
+        $FooterMenuLinks_name_en = '';
+        if (! empty($FooterMenuLinks_father)) {
             $FooterMenuLinks_name_ar = $FooterMenuLinks_father->title_ar;
             $FooterMenuLinks_name_en = $FooterMenuLinks_father->title_en;
         }
-        $site_desc_var = "site_desc_" . trans('backLang.boxCode');
-        $site_keywords_var = "site_keywords_" . trans('backLang.boxCode');
+        $site_desc_var = 'site_desc_'.trans('backLang.boxCode');
+        $site_keywords_var = 'site_keywords_'.trans('backLang.boxCode');
 
-        $PageTitle = ""; // will show default site Title
+        $PageTitle = ''; // will show default site Title
         $PageDescription = $WebsiteSettings->$site_desc_var;
         $PageKeywords = $WebsiteSettings->$site_keywords_var;
-        return view('auth.login',compact("WebsiteSettings",
-            "WebmasterSettings",
-            "WebmasterSection",
-            "CurrentCategory",
-            "FooterMenuLinks_name_ar",
-            "FooterMenuLinks_name_en",
-            "PageTitle",
-            "PageDescription",
-            "PageKeywords",
-            "PageDescription",
-            "PageKeywords",
+
+        return view('auth.login', compact('WebsiteSettings',
+            'WebmasterSettings',
+            'WebmasterSection',
+            'CurrentCategory',
+            'FooterMenuLinks_name_ar',
+            'FooterMenuLinks_name_en',
+            'PageTitle',
+            'PageDescription',
+            'PageKeywords',
+            'PageDescription',
+            'PageKeywords',
         ));
     }
 
@@ -86,6 +87,4 @@ class LoginController extends Controller
     {
         return array_merge($request->only($this->username(), 'password'), ['status' => 1]);
     }
-
-
 }

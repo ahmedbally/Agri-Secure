@@ -43,6 +43,5 @@ class ImportExcel extends Command
 
         (new CityCropImport())->withOutput($this->output)->import('rice.xlsx');
         $this->output->success('Import successful');
-
     }
 }

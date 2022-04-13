@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Exception;
-use Illuminate\Http\Request;
 use App\Helpers\PollHandler;
+use App\Http\Controllers\Controller;
 use App\Http\Request\AddOptionsRequest;
 use App\Poll;
 use App\WebmasterSection;
 use Auth;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class OptionManagerController extends Controller
@@ -17,7 +17,7 @@ class OptionManagerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -47,11 +47,12 @@ class OptionManagerController extends Controller
      */
     public function remove(Poll $poll, Request $request)
     {
-        try{
+        try {
             $poll->detach($request->get('options'));
+
             return redirect(route('poll.index'))
                 ->with('success', 'Poll options have been removed successfully');
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return back()->withErrors(PollHandler::getMessage($e));
         }
     }
@@ -66,7 +67,8 @@ class OptionManagerController extends Controller
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
-        return view('backEnd.poll.options.push', compact('poll',"GeneralWebmasterSections", "WebmasterSection"));
+
+        return view('backEnd.poll.options.push', compact('poll', 'GeneralWebmasterSections', 'WebmasterSection'));
     }
 
     /**
@@ -79,6 +81,7 @@ class OptionManagerController extends Controller
     {
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         $WebmasterSection = WebmasterSection::find(1);
-        return view('backEnd.poll.options.remove', compact('poll',"GeneralWebmasterSections", "WebmasterSection"));
+
+        return view('backEnd.poll.options.remove', compact('poll', 'GeneralWebmasterSections', 'WebmasterSection'));
     }
 }

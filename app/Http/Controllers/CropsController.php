@@ -16,7 +16,6 @@ use Redirect;
 
 class CropsController extends Controller
 {
-
     // Define Default Variables
 
     public function __construct()
@@ -24,12 +23,12 @@ class CropsController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        $data_sections_arr = explode(",", Auth::user()->permissionsGroup->data_sections);
-        if (!in_array(16, $data_sections_arr)) {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array(16, $data_sections_arr)) {
             Redirect::to(route('NoPermission'))->send();
             exit();
         }
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
             exit();
         }
@@ -47,9 +46,9 @@ class CropsController extends Controller
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-
         $Crops = Crop::paginate(env('BACKEND_PAGINATION'));
-        return view("backEnd.crops", compact("Crops", "GeneralWebmasterSections"));
+
+        return view('backEnd.crops', compact('Crops', 'GeneralWebmasterSections'));
     }
 
     /**
@@ -60,7 +59,7 @@ class CropsController extends Controller
     public function create()
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -68,8 +67,7 @@ class CropsController extends Controller
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-
-        return view("backEnd.crops.create", compact("GeneralWebmasterSections"));
+        return view('backEnd.crops.create', compact('GeneralWebmasterSections'));
     }
 
     /**
@@ -81,7 +79,7 @@ class CropsController extends Controller
     public function store(Request $request)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -93,11 +91,11 @@ class CropsController extends Controller
 
         ]);
 
-        $formFileName = "image";
-        if ($request->$formFileName != "") {
-            $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
-            $path = "uploads/crops/";
+        $formFileName = 'image';
+        if ($request->$formFileName != '') {
+            $fileFinalName = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
+            $path = 'uploads/crops/';
             $request->file($formFileName)->move($path, $fileFinalName);
         }
         // End of Upload Files
@@ -108,7 +106,7 @@ class CropsController extends Controller
         $Crop->color = $request->color;
         $Crop->quantity = $request->quantity;
         $Crop->area = $request->area;
-        $Crop->image =$fileFinalName;
+        $Crop->image = $fileFinalName;
         $Crop->save();
 
         return redirect()->action('CropsController@index')->with('doneMessage', trans('backLang.addDone'));
@@ -123,7 +121,7 @@ class CropsController extends Controller
     public function edit($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->edit_status) {
+        if (! @Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -131,12 +129,11 @@ class CropsController extends Controller
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-
         $Crop = Crop::find($id);
-        if (!empty($Crop)) {
+        if (! empty($Crop)) {
             //Banner Sections Details
 
-            return view("backEnd.crops.edit", compact("Crop", "GeneralWebmasterSections"));
+            return view('backEnd.crops.edit', compact('Crop', 'GeneralWebmasterSections'));
         } else {
             return redirect()->action('CropsController@index');
         }
@@ -152,14 +149,12 @@ class CropsController extends Controller
     public function update(Request $request, $id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
         $Crop = Crop::find($id);
-        if (!empty($Crop)) {
-
-
+        if (! empty($Crop)) {
             $this->validate($request, [
                 'title_ar' => 'sometimes|required',
                 'title_en' => 'sometimes|required',
@@ -168,11 +163,11 @@ class CropsController extends Controller
 
             ]);
 
-            $formFileName = "image";
-            if ($request->$formFileName != "") {
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
-                $path = "uploads/crops/";
+            $formFileName = 'image';
+            if ($request->$formFileName != '') {
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
+                $path = 'uploads/crops/';
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
             $Crop->title_ar = $request->title_ar;
@@ -180,11 +175,12 @@ class CropsController extends Controller
             $Crop->color = $request->color;
             $Crop->quantity = $request->quantity;
             $Crop->area = $request->area;
-            if (isset($fileFinalName))
-            $Crop->image = $fileFinalName;
-
+            if (isset($fileFinalName)) {
+                $Crop->image = $fileFinalName;
+            }
 
             $Crop->save();
+
             return redirect()->action('CropsController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
         } else {
             return redirect()->action('CropsController@index');
@@ -200,20 +196,19 @@ class CropsController extends Controller
     public function destroy($id)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->delete_status) {
+        if (! @Auth::user()->permissionsGroup->delete_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
         $Crop = Crop::find($id);
-        if (!empty($Crop)) {
-
+        if (! empty($Crop)) {
             $Crop->delete();
+
             return redirect()->action('CropsController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
             return redirect()->action('CropsController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -226,22 +221,19 @@ class CropsController extends Controller
     {
         //
 
-            if ($request->ids != "") {
-                if ($request->action == "delete") {
-                    // Check Permissions
-                    if (!@Auth::user()->permissionsGroup->delete_status) {
-                        return Redirect::to(route('NoPermission'))->send();
-                    }
-                    // Delete banners files
-
-                    Crop::wherein('id', $request->ids)
-                        ->delete();
-
+        if ($request->ids != '') {
+            if ($request->action == 'delete') {
+                // Check Permissions
+                if (! @Auth::user()->permissionsGroup->delete_status) {
+                    return Redirect::to(route('NoPermission'))->send();
                 }
+                // Delete banners files
+
+                Crop::wherein('id', $request->ids)
+                        ->delete();
             }
+        }
 
         return redirect()->action('CropsController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
-
-
 }

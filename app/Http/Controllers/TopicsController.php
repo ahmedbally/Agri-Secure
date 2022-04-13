@@ -21,14 +21,14 @@ use Redirect;
 
 class TopicsController extends Controller
 {
-    private $uploadPath = "uploads/topics/";
+    private $uploadPath = 'uploads/topics/';
 
     // Define Default Variables
 
     public function __construct()
     {
         $this->middleware('auth');
-        if(@Auth::user()->permissions_id == 3){
+        if (@Auth::user()->permissions_id == 3) {
             Redirect::to('/home')->send();
         }
     }
@@ -42,8 +42,8 @@ class TopicsController extends Controller
     public function index($webmasterId)
     {
         // Check Permissions
-        $data_sections_arr = explode(",", Auth::user()->permissionsGroup->data_sections);
-        if (!in_array($webmasterId, $data_sections_arr)) {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -53,8 +53,7 @@ class TopicsController extends Controller
 
         //Webmaster Topic Details
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
-
+        if (! empty($WebmasterSection)) {
             if (@Auth::user()->permissionsGroup->view_status) {
                 $Topics = Topic::where('created_by', '=', Auth::user()->id)->where('webmaster_id', '=',
                     $webmasterId)->orderby('row_no',
@@ -63,7 +62,8 @@ class TopicsController extends Controller
                 $Topics = Topic::where('webmaster_id', '=', $webmasterId)->orderby('row_no',
                     'asc')->paginate(env('BACKEND_PAGINATION'));
             }
-            return view("backEnd.topics", compact("Topics", "GeneralWebmasterSections", "WebmasterSection"));
+
+            return view('backEnd.topics', compact('Topics', 'GeneralWebmasterSections', 'WebmasterSection'));
         } else {
             return redirect()->route('NotFound');
         }
@@ -78,7 +78,7 @@ class TopicsController extends Controller
     public function create($webmasterId)
     {
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
@@ -88,12 +88,12 @@ class TopicsController extends Controller
 
         //Webmaster Topic Details
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             $fatherSections = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=',
                 '0')->orderby('row_no', 'asc')->get();
 
-            return view("backEnd.topics.create",
-                compact("GeneralWebmasterSections", "WebmasterSection", "fatherSections"));
+            return view('backEnd.topics.create',
+                compact('GeneralWebmasterSections', 'WebmasterSection', 'fatherSections'));
         } else {
             return redirect()->route('NotFound');
         }
@@ -109,15 +109,15 @@ class TopicsController extends Controller
     public function store(Request $request, $webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
                 'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000',
+                'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000',
                 'audio_file' => 'mimes:mpga,wav', // mpga = mp3
                 'video_file' => 'mimes:mp4,ogv,webm',
-                'title_ar' => 'required'
+                'title_ar' => 'required',
             ]);
-
 
             $next_nor_no = Topic::where('webmaster_id', '=', $webmasterId)->max('row_no');
             if ($next_nor_no < 1) {
@@ -127,29 +127,29 @@ class TopicsController extends Controller
             }
 
             // Start of Upload Files
-            $formFileName = "photo_file";
-            $fileFinalName = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'photo_file';
+            $fileFinalName = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
 
-            $formFileName = "audio_file";
-            $audioFileFinalName = "";
-            if ($request->$formFileName != "") {
-                $audioFileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'audio_file';
+            $audioFileFinalName = '';
+            if ($request->$formFileName != '') {
+                $audioFileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $audioFileFinalName);
             }
 
-            $formFileName = "attach_file";
-            $attachFileFinalName = "";
-            if ($request->$formFileName != "") {
-                $attachFileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'attach_file';
+            $attachFileFinalName = '';
+            if ($request->$formFileName != '') {
+                $attachFileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $attachFileFinalName);
             }
@@ -161,18 +161,16 @@ class TopicsController extends Controller
             } elseif ($request->video_type == 1) {
                 $videoFileFinalName = $request->youtube_link;
             } else {
-                $formFileName = "video_file";
-                $videoFileFinalName = "";
-                if ($request->$formFileName != "") {
-                    $videoFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+                $formFileName = 'video_file';
+                $videoFileFinalName = '';
+                if ($request->$formFileName != '') {
+                    $videoFileFinalName = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $videoFileFinalName);
                 }
-
             }
             // End of Upload Files
-
 
             // create new topic
             $Topic = new Topic;
@@ -182,24 +180,24 @@ class TopicsController extends Controller
             $Topic->title_ar = $request->title_ar;
             $Topic->title_en = $request->title_en;
 
-        // dd($request->details_ar);
-        // dd(htmlspecialchars($request->details_ar));
+            // dd($request->details_ar);
+            // dd(htmlspecialchars($request->details_ar));
             $Topic->details_ar = htmlspecialchars($request->details_ar);
             $Topic->details_en = htmlspecialchars($request->details_en);
             $Topic->date = $request->date;
-            if (@$request->expire_date != "") {
+            if (@$request->expire_date != '') {
                 $Topic->expire_date = $request->expire_date;
             }
-            if ($fileFinalName != "") {
+            if ($fileFinalName != '') {
                 $Topic->photo_file = $fileFinalName;
             }
-            if ($audioFileFinalName != "") {
+            if ($audioFileFinalName != '') {
                 $Topic->audio_file = $audioFileFinalName;
             }
-            if ($attachFileFinalName != "") {
+            if ($attachFileFinalName != '') {
                 $Topic->attach_file = $attachFileFinalName;
             }
-            if ($videoFileFinalName != "") {
+            if ($videoFileFinalName != '') {
                 $Topic->video_file = $videoFileFinalName;
             }
             $Topic->icon = $request->icon;
@@ -214,7 +212,7 @@ class TopicsController extends Controller
             $Topic->seo_title_en = $request->title_en;
 
             // URL Slugs
-            $slugs = Helper::URLSlug($request->title_ar, $request->title_en, "topic", 0);
+            $slugs = Helper::URLSlug($request->title_ar, $request->title_en, 'topic', 0);
             $Topic->seo_url_slug_ar = $slugs['slug_ar'];
             $Topic->seo_url_slug_en = $slugs['slug_en'];
 
@@ -222,10 +220,9 @@ class TopicsController extends Controller
             $Topic->seo_description_ar = mb_substr(strip_tags(stripslashes($request->details_ar)), 0, 165, 'UTF-8');
             $Topic->seo_description_en = mb_substr(strip_tags(stripslashes($request->details_en)), 0, 165, 'UTF-8');
 
-
             $Topic->save();
 
-            if ($request->section_id != "" && $request->section_id != 0) {
+            if ($request->section_id != '' && $request->section_id != 0) {
                 // Save categories
                 foreach ($request->section_id as $category) {
                     if ($category > 0) {
@@ -240,21 +237,21 @@ class TopicsController extends Controller
             // Save additional Fields
             if (count($WebmasterSection->customFields) > 0) {
                 foreach ($WebmasterSection->customFields as $customField) {
-                    $field_value_var = "customField_" . $customField->id;
+                    $field_value_var = 'customField_'.$customField->id;
 
-                    if ($request->$field_value_var != "") {
+                    if ($request->$field_value_var != '') {
                         if ($customField->type == 8 || $customField->type == 9 || $customField->type == 10) {
                             // upload file
-                            if ($request->$field_value_var != "") {
-                                $uploadedFileFinalName = time() . rand(1111,
-                                        9999) . '.' . $request->file($field_value_var)->guessExtension();
+                            if ($request->$field_value_var != '') {
+                                $uploadedFileFinalName = time().rand(1111,
+                                        9999).'.'.$request->file($field_value_var)->guessExtension();
                                 $path = $this->getUploadPath();
                                 $request->file($field_value_var)->move($path, $uploadedFileFinalName);
                                 $field_value = $uploadedFileFinalName;
                             }
                         } elseif ($customField->type == 7) {
                             // if multi check
-                            $field_value = implode(", ", $request->$field_value_var);
+                            $field_value = implode(', ', $request->$field_value_var);
                         } else {
                             $field_value = $request->$field_value_var;
                         }
@@ -264,19 +261,19 @@ class TopicsController extends Controller
                         $TopicField->field_value = $field_value;
                         $TopicField->save();
                     }
-
                 }
             }
 
-            if(!$request->ajax()) {
+            if (! $request->ajax()) {
                 return redirect()->action('TopicsController@edit', [$webmasterId, $Topic->id])->with('doneMessage',
                     trans('backLang.addDone'));
-            }else{
+            } else {
                 \Session::flash('doneMessage', trans('backLang.addDone'));
                 $response = [
                     'status' => true,
                     'message' => 'Done',
                 ];
+
                 return response()->json($response, 200);
             }
         } else {
@@ -291,7 +288,7 @@ class TopicsController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**
@@ -304,9 +301,9 @@ class TopicsController extends Controller
     public function edit($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->edit_status) {
+            if (! @Auth::user()->permissionsGroup->edit_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
@@ -319,15 +316,15 @@ class TopicsController extends Controller
             } else {
                 $Topics = Topic::find($id);
             }
-            if (!empty($Topics)) {
+            if (! empty($Topics)) {
                 //Topic Topics Details
                 $WebmasterSection = WebmasterSection::find($Topics->webmaster_id);
 
                 $fatherSections = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=',
                     '0')->orderby('row_no', 'asc')->get();
 
-                return view("backEnd.topics.edit",
-                    compact("Topics", "GeneralWebmasterSections", "WebmasterSection", "fatherSections"));
+                return view('backEnd.topics.edit',
+                    compact('Topics', 'GeneralWebmasterSections', 'WebmasterSection', 'fatherSections'));
             } else {
                 return redirect()->action('TopicsController@index', $webmasterId);
             }
@@ -347,58 +344,56 @@ class TopicsController extends Controller
     public function update(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $Topic = Topic::find($id);
-            if (!empty($Topic)) {
-
+            if (! empty($Topic)) {
                 $this->validate($request, [
                     'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000',
+                    'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000',
                     'audio_file' => 'mimes:mpga,wav', // mpga = mp3
                     'video_file' => 'mimes:mp4,ogv,webm',
-                    'title_ar' => 'required'
+                    'title_ar' => 'required',
                 ]);
 
-
                 // Start of Upload Files
-                $formFileName = "photo_file";
-                $fileFinalName = "";
-                if ($request->$formFileName != "") {
+                $formFileName = 'photo_file';
+                $fileFinalName = '';
+                if ($request->$formFileName != '') {
                     // Delete a Topic photo
-                    if ($Topic->$formFileName != "") {
-                        File::delete($this->getUploadPath() . $Topic->$formFileName);
+                    if ($Topic->$formFileName != '') {
+                        File::delete($this->getUploadPath().$Topic->$formFileName);
                     }
 
-                    $fileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+                    $fileFinalName = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->storeAs($path, $fileFinalName);
                 }
 
-
-                $formFileName = "audio_file";
-                $audioFileFinalName = "";
-                if ($request->$formFileName != "") {
+                $formFileName = 'audio_file';
+                $audioFileFinalName = '';
+                if ($request->$formFileName != '') {
                     // Delete file if there is a new one
-                    if ($Topic->$formFileName != "") {
-                        File::delete($this->getUploadPath() . $Topic->$formFileName);
+                    if ($Topic->$formFileName != '') {
+                        File::delete($this->getUploadPath().$Topic->$formFileName);
                     }
 
-                    $audioFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+                    $audioFileFinalName = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $audioFileFinalName);
                 }
 
-                $formFileName = "attach_file";
-                $attachFileFinalName = "";
-                if ($request->$formFileName != "") {
+                $formFileName = 'attach_file';
+                $attachFileFinalName = '';
+                if ($request->$formFileName != '') {
                     // Delete file if there is a new one
-                    if ($Topic->$formFileName != "") {
-                        File::delete($this->getUploadPath() . $Topic->$formFileName);
+                    if ($Topic->$formFileName != '') {
+                        File::delete($this->getUploadPath().$Topic->$formFileName);
                     }
-                    $attachFileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+                    $attachFileFinalName = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $attachFileFinalName);
                 }
@@ -410,19 +405,18 @@ class TopicsController extends Controller
                 } elseif ($request->video_type == 1) {
                     $videoFileFinalName = $request->youtube_link;
                 } else {
-                    $formFileName = "video_file";
-                    $videoFileFinalName = "";
-                    if ($request->$formFileName != "") {
+                    $formFileName = 'video_file';
+                    $videoFileFinalName = '';
+                    if ($request->$formFileName != '') {
                         // Delete file if there is a new one
-                        if ($Topic->$formFileName != "") {
-                            File::delete($this->getUploadPath() . $Topic->$formFileName);
+                        if ($Topic->$formFileName != '') {
+                            File::delete($this->getUploadPath().$Topic->$formFileName);
                         }
-                        $videoFileFinalName = time() . rand(1111,
-                                9999) . '.' . $request->file($formFileName)->guessExtension();
+                        $videoFileFinalName = time().rand(1111,
+                                9999).'.'.$request->file($formFileName)->guessExtension();
                         $path = $this->getUploadPath();
                         $request->file($formFileName)->move($path, $videoFileFinalName);
                     }
-
                 }
                 // End of Upload Files
 
@@ -431,39 +425,39 @@ class TopicsController extends Controller
                 $Topic->details_ar = htmlspecialchars($request->details_ar);
                 $Topic->details_en = htmlspecialchars($request->details_en);
                 $Topic->date = $request->date;
-                if (@$request->expire_date != "" || $Topic->date != "") {
+                if (@$request->expire_date != '' || $Topic->date != '') {
                     $Topic->expire_date = @$request->expire_date;
                 }
 
                 if ($request->photo_delete == 1) {
                     // Delete photo_file
-                    if ($Topic->photo_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->photo_file);
+                    if ($Topic->photo_file != '') {
+                        File::delete($this->getUploadPath().$Topic->photo_file);
                     }
 
-                    $Topic->photo_file = "";
+                    $Topic->photo_file = '';
                 }
 
-                if ($fileFinalName != "") {
+                if ($fileFinalName != '') {
                     $Topic->photo_file = $fileFinalName;
                 }
-                if ($audioFileFinalName != "") {
+                if ($audioFileFinalName != '') {
                     $Topic->audio_file = $audioFileFinalName;
                 }
 
                 if ($request->attach_delete == 1) {
                     // Delete attach_file
-                    if ($Topic->attach_file != "") {
-                        File::delete($this->getUploadPath() . $Topic->attach_file);
+                    if ($Topic->attach_file != '') {
+                        File::delete($this->getUploadPath().$Topic->attach_file);
                     }
 
-                    $Topic->attach_file = "";
+                    $Topic->attach_file = '';
                 }
 
-                if ($attachFileFinalName != "") {
+                if ($attachFileFinalName != '') {
                     $Topic->attach_file = $attachFileFinalName;
                 }
-                if ($videoFileFinalName != "") {
+                if ($videoFileFinalName != '') {
                     $Topic->video_file = $videoFileFinalName;
                 }
 
@@ -476,7 +470,7 @@ class TopicsController extends Controller
                 // Remove old categories
                 TopicCategory::where('topic_id', $Topic->id)->delete();
                 // Save new categories
-                if ($request->section_id != "" && $request->section_id != 0 && is_array($request->section_id)) {
+                if ($request->section_id != '' && $request->section_id != 0 && is_array($request->section_id)) {
                     // print_r($request->section_id); die();
                     foreach ($request->section_id as $category) {
                         if ($category > 0) {
@@ -486,7 +480,7 @@ class TopicsController extends Controller
                             $TopicCategory->save();
                         }
                     }
-                }elseif ($request->section_id != "" && $request->section_id != 0){
+                } elseif ($request->section_id != '' && $request->section_id != 0) {
                     $TopicCategory = new TopicCategory;
                     $TopicCategory->topic_id = $Topic->id;
                     $TopicCategory->section_id = $request->section_id;
@@ -498,16 +492,16 @@ class TopicsController extends Controller
                 // Save additional Fields
                 if (count($WebmasterSection->customFields) > 0) {
                     foreach ($WebmasterSection->customFields as $customField) {
-                        $field_value = "";
-                        $field_value_var = "customField_" . $customField->id;
-                        $file_del_id = 'file_delete_' . $customField->id;
-                        $file_old_id = 'file_old_' . $customField->id;
+                        $field_value = '';
+                        $field_value_var = 'customField_'.$customField->id;
+                        $file_del_id = 'file_delete_'.$customField->id;
+                        $file_old_id = 'file_old_'.$customField->id;
 
                         if ($customField->type == 8 || $customField->type == 9 || $customField->type == 10) {
                             // upload file
-                            if ($request->$field_value_var != "") {
-                                $uploadedFileFinalName = time() . rand(1111,
-                                        9999) . '.' . $request->file($field_value_var)->guessExtension();
+                            if ($request->$field_value_var != '') {
+                                $uploadedFileFinalName = time().rand(1111,
+                                        9999).'.'.$request->file($field_value_var)->guessExtension();
                                 $path = $this->getUploadPath();
                                 $request->file($field_value_var)->move($path, $uploadedFileFinalName);
                                 $field_value = $uploadedFileFinalName;
@@ -517,18 +511,18 @@ class TopicsController extends Controller
                             }
                             if ($request->$file_del_id) {
                                 // if want to delete the file
-                                File::delete($this->getUploadPath() . $request->$file_old_id);
-                                $field_value = "";
+                                File::delete($this->getUploadPath().$request->$file_old_id);
+                                $field_value = '';
                             }
                         } elseif ($customField->type == 7) {
                             // if multi check
-                            if ($request->$field_value_var != "") {
-                                $field_value = implode(", ", $request->$field_value_var);
+                            if ($request->$field_value_var != '') {
+                                $field_value = implode(', ', $request->$field_value_var);
                             }
                         } else {
                             $field_value = $request->$field_value_var;
                         }
-                        if ($field_value != "") {
+                        if ($field_value != '') {
                             $TopicField = new TopicField;
                             $TopicField->topic_id = $Topic->id;
                             $TopicField->field_id = $customField->id;
@@ -538,17 +532,17 @@ class TopicsController extends Controller
                     }
                 }
 
-                if(!$request->ajax()) {
+                if (! $request->ajax()) {
                     return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage', trans('backLang.saveDone'));
-                }else{
+                } else {
                     \Session::flash('doneMessage', trans('backLang.saveDone'));
                     $response = [
                         'status' => true,
                         'message' => 'Done',
                     ];
+
                     return response()->json($response, 200);
                 }
-
             } else {
                 return redirect()->action('TopicsController@index', $webmasterId);
             }
@@ -556,7 +550,6 @@ class TopicsController extends Controller
             return redirect()->route('NotFound');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -568,9 +561,9 @@ class TopicsController extends Controller
     public function destroy($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
@@ -579,19 +572,19 @@ class TopicsController extends Controller
             } else {
                 $Topic = Topic::find($id);
             }
-            if (!empty($Topic)) {
+            if (! empty($Topic)) {
                 // Delete a Topic photo
-                if ($Topic->photo_file != "") {
-                    File::delete($this->getUploadPath() . $Topic->photo_file);
+                if ($Topic->photo_file != '') {
+                    File::delete($this->getUploadPath().$Topic->photo_file);
                 }
-                if ($Topic->attach_file != "") {
-                    File::delete($this->getUploadPath() . $Topic->attach_file);
+                if ($Topic->attach_file != '') {
+                    File::delete($this->getUploadPath().$Topic->attach_file);
                 }
-                if ($Topic->audio_file != "") {
-                    File::delete($this->getUploadPath() . $Topic->audio_file);
+                if ($Topic->audio_file != '') {
+                    File::delete($this->getUploadPath().$Topic->audio_file);
                 }
-                if ($Topic->video_type == 0 && $Topic->video_file != "") {
-                    File::delete($this->getUploadPath() . $Topic->video_file);
+                if ($Topic->video_type == 0 && $Topic->video_file != '') {
+                    File::delete($this->getUploadPath().$Topic->video_file);
                 }
                 //delete additional fields
                 TopicField::where('topic_id', $Topic->id)->delete();
@@ -607,8 +600,8 @@ class TopicsController extends Controller
                 $PhotoFiles = Photo::where('topic_id', $Topic->id)->get();
                 if (count($PhotoFiles) > 0) {
                     foreach ($PhotoFiles as $PhotoFile) {
-                        if ($PhotoFile->file != "") {
-                            File::delete($this->getUploadPath() . $PhotoFile->file);
+                        if ($PhotoFile->file != '') {
+                            File::delete($this->getUploadPath().$PhotoFile->file);
                         }
                     }
                 }
@@ -617,8 +610,8 @@ class TopicsController extends Controller
                 $AttachFiles = AttachFile::where('topic_id', $Topic->id)->get();
                 if (count($AttachFiles) > 0) {
                     foreach ($AttachFiles as $AttachFile) {
-                        if ($AttachFile->file != "") {
-                            File::delete($this->getUploadPath() . $AttachFile->file);
+                        if ($AttachFile->file != '') {
+                            File::delete($this->getUploadPath().$AttachFile->file);
                         }
                     }
                 }
@@ -626,6 +619,7 @@ class TopicsController extends Controller
 
                 //Remove Topic
                 $Topic->delete();
+
                 return redirect()->action('TopicsController@index', $webmasterId)->with('doneMessage',
                     trans('backLang.deleteDone'));
             } else {
@@ -635,7 +629,6 @@ class TopicsController extends Controller
             return redirect()->route('NotFound');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -647,63 +640,60 @@ class TopicsController extends Controller
     public function updateAll(Request $request, $webmasterId)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $Topic = Topic::find($rowId);
-                    if (!empty($Topic)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($Topic)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $Topic->row_no = $request->$row_no_val;
                         $Topic->save();
                     }
                 }
-
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "activate") {
+                if ($request->ids != '') {
+                    if ($request->action == 'activate') {
                         Topic::wherein('id', $request->ids)
                             ->update(['status' => 1]);
-
-                    } elseif ($request->action == "block") {
+                    } elseif ($request->action == 'block') {
                         Topic::wherein('id', $request->ids)
                             ->update(['status' => 0]);
-
-                    } elseif ($request->action == "delete") {
+                    } elseif ($request->action == 'delete') {
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
                         // Delete Topics photo
                         $Topics = Topic::wherein('id', $request->ids)->get();
                         foreach ($Topics as $Topic) {
-                            if ($Topic->photo_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->photo_file);
+                            if ($Topic->photo_file != '') {
+                                File::delete($this->getUploadPath().$Topic->photo_file);
                             }
-                            if ($Topic->attach_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->attach_file);
+                            if ($Topic->attach_file != '') {
+                                File::delete($this->getUploadPath().$Topic->attach_file);
                             }
-                            if ($Topic->audio_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->audio_file);
+                            if ($Topic->audio_file != '') {
+                                File::delete($this->getUploadPath().$Topic->audio_file);
                             }
-                            if ($Topic->video_type == 0 && $Topic->video_file != "") {
-                                File::delete($this->getUploadPath() . $Topic->video_file);
+                            if ($Topic->video_type == 0 && $Topic->video_file != '') {
+                                File::delete($this->getUploadPath().$Topic->video_file);
                             }
                         }
 
                         // Delete photo files
                         $PhotoFiles = Photo::wherein('topic_id', $request->ids)->get();
                         foreach ($PhotoFiles as $PhotoFile) {
-                            if ($PhotoFile->file != "") {
-                                File::delete($this->getUploadPath() . $PhotoFile->file);
+                            if ($PhotoFile->file != '') {
+                                File::delete($this->getUploadPath().$PhotoFile->file);
                             }
                         }
 
                         // Delete attach files
                         $AttachFile_Files = AttachFile::wherein('topic_id', $request->ids)->get();
                         foreach ($AttachFile_Files as $AttachFile_File) {
-                            if ($AttachFile_File->file != "") {
-                                File::delete($this->getUploadPath() . $AttachFile_File->file);
+                            if ($AttachFile_File->file != '') {
+                                File::delete($this->getUploadPath().$AttachFile_File->file);
                             }
                         }
 
@@ -732,17 +722,16 @@ class TopicsController extends Controller
                         //Remove Topics
                         Topic::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@index', $webmasterId)->with('doneMessage',
                 trans('backLang.saveDone'));
         } else {
             return redirect()->route('NotFound');
         }
     }
-
 
     /**
      * Update SEO tab
@@ -752,16 +741,13 @@ class TopicsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-
-    public
-    function seo(Request $request, $webmasterId, $id)
+    public function seo(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $Topic = Topic::find($id);
-            if (!empty($Topic)) {
-
+            if (! empty($Topic)) {
                 $Topic->seo_title_ar = $request->seo_title_ar;
                 $Topic->seo_title_en = $request->seo_title_en;
                 $Topic->seo_description_ar = $request->seo_description_ar;
@@ -771,11 +757,12 @@ class TopicsController extends Controller
                 $Topic->updated_by = Auth::user()->id;
 
                 //URL Slugs
-                $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, "topic", $id);
+                $slugs = Helper::URLSlug($request->seo_url_slug_ar, $request->seo_url_slug_en, 'topic', $id);
                 $Topic->seo_url_slug_ar = $slugs['slug_ar'];
                 $Topic->seo_url_slug_en = $slugs['slug_en'];
 
                 $Topic->save();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.saveDone'))->with('activeTab', 'seo');
             } else {
@@ -794,12 +781,10 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-
-    public
-    function photos(Request $request, $webmasterId, $id)
+    public function photos(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
                 'file' => 'image|max:3000',
@@ -813,19 +798,19 @@ class TopicsController extends Controller
             }
 
             // Start of Upload Files
-            $formFileName = "file";
-            $fileFinalName = "";
-            $fileFinalTitle = ""; // Original file name without extension
-            if ($request->$formFileName != "") {
-                $fileFinalTitle = basename($request->file($formFileName)->getClientOriginalName(),
-                    '.' . $request->file($formFileName)->guessExtension());
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'file';
+            $fileFinalName = '';
+            $fileFinalTitle = ''; // Original file name without extension
+            if ($request->$formFileName != '') {
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
+                $fileFinalTitle = basename($fileFinalName,
+                    '.'.$request->file($formFileName)->guessExtension());
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
             // End of Upload Files
-            if ($fileFinalName != "") {
+            if ($fileFinalName != '') {
                 $Photo = new Photo;
                 $Photo->row_no = $next_nor_no;
                 $Photo->file = $fileFinalName;
@@ -843,7 +828,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -852,25 +836,24 @@ class TopicsController extends Controller
      * @param  int $photo_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function photosDestroy($webmasterId, $id, $photo_id)
+    public function photosDestroy($webmasterId, $id, $photo_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
             $Photo = Photo::find($photo_id);
-            if (!empty($Photo)) {
+            if (! empty($Photo)) {
                 // Delete a Topic photo
-                if ($Photo->file != "") {
-                    File::delete($this->getUploadPath() . $Photo->file);
+                if ($Photo->file != '') {
+                    File::delete($this->getUploadPath().$Photo->file);
                 }
 
-
                 $Photo->delete();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'photos');
             } else {
@@ -881,7 +864,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -890,43 +872,41 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function photosUpdateAll(Request $request, $webmasterId, $id)
+    public function photosUpdateAll(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $Photo = Photo::find($rowId);
-                    if (!empty($Photo)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($Photo)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $Photo->row_no = $request->$row_no_val;
                         $Photo->save();
                     }
                 }
-
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "delete") {
+                if ($request->ids != '') {
+                    if ($request->action == 'delete') {
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
                         // Delete Photos
                         $Photos = Photo::wherein('id', $request->ids)->get();
                         foreach ($Photos as $Photo) {
-                            if ($Photo->file != "") {
-                                File::delete($this->getUploadPath() . $Photo->file);
+                            if ($Photo->file != '') {
+                                File::delete($this->getUploadPath().$Photo->file);
                             }
                         }
 
                         Photo::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'photos');
         } else {
@@ -934,8 +914,7 @@ class TopicsController extends Controller
         }
     }
 
-
-// Comments Functions
+    // Comments Functions
 
     /**
      * Show all comments.
@@ -944,11 +923,10 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function topicsComments($webmasterId, $id)
+    public function topicsComments($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab', 'comments');
         } else {
             return redirect()->route('NotFound');
@@ -962,15 +940,15 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsCreate($webmasterId, $id)
+    public function commentsCreate($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->add_status) {
+            if (! @Auth::user()->permissionsGroup->add_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                 'comments')->with('commentST', 'create');
         } else {
@@ -985,18 +963,16 @@ class TopicsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsStore(Request $request, $webmasterId, $id)
+    public function commentsStore(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required',
-                'comment' => 'required'
+                'comment' => 'required',
             ]);
-
 
             $next_nor_no = Comment::where('topic_id', '=', $id)->max('row_no');
             if ($next_nor_no < 1) {
@@ -1011,7 +987,7 @@ class TopicsController extends Controller
             $Comment->email = $request->email;
             $Comment->comment = $request->comment;
             $Comment->topic_id = $id;
-            $Comment->date = date("Y-m-d H:i:s");
+            $Comment->date = date('Y-m-d H:i:s');
             $Comment->status = 1;
             $Comment->created_by = Auth::user()->id;
             $Comment->save();
@@ -1023,7 +999,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -1032,18 +1007,17 @@ class TopicsController extends Controller
      * @param  int $comment_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsEdit($webmasterId, $id, $comment_id)
+    public function commentsEdit($webmasterId, $id, $comment_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->edit_status) {
+            if (! @Auth::user()->permissionsGroup->edit_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
 
             $Comment = Comment::find($comment_id);
-            if (!empty($Comment)) {
+            if (! empty($Comment)) {
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                     'comments')->with('commentST', 'edit')->with('Comment', $Comment);
             } else {
@@ -1063,20 +1037,17 @@ class TopicsController extends Controller
      * @param  int $comment_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsUpdate(Request $request, $webmasterId, $id, $comment_id)
+    public function commentsUpdate(Request $request, $webmasterId, $id, $comment_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $Comment = Comment::find($comment_id);
-            if (!empty($Comment)) {
-
-
+            if (! empty($Comment)) {
                 $this->validate($request, [
                     'name' => 'required',
                     'email' => 'required',
-                    'comment' => 'required'
+                    'comment' => 'required',
                 ]);
                 $Comment->name = $request->name;
                 $Comment->email = $request->email;
@@ -1084,6 +1055,7 @@ class TopicsController extends Controller
                 $Comment->status = $request->status;
                 $Comment->updated_by = Auth::user()->id;
                 $Comment->save();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.saveDone'))->with('activeTab', 'comments');
             } else {
@@ -1094,7 +1066,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -1103,19 +1074,19 @@ class TopicsController extends Controller
      * @param  int $comment_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsDestroy($webmasterId, $id, $comment_id)
+    public function commentsDestroy($webmasterId, $id, $comment_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
             $Comment = Comment::find($comment_id);
-            if (!empty($Comment)) {
+            if (! empty($Comment)) {
                 $Comment->delete();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'comments');
             } else {
@@ -1126,7 +1097,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -1135,43 +1105,40 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function commentsUpdateAll(Request $request, $webmasterId, $id)
+    public function commentsUpdateAll(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $Comment = Comment::find($rowId);
-                    if (!empty($Comment)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($Comment)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $Comment->row_no = $request->$row_no_val;
                         $Comment->save();
                     }
                 }
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "activate") {
+                if ($request->ids != '') {
+                    if ($request->action == 'activate') {
                         Comment::wherein('id', $request->ids)
                             ->update(['status' => 1]);
-
-                    } elseif ($request->action == "block") {
+                    } elseif ($request->action == 'block') {
                         Comment::wherein('id', $request->ids)
                             ->update(['status' => 0]);
-
-                    } elseif ($request->action == "delete") {
+                    } elseif ($request->action == 'delete') {
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
 
                         Comment::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'comments');
         } else {
@@ -1179,8 +1146,7 @@ class TopicsController extends Controller
         }
     }
 
-
-// Maps Functions
+    // Maps Functions
 
     /**
      * Show all Maps.
@@ -1189,11 +1155,10 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function topicsMaps($webmasterId, $id)
+    public function topicsMaps($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab', 'maps');
         } else {
             return redirect()->route('NotFound');
@@ -1207,15 +1172,15 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsCreate($webmasterId, $id)
+    public function mapsCreate($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->add_status) {
+            if (! @Auth::user()->permissionsGroup->add_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                 'maps')->with('mapST', 'create');
         } else {
@@ -1230,17 +1195,15 @@ class TopicsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsStore(Request $request, $webmasterId, $id)
+    public function mapsStore(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
                 'longitude' => 'required',
-                'longitude' => 'required'
+                'longitude' => 'required',
             ]);
-
 
             $next_nor_no = Map::where('topic_id', '=', $id)->max('row_no');
             if ($next_nor_no < 1) {
@@ -1270,7 +1233,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -1279,18 +1241,17 @@ class TopicsController extends Controller
      * @param  int $map_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsEdit($webmasterId, $id, $map_id)
+    public function mapsEdit($webmasterId, $id, $map_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->edit_status) {
+            if (! @Auth::user()->permissionsGroup->edit_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
 
             $Map = Map::find($map_id);
-            if (!empty($Map)) {
+            if (! empty($Map)) {
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                     'maps')->with('mapST', 'edit')->with('Map', $Map);
             } else {
@@ -1310,19 +1271,16 @@ class TopicsController extends Controller
      * @param  int $map_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsUpdate(Request $request, $webmasterId, $id, $map_id)
+    public function mapsUpdate(Request $request, $webmasterId, $id, $map_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $Map = Map::find($map_id);
-            if (!empty($Map)) {
-
-
+            if (! empty($Map)) {
                 $this->validate($request, [
                     'longitude' => 'required',
-                    'longitude' => 'required'
+                    'longitude' => 'required',
                 ]);
                 $Map->longitude = $request->longitude;
                 $Map->latitude = $request->latitude;
@@ -1334,6 +1292,7 @@ class TopicsController extends Controller
                 $Map->status = $request->status;
                 $Map->updated_by = Auth::user()->id;
                 $Map->save();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.saveDone'))->with('activeTab', 'maps');
             } else {
@@ -1344,7 +1303,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -1353,19 +1311,19 @@ class TopicsController extends Controller
      * @param  int $map_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsDestroy($webmasterId, $id, $map_id)
+    public function mapsDestroy($webmasterId, $id, $map_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
             $Map = Map::find($map_id);
-            if (!empty($Map)) {
+            if (! empty($Map)) {
                 $Map->delete();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'maps');
             } else {
@@ -1376,7 +1334,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -1385,44 +1342,41 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function mapsUpdateAll(Request $request, $webmasterId, $id)
+    public function mapsUpdateAll(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $Map = Map::find($rowId);
-                    if (!empty($Map)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($Map)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $Map->row_no = $request->$row_no_val;
                         $Map->save();
                     }
                 }
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "activate") {
+                if ($request->ids != '') {
+                    if ($request->action == 'activate') {
                         Map::wherein('id', $request->ids)
                             ->update(['status' => 1]);
-
-                    } elseif ($request->action == "block") {
+                    } elseif ($request->action == 'block') {
                         Map::wherein('id', $request->ids)
                             ->update(['status' => 0]);
-
-                    } elseif ($request->action == "delete") {
+                    } elseif ($request->action == 'delete') {
 
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
 
                         Map::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'maps');
         } else {
@@ -1430,8 +1384,7 @@ class TopicsController extends Controller
         }
     }
 
-
-// Files Functions
+    // Files Functions
 
     /**
      * Show all files.
@@ -1440,11 +1393,10 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function topicsFiles($webmasterId, $id)
+    public function topicsFiles($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab', 'files');
         } else {
             return redirect()->route('NotFound');
@@ -1458,15 +1410,15 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesCreate($webmasterId, $id)
+    public function filesCreate($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->add_status) {
+            if (! @Auth::user()->permissionsGroup->add_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                 'files')->with('fileST', 'create');
         } else {
@@ -1481,27 +1433,25 @@ class TopicsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesStore(Request $request, $webmasterId, $id)
+    public function filesStore(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
-                'file' => 'required'
+                'file' => 'required',
             ]);
 
             // Start of Upload Files
-            $formFileName = "file";
-            $fileFinalName = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->guessExtension();
+            $formFileName = 'file';
+            $fileFinalName = '';
+            if ($request->$formFileName != '') {
+                $fileFinalName = time().rand(1111,
+                        9999).'.'.$request->file($formFileName)->guessExtension();
                 $path = $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName);
             }
-            if ($fileFinalName != "") {
-
+            if ($fileFinalName != '') {
                 $next_nor_no = AttachFile::where('topic_id', '=', $id)->max('row_no');
                 if ($next_nor_no < 1) {
                     $next_nor_no = 1;
@@ -1528,7 +1478,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -1537,18 +1486,17 @@ class TopicsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesEdit($webmasterId, $id, $file_id)
+    public function filesEdit($webmasterId, $id, $file_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->edit_status) {
+            if (! @Auth::user()->permissionsGroup->edit_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
 
             $AttachFile = AttachFile::find($file_id);
-            if (!empty($AttachFile)) {
+            if (! empty($AttachFile)) {
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                     'files')->with('fileST', 'edit')->with('AttachFile', $AttachFile);
             } else {
@@ -1568,35 +1516,33 @@ class TopicsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesUpdate(Request $request, $webmasterId, $id, $file_id)
+    public function filesUpdate(Request $request, $webmasterId, $id, $file_id)
     {
-
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
 
             $AttachFile = AttachFile::find($file_id);
-            if (!empty($AttachFile)) {
+            if (! empty($AttachFile)) {
 
                 // Start of Upload Files
-                $formFileName = "file";
-                $fileFinalName = "";
-                if ($request->$formFileName != "") {
+                $formFileName = 'file';
+                $fileFinalName = '';
+                if ($request->$formFileName != '') {
                     // Delete a Topic photo
-                    if ($AttachFile->$formFileName != "") {
-                        File::delete($this->getUploadPath() . $AttachFile->$formFileName);
+                    if ($AttachFile->$formFileName != '') {
+                        File::delete($this->getUploadPath().$AttachFile->$formFileName);
                     }
 
-                    $fileFinalName = time() . rand(1111,
-                            9999) . '.' . $request->file($formFileName)->guessExtension();
+                    $fileFinalName = time().rand(1111,
+                            9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
                     $request->file($formFileName)->move($path, $fileFinalName);
                 }
 
                 $AttachFile->title_ar = $request->title_ar;
                 $AttachFile->title_en = $request->title_en;
-                if ($fileFinalName != "") {
+                if ($fileFinalName != '') {
                     $AttachFile->file = $fileFinalName;
                 }
                 $AttachFile->updated_by = Auth::user()->id;
@@ -1612,7 +1558,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -1621,24 +1566,24 @@ class TopicsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesDestroy($webmasterId, $id, $file_id)
+    public function filesDestroy($webmasterId, $id, $file_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
             $AttachFile = AttachFile::find($file_id);
-            if (!empty($AttachFile)) {
+            if (! empty($AttachFile)) {
                 // Delete file
-                if ($AttachFile->file != "") {
-                    File::delete($this->getUploadPath() . $AttachFile->file);
+                if ($AttachFile->file != '') {
+                    File::delete($this->getUploadPath().$AttachFile->file);
                 }
 
                 $AttachFile->delete();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'files');
             } else {
@@ -1649,7 +1594,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -1658,43 +1602,42 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function filesUpdateAll(Request $request, $webmasterId, $id)
+    public function filesUpdateAll(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $AttachFile = AttachFile::find($rowId);
-                    if (!empty($AttachFile)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($AttachFile)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $AttachFile->row_no = $request->$row_no_val;
                         $AttachFile->save();
                     }
                 }
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "delete") {
+                if ($request->ids != '') {
+                    if ($request->action == 'delete') {
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
 
                         // Delete Topics photo
                         $AttachFiles = AttachFile::wherein('id', $request->ids)->get();
                         foreach ($AttachFiles as $AttachFile) {
-                            if ($AttachFile->file != "") {
-                                File::delete($this->getUploadPath() . $AttachFile->file);
+                            if ($AttachFile->file != '') {
+                                File::delete($this->getUploadPath().$AttachFile->file);
                             }
                         }
 
                         AttachFile::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'files');
         } else {
@@ -1702,8 +1645,7 @@ class TopicsController extends Controller
         }
     }
 
-
-// Related Topics Functions
+    // Related Topics Functions
 
     /**
      * Show all Related Topics .
@@ -1712,11 +1654,10 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function topicsRelated($webmasterId, $id)
+    public function topicsRelated($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab', 'related');
         } else {
             return redirect()->route('NotFound');
@@ -1729,11 +1670,9 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function topicsRelatedLoad($id)
+    public function topicsRelatedLoad($id)
     {
-
-        $link_title_var = "title_" . trans('backLang.boxCode');
+        $link_title_var = 'title_'.trans('backLang.boxCode');
         $TopicsLoaded = Topic::where('webmaster_id', '=', $id)->orderby('row_no', 'asc')->get();
         $i = 0;
         foreach ($TopicsLoaded as $TopicLoaded) {
@@ -1745,7 +1684,7 @@ class TopicsController extends Controller
 <i class=\"dark-white\"></i> &nbsp;<label for=\"related_topics_$i\">$title</label>
 </label>
         ";
-            echo "<br>";
+            echo '<br>';
             $i++;
         }
     }
@@ -1757,15 +1696,15 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function relatedCreate($webmasterId, $id)
+    public function relatedCreate($webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->add_status) {
+            if (! @Auth::user()->permissionsGroup->add_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('activeTab',
                 'related')->with('relatedST', 'create');
         } else {
@@ -1780,11 +1719,10 @@ class TopicsController extends Controller
      * @param  int $webmasterId
      * @return \Illuminate\Http\Response
      */
-    public
-    function relatedStore(Request $request, $webmasterId, $id)
+    public function relatedStore(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
             foreach ($request->related_topics_id as $related_topic_id) {
                 $next_nor_no = RelatedTopic::where('topic_id', '=', $id)->max('row_no');
@@ -1810,7 +1748,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -1819,19 +1756,19 @@ class TopicsController extends Controller
      * @param  int $file_id
      * @return \Illuminate\Http\Response
      */
-    public
-    function relatedDestroy($webmasterId, $id, $file_id)
+    public function relatedDestroy($webmasterId, $id, $file_id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             // Check Permissions
-            if (!@Auth::user()->permissionsGroup->delete_status) {
+            if (! @Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
             }
             //
             $RelatedTopic = RelatedTopic::find($file_id);
-            if (!empty($RelatedTopic)) {
+            if (! empty($RelatedTopic)) {
                 $RelatedTopic->delete();
+
                 return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                     trans('backLang.deleteDone'))->with('activeTab', 'related');
             } else {
@@ -1842,7 +1779,6 @@ class TopicsController extends Controller
         }
     }
 
-
     /**
      * Update all selected resources in storage.
      *
@@ -1851,35 +1787,34 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function relatedUpdateAll(Request $request, $webmasterId, $id)
+    public function relatedUpdateAll(Request $request, $webmasterId, $id)
     {
         $WebmasterSection = WebmasterSection::find($webmasterId);
-        if (!empty($WebmasterSection)) {
+        if (! empty($WebmasterSection)) {
             //
-            if ($request->action == "order") {
+            if ($request->action == 'order') {
                 foreach ($request->row_ids as $rowId) {
                     $RelatedTopic = RelatedTopic::find($rowId);
-                    if (!empty($RelatedTopic)) {
-                        $row_no_val = "row_no_" . $rowId;
+                    if (! empty($RelatedTopic)) {
+                        $row_no_val = 'row_no_'.$rowId;
                         $RelatedTopic->row_no = $request->$row_no_val;
                         $RelatedTopic->save();
                     }
                 }
             } else {
-                if ($request->ids != "") {
-                    if ($request->action == "delete") {
+                if ($request->ids != '') {
+                    if ($request->action == 'delete') {
                         // Check Permissions
-                        if (!@Auth::user()->permissionsGroup->delete_status) {
+                        if (! @Auth::user()->permissionsGroup->delete_status) {
                             return Redirect::to(route('NoPermission'))->send();
                         }
 
                         RelatedTopic::wherein('id', $request->ids)
                             ->delete();
-
                     }
                 }
             }
+
             return redirect()->action('TopicsController@edit', [$webmasterId, $id])->with('doneMessage',
                 trans('backLang.saveDone'))->with('activeTab', 'related');
         } else {
@@ -1895,9 +1830,7 @@ class TopicsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-
-    public
-    function upload(Request $request)
+    public function upload(Request $request)
     {
         //
         $this->validate($request, [
@@ -1905,24 +1838,22 @@ class TopicsController extends Controller
         ]);
 
         // Start of Upload Files
-        $formFileName = "file";
-        $fileFinalName = "";
-        $fileFinalTitle = ""; // Original file name without extension
-        if ($request->$formFileName != "") {
+        $formFileName = 'file';
+        $fileFinalName = '';
+        $fileFinalTitle = ''; // Original file name without extension
+        if ($request->$formFileName != '') {
             $fileFinalTitle = basename($request->file($formFileName)->getClientOriginalName(),
-                '.' . $request->file($formFileName)->guessExtension());
-            $fileFinalName = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->guessExtension();
+                '.'.$request->file($formFileName)->guessExtension());
+            $fileFinalName = time().rand(1111,
+                    9999).'.'.$request->file($formFileName)->guessExtension();
             $path = $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName);
         }
         // End of Upload Files
-        if ($fileFinalName != "") {
+        if ($fileFinalName != '') {
             return $fileFinalName;
         } else {
-            return "Error";
+            return 'Error';
         }
-
     }
 }
-

@@ -12,7 +12,6 @@ use Image;
 use Laravel\Socialite\Facades\Socialite;
 use Redirect;
 
-
 class SocialAuthController extends Controller
 {
     /**
@@ -26,15 +25,15 @@ class SocialAuthController extends Controller
         'google',
         'linkedin',
         'github',
-        'bitbucket'
+        'bitbucket',
     ];
-    private $uploadPath = "uploads/users/";
+
+    private $uploadPath = 'uploads/users/';
 
     public function __construct()
     {
         $this->middleware('guest');
     }
-
 
     /**
      * Redirect to provider for authentication
@@ -44,7 +43,7 @@ class SocialAuthController extends Controller
      */
     public function redirectToProvider($driver)
     {
-        if (!$this->isProviderAllowed($driver)) {
+        if (! $this->isProviderAllowed($driver)) {
             return $this->sendFailedResponse("{$driver} ".trans('backLang.notCurrentlySupported'));
         }
 
@@ -106,27 +105,26 @@ class SocialAuthController extends Controller
 
         // if user already found
         if ($user) {
-
-            if ($user->photo != "") {
+            if ($user->photo != '') {
                 // Delete old Avatar
-                File::delete($this->getUploadPath() . $user->photo);
+                File::delete($this->getUploadPath().$user->photo);
             }
-            $photo_filename = "";
-            if ($providerUser->getAvatar() != "") {
+            $photo_filename = '';
+            if ($providerUser->getAvatar() != '') {
                 // Save Avatar to uploads folder
                 $avatar_path = $providerUser->getAvatar();
-                $photo_filename = time() . rand(1111, 9999);
+                $photo_filename = time().rand(1111, 9999);
                 $extension = pathinfo($avatar_path, PATHINFO_EXTENSION);
-                if ($extension == 0 || $extension == "") {
-                    $extension = "png";
+                if ($extension == 0 || $extension == '') {
+                    $extension = 'png';
                 }
-                $photo_filename = $photo_filename . '.' . $extension;
+                $photo_filename = $photo_filename.'.'.$extension;
 
                 //get file content from url
                 $file_contents = file_get_contents($avatar_path);
-                $save = file_put_contents($this->getUploadPath() . $photo_filename, $file_contents);
-                if (!$save) {
-                    $photo_filename = "";
+                $save = file_put_contents($this->getUploadPath().$photo_filename, $file_contents);
+                if (! $save) {
+                    $photo_filename = '';
                 }
             }
 
@@ -135,25 +133,25 @@ class SocialAuthController extends Controller
                 'photo' => $photo_filename,
                 'provider' => $driver,
                 'provider_id' => $providerUser->id,
-                'access_token' => $providerUser->token
+                'access_token' => $providerUser->token,
             ]);
         } else {
-            $photo_filename = "";
-            if ($providerUser->getAvatar() != "") {
+            $photo_filename = '';
+            if ($providerUser->getAvatar() != '') {
                 // Save Avatar to uploads folder
                 $avatar_path = $providerUser->getAvatar();
-                $photo_filename = time() . rand(1111, 9999);
+                $photo_filename = time().rand(1111, 9999);
                 $extension = pathinfo($avatar_path, PATHINFO_EXTENSION);
-                if ($extension == 0 || $extension == "") {
-                    $extension = "png";
+                if ($extension == 0 || $extension == '') {
+                    $extension = 'png';
                 }
-                $photo_filename = $photo_filename . '.' . $extension;
+                $photo_filename = $photo_filename.'.'.$extension;
 
                 //get file content from url
                 $file_contents = file_get_contents($avatar_path);
-                $save = file_put_contents($this->getUploadPath() . $photo_filename, $file_contents);
-                if (!$save) {
-                    $photo_filename = "";
+                $save = file_put_contents($this->getUploadPath().$photo_filename, $file_contents);
+                if (! $save) {
+                    $photo_filename = '';
                 }
             }
 
@@ -162,13 +160,13 @@ class SocialAuthController extends Controller
                 'name' => $providerUser->getName(),
                 'email' => $providerUser->getEmail(),
                 'photo' => $photo_filename,
-                'permissions_id' => Helper::GeneralWebmasterSettings("permission_group"),
+                'permissions_id' => Helper::GeneralWebmasterSettings('permission_group'),
                 'status' => true,
                 'provider' => $driver,
                 'provider_id' => $providerUser->getId(),
                 'access_token' => $providerUser->token,
                 // user can use reset password to create a password
-                'password' => ''
+                'password' => '',
             ]);
         }
 
@@ -185,7 +183,7 @@ class SocialAuthController extends Controller
 
     public function setUploadPath($uploadPath)
     {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
+        $this->uploadPath = Config::get('app.APP_URL').$uploadPath;
     }
 
     /**

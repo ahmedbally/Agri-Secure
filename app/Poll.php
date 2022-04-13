@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\PollCreator;
 use App\Traits\PollAccessor;
+use App\Traits\PollCreator;
 use App\Traits\PollManipulator;
 use App\Traits\PollQueries;
+use Illuminate\Database\Eloquent\Model;
 
 class Poll extends Model
 {
@@ -30,7 +30,6 @@ class Poll extends Model
 
     /**
      * Boot Method
-     *
      */
     public static function boot()
     {

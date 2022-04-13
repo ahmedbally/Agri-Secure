@@ -165,18 +165,18 @@ return [
         'postalAddress'=>'الرمز الـبـريدي',
         'postalBox'=>'ص . ب',
         'bandHeadMemId'=>'رقم عضوية رئيس الفرقة',
-        'bandHeadMobile'=>'الجوال',    
-        'bandBrief'=>'نبذة عن الألوان الشعبية التي تؤديها الفرقة',    
-        'bandHeadNid'=>'رقم السجل المدني',    
-        'bandHead'=>'اسم رئيس الفرقة',    
-        'noMembers'=>'عــــدد الأعــضـاء',    
+        'bandHeadMobile'=>'الجوال',
+        'bandBrief'=>'نبذة عن الألوان الشعبية التي تؤديها الفرقة',
+        'bandHeadNid'=>'رقم السجل المدني',
+        'bandHead'=>'اسم رئيس الفرقة',
+        'noMembers'=>'عــــدد الأعــضـاء',
         'foundation_date'=>'تاريــخ التأسـيس',
-        'regPurpose'=>'الغرض من التسجيل',    
-        'bandAddress'=>'مقر الفرقة',    
+        'regPurpose'=>'الغرض من التسجيل',
+        'bandAddress'=>'مقر الفرقة',
         'bandName'=>'اســـم الفـــرقــة',
         'artField'=>'المجال الفني',
-        'adjective'=>'الصفة', 
-        'status'=>'حالة العضوية',        
+        'adjective'=>'الصفة',
+        'status'=>'حالة العضوية',
         'startdate'=>'تاريخ البداية',
         'enddate'=>'تاريخ النهاية',
         'active'=>'مفعل',
@@ -239,13 +239,10 @@ return [
         'contact_message'=>'مضمون الرسالة',
         'g-recaptcha-response'=>'Recaptcha response',
 
-
         'title_ar'=>'العنوان',
         'file_ar'=>'الصورة أو الملف المرفق',
         'color'=>'اللون',
         'image'=>'الصورة',
-        
-
 
     ],
 ];
