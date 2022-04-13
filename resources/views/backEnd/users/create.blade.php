@@ -106,7 +106,7 @@
                            class="col-sm-2 form-control-label">{!!  trans('backLang.connectPassword') !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('connect_password','', array('placeholder' => '','class' => 'form-control','id'=>'connect_password')) !!}
+                        {!! Form::password('connect_password','', array('placeholder' => '','class' => 'form-control','id'=>'connect_password')) !!}
                     </div>
                 </div>
 

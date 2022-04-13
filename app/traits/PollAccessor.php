@@ -1,10 +1,9 @@
 <?php
-namespace App\Traits;
 
+namespace App\Traits;
 
 trait PollAccessor
 {
-
     /**
      * Return number of Options
      *
@@ -32,7 +31,7 @@ trait PollAccessor
      */
     public function isCheckable()
     {
-        return !$this->isRadio();
+        return ! $this->isRadio();
     }
 
     /**
@@ -42,7 +41,7 @@ trait PollAccessor
      */
     public function isLocked()
     {
-        return !is_null($this->isClosed);
+        return ! is_null($this->isClosed);
     }
 
     /**
@@ -52,7 +51,7 @@ trait PollAccessor
      */
     public function showResultsEnabled()
     {
-        return !is_null($this->canVoterSeeResult) && $this->canVoterSeeResult == 1;
+        return ! is_null($this->canVoterSeeResult) && $this->canVoterSeeResult == 1;
     }
 
     /**
@@ -72,7 +71,7 @@ trait PollAccessor
      */
     public function isOpen()
     {
-        return !$this->isLocked();
+        return ! $this->isLocked();
     }
 
     /**

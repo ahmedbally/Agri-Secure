@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-
 trait PollQueries
 {
     protected $results = null;
@@ -15,15 +14,15 @@ trait PollQueries
     public function results()
     {
         $this->results = collect();
-        foreach($this->options()->get() as $option){
+        foreach ($this->options()->get() as $option) {
             $this->results->push([
-              "option" => $option,
-              "votes" => $option->countVotes(),
+                'option' => $option,
+                'votes' => $option->countVotes(),
             ]);
         }
+
         return $this;
     }
-
 
     /**
      * Get the result in order
@@ -32,8 +31,9 @@ trait PollQueries
      */
     public function inOrder()
     {
-        if(! is_null($this->results)){
+        if (! is_null($this->results)) {
             $new = $this->results->sortByDesc('votes');
+
             return $new->toArray();
         }
     }
@@ -45,9 +45,8 @@ trait PollQueries
      */
     public function grab()
     {
-        if(! is_null($this->results)){
+        if (! is_null($this->results)) {
             return $this->results->toArray();
         }
     }
-
 }

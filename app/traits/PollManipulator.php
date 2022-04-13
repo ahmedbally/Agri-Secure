@@ -1,17 +1,17 @@
 <?php
+
 namespace App\Traits;
 
-use Illuminate\Support\Collection;
 use App\Exceptions\CheckedOptionsException;
 use App\Exceptions\OptionsInvalidNumberProvidedException;
 use App\Exceptions\OptionsNotProvidedException;
 use App\Exceptions\RemoveVotedOptionException;
 use App\Option;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 trait PollManipulator
 {
-
     /**
      * attach new options
      *
@@ -26,26 +26,26 @@ trait PollManipulator
             foreach ($options as $option) {
                 if (is_string($option)) {
                     $newOptions[] = new Option([
-                        'name' => $option
+                        'name' => $option,
                     ]);
                 } else {
-                    throw new InvalidArgumentException("Array arguments must be composed of Strings values");
+                    throw new InvalidArgumentException('Array arguments must be composed of Strings values');
                 }
             }
+
             return $this->options()->saveMany($newOptions);
         }
 
         if (is_string($options)) {
             return $this->options()->save(
                 new Option([
-                    'name' => $options
+                    'name' => $options,
                 ])
             );
         }
 
-        throw new InvalidArgumentException("Invalid Argument provided");
+        throw new InvalidArgumentException('Invalid Argument provided');
     }
-
 
     /**
      * Remove a (list of elements)
@@ -68,38 +68,44 @@ trait PollManipulator
             if (is_numeric($option) && is_int(intval($option))) {
                 $option = intval($option);
                 $option = Option::findOrFail($option);
-                if ($option->isVoted())
+                if ($option->isVoted()) {
                     throw new RemoveVotedOptionException();
+                }
                 if ($this->containsAndNotVoted($elements, $option->id)) {
                     $oldOptions[] = $option->id;
                 }
-            } else if ($option instanceof Option) {
-                if ($option->isVoted())
+            } elseif ($option instanceof Option) {
+                if ($option->isVoted()) {
                     throw new RemoveVotedOptionException();
+                }
                 if ($this->containsAndNotVoted($elements, $option->getKey())) {
                     $oldOptions = $option->getKey();
                 }
             } else {
-                throw new InvalidArgumentException("Array arguments must be composed of ids or option object values");
+                throw new InvalidArgumentException('Array arguments must be composed of ids or option object values');
             }
         }
 
         // verify the number of options
         $diff = ($elements->count() - count($oldOptions));
-        if ($diff == 0)
+        if ($diff == 0) {
             throw new OptionsNotProvidedException();
-        if ($diff == 1)
+        }
+        if ($diff == 1) {
             throw new OptionsInvalidNumberProvidedException();
+        }
 
         if ($this->isRadio()) {
             $count = count($oldOptions);
+
             return Option::destroy($oldOptions) == $count;
         }
 
         // checkbox case
 
-        if ($diff <= $this->maxCheck)
+        if ($diff <= $this->maxCheck) {
             throw new CheckedOptionsException();
+        }
 
         $count = count($oldOptions);
 

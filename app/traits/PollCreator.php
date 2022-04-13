@@ -1,16 +1,18 @@
 <?php
+
 namespace App\Traits;
 
-use Illuminate\Support\Facades\DB;
 use App\Exceptions\CheckedOptionsException;
+use App\Exceptions\DuplicatedOptionsException;
 use App\Exceptions\OptionsInvalidNumberProvidedException;
 use App\Exceptions\OptionsNotProvidedException;
 use App\Option;
-use App\Exceptions\DuplicatedOptionsException;
+use Illuminate\Support\Facades\DB;
 
 trait PollCreator
 {
     protected $options_add = [];
+
     protected $maxSelection = 1;
 
     /**
@@ -22,8 +24,9 @@ trait PollCreator
      */
     private function pushOption($option)
     {
-        if (!in_array($option, $this->options_add)) {
+        if (! in_array($option, $this->options_add)) {
             $this->options_add[] = $option;
+
             return true;
         }
         throw new DuplicatedOptionsException();
@@ -43,18 +46,20 @@ trait PollCreator
                 if (is_string($option)) {
                     $this->pushOption($option);
                 } else {
-                    throw new \InvalidArgumentException("Array arguments must be composed of Strings values");
+                    throw new \InvalidArgumentException('Array arguments must be composed of Strings values');
                 }
             }
+
             return $this;
         }
 
         if (is_string($options)) {
             $this->pushOption($options);
+
             return $this;
         }
 
-        throw new \InvalidArgumentException("Invalid Argument provided");
+        throw new \InvalidArgumentException('Invalid Argument provided');
     }
 
     /**
@@ -81,7 +86,7 @@ trait PollCreator
      */
     public function startsAt($at = null)
     {
-        $this->starts_at = !is_null($at) ? $at : now();
+        $this->starts_at = ! is_null($at) ? $at : now();
 
         return $this;
     }
@@ -94,7 +99,7 @@ trait PollCreator
      */
     public function endsAt($at = null)
     {
-        $this->ends_at = !is_null($at) ? $at : now()->addDays(7);
+        $this->ends_at = ! is_null($at) ? $at : now()->addDays(7);
 
         return $this;
     }
@@ -112,16 +117,19 @@ trait PollCreator
         $totalOptions = count($this->options_add);
 
         // No option add yet
-        if ($totalOptions == 0)
+        if ($totalOptions == 0) {
             throw new OptionsNotProvidedException();
+        }
 
         // There must be 2 options at least
-        if ($totalOptions == 1)
+        if ($totalOptions == 1) {
             throw new OptionsInvalidNumberProvidedException();
+        }
 
         // At least one options should not be selected
-        if ($totalOptions <= $this->maxSelection)
+        if ($totalOptions <= $this->maxSelection) {
             throw new CheckedOptionsException();
+        }
 
         // Create Poll && assign options to it
         DB::transaction(function () {
@@ -144,7 +152,7 @@ trait PollCreator
         $options = [];
         foreach ($this->options_add as $option) {
             $options[] = new Option([
-                'name' => $option
+                'name' => $option,
             ]);
         }
 

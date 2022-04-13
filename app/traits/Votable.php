@@ -6,7 +6,6 @@ use App\Vote;
 
 trait Votable
 {
-
     /**
      * Check if the option is voted
      *
@@ -34,9 +33,10 @@ trait Votable
      */
     public function countVotes()
     {
-        if($this->isPollClosed()){
+        if ($this->isPollClosed()) {
             return $this->votes;
         }
+
         return Vote::where('option_id', $this->getKey())->count();
     }
 
@@ -48,6 +48,7 @@ trait Votable
     public function updateTotalVotes()
     {
         $this->votes = $this->countVotes();
+
         return $this->save();
     }
 }
