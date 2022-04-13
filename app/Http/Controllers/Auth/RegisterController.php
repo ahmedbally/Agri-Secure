@@ -11,6 +11,7 @@ use Helper;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Redirect;
 
 class RegisterController extends Controller
@@ -98,7 +99,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobile' => ['required', 'digits:11', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required']),
         ]);
     }
 
