@@ -23,6 +23,10 @@ class CheckUserStatus
             )
         ) {
             \Auth::logout();
+
+            $request->session()->invalidate();
+
+            $request->session()->regenerateToken();
         }
 
         return $next($request);
