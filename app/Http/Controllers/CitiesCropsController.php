@@ -86,7 +86,7 @@ class CitiesCropsController extends Controller
         }
         try {
             Validator::make($request->all(), [
-                'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:3000',
+                'file' => 'required|mimes:xlsx,xls|max:3000',
             ])->validate();
             Excel::import(new CityCropImport(), $request->file('file'));
         } catch (\Exception $e) {
