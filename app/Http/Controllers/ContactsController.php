@@ -251,7 +251,7 @@ class ContactsController extends Controller
         //
         $this->validate($request, [
             'email' => 'email|required',
-            'file' => 'mimes:png,jpeg,jpg,gif|max:3000',
+            'file' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
         ]);
 
         // Start of Upload Files
@@ -365,7 +365,7 @@ class ContactsController extends Controller
         if (! empty($Contact)) {
             $this->validate($request, [
                 'email' => 'email|required',
-                'file' => 'mimes:png,jpeg,jpg,gif|max:3000',
+                'file' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
             ]);
 
             // Start of Upload Files

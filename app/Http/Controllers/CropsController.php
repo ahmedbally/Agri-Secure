@@ -87,7 +87,7 @@ class CropsController extends Controller
             'title_ar' => 'sometimes|required',
             'title_en' => 'sometimes|required',
             'color' => 'required',
-            'image' => 'required|mimes:png,jpeg,jpg,gif,svg|max:3000',
+            'image' => 'required|mimes:png,jpeg,jpg,gif,svg|max:3000|clamav',
 
         ]);
 
@@ -159,7 +159,7 @@ class CropsController extends Controller
                 'title_ar' => 'sometimes|required',
                 'title_en' => 'sometimes|required',
                 'color' => 'required',
-                'image' => 'mimes:png,jpeg,jpg,gif,svg|max:3000',
+                'image' => 'mimes:png,jpeg,jpg,gif,svg|max:3000|clamav',
 
             ]);
 

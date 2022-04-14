@@ -117,6 +117,7 @@ class SectionsController extends Controller
 
         $this->validate($request, [
             'title_ar' => 'required',
+            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
         ]);
 
         $next_nor_no = Section::where('webmaster_id', '=', $webmasterId)->where('father_id', '=',
@@ -234,6 +235,7 @@ class SectionsController extends Controller
         if (! empty($Section)) {
             $this->validate($request, [
                 'title_ar' => 'required',
+                'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
             ]);
 
             // Start of Upload Files

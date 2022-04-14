@@ -42,7 +42,7 @@ class UserController extends Controller
         $User = Auth::user();
 
         $this->validate($request, [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
+            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
             'name' => 'required',
         ]);
 
