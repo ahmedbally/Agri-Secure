@@ -115,6 +115,8 @@ return [
     'uploaded' => 'فشل في تحميل الـ :attribute',
     'url' => 'صيغة الرابط :attribute غير صحيحة',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'clamav' => ':attribute ملف ضار.',
+
 
     /*
     |--------------------------------------------------------------------------
