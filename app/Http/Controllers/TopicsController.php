@@ -368,7 +368,7 @@ class TopicsController extends Controller
                     $fileFinalName = time().rand(1111,
                             9999).'.'.$request->file($formFileName)->guessExtension();
                     $path = $this->getUploadPath();
-                    $request->file($formFileName)->storeAs($path, $fileFinalName);
+                    $request->file($formFileName)->move($path, $fileFinalName);
                 }
 
                 $formFileName = 'audio_file';
