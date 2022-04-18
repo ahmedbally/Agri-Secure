@@ -19,7 +19,8 @@ class CheckUserStatus
         if (
             $request->user() &&
             (
-            ! $request->user()->status
+            ! $request->user()->status ||
+            ! $request->user()->permissionsGroup->status
             )
         ) {
             \Auth::logout();

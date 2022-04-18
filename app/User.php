@@ -38,6 +38,9 @@ class User extends Authenticatable
         'access_token',
     ];
 
+    protected $casts = [
+        'status' => 'boolean'
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
