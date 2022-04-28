@@ -8,6 +8,7 @@ use App\Setting;
 use App\WebmasterSetting;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -86,5 +87,14 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         return array_merge($request->only($this->username(), 'password'), ['status' => 1]);
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        $this->guard()->logoutOtherDevices($request->input('password'));
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect()->intended($this->redirectPath());
     }
 }

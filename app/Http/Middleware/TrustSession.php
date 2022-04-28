@@ -41,17 +41,17 @@ class TrustSession
             return $next($request);
         }
 
-        if (! $request->session()->has('user_agent_'.$this->auth->getDefaultDriver())) {
-            $this->storeUserAgentInSession($request);
+        if (! $request->session()->has('trust_session_'.$this->auth->getDefaultDriver())) {
+            $this->storeSessionData($request);
         }
 
-        if ($request->session()->get('user_agent_'.$this->auth->getDefaultDriver()) !== $request->user()->getAuthPassword()) {
+        if ($request->session()->get('trust_session_'.$this->auth->getDefaultDriver()) !== $this->sessionData($request)) {
             $this->logout($request);
         }
 
         return tap($next($request), function () use ($request) {
             if (! is_null($this->guard()->user())) {
-                $this->storeUserAgentInSession($request);
+                $this->storeSessionData($request);
             }
         });
     }
@@ -62,14 +62,14 @@ class TrustSession
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    protected function storeUserAgentInSession($request)
+    protected function storeSessionData($request)
     {
         if (! $request->user()) {
             return;
         }
 
         $request->session()->put([
-            'user_agent_'.$this->auth->getDefaultDriver() => $request->user()->getAuthPassword(),
+            'trust_session_'.$this->auth->getDefaultDriver() => $this->sessionData($request),
         ]);
     }
 
@@ -99,5 +99,16 @@ class TrustSession
     protected function guard()
     {
         return $this->auth;
+    }
+
+    /**
+     * Data to be stored
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string
+     */
+    protected function sessionData($request)
+    {
+        return sha1($request->userAgent().'|'.$request->ip());
     }
 }
