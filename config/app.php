@@ -165,6 +165,7 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        \App\Providers\SecureFileUploadProvider::class,
 
         /*
          * Package Service Providers...

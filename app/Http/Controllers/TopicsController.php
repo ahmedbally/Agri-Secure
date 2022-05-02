@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Map;
 use App\Photo;
 use App\RelatedTopic;
+use App\Rules\SecureFileUpload;
 use App\Section;
 use App\Topic;
 use App\TopicCategory;
@@ -112,10 +113,10 @@ class TopicsController extends Controller
         if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
-                'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000|clamav',
-                'audio_file' => 'mimes:mpga,wav|clamav', // mpga = mp3
-                'video_file' => 'mimes:mp4,ogv,webm|clamav',
+                'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000|clamav|secure-file',
+                'audio_file' => 'mimes:mpga,wav|clamav|secure-file', // mpga = mp3
+                'video_file' => 'mimes:mp4,ogv,webm|clamav|secure-file',
                 'title_ar' => 'required',
             ]);
 
@@ -349,10 +350,10 @@ class TopicsController extends Controller
             $Topic = Topic::find($id);
             if (! empty($Topic)) {
                 $this->validate($request, [
-                    'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                    'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000|clamav',
-                    'audio_file' => 'mimes:mpga,wav|clamav', // mpga = mp3
-                    'video_file' => 'mimes:mp4,ogv,webm|clamav',
+                    'photo_file' => 'nullable|mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                    'attach_file' => 'nullable|mimes:csv,txt,xlx,xls,doc,docx,pdf|max:3000|clamav|secure-file',
+                    'audio_file' => 'mimes:mpga,wav|clamav|secure-file', // mpga = mp3
+                    'video_file' => 'mimes:mp4,ogv,webm|clamav|secure-file',
                     'title_ar' => 'required',
                 ]);
 
@@ -787,7 +788,7 @@ class TopicsController extends Controller
         if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
-                'file' => 'image|max:3000|clamav',
+                'file' => 'image|max:3000|clamav|secure-file',
             ]);
 
             $next_nor_no = Photo::where('topic_id', '=', $id)->max('row_no');
@@ -1439,7 +1440,7 @@ class TopicsController extends Controller
         if (! empty($WebmasterSection)) {
             //
             $this->validate($request, [
-                'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|clamav',
+                'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|clamav|secure-file',
             ]);
 
             // Start of Upload Files
@@ -1519,7 +1520,7 @@ class TopicsController extends Controller
     public function filesUpdate(Request $request, $webmasterId, $id, $file_id)
     {
         $this->validate($request, [
-            'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|clamav',
+            'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|clamav|secure-file',
         ]);
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
@@ -1837,7 +1838,7 @@ class TopicsController extends Controller
     {
         //
         $this->validate($request, [
-            'file' => 'image|max:5000|clamav',
+            'file' => 'image|max:5000|clamav|secure-file',
         ]);
 
         // Start of Upload Files

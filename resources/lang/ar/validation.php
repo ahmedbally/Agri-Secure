@@ -116,6 +116,7 @@ return [
     'url' => 'صيغة الرابط :attribute غير صحيحة',
     'uuid' => 'The :attribute must be a valid UUID.',
     'clamav' => ':attribute ملف ضار.',
+    'secure_file' => ':attribute ملف ضار.',
 
 
     /*
@@ -156,6 +157,11 @@ return [
         'expiryDate'=>'تاريخ الانتهاء',
         'idcopy'=>'صورة الهوية',
         'photo'=>'صورة شخصية',
+        'photo_file'=>'الصورة',
+        'video_file'=>'الفديو',
+        'audio_file'=>'الصوت',
+        'attach_file'=>'المرفقات',
+        'extra_attach_file'=>'المرفقات',
         'payment'=>'صورة نموذج السداد',
         'dob'=>'تاريخ الميلاد',
         'role'=>'وظيفة',
@@ -243,6 +249,7 @@ return [
 
         'title_ar'=>'العنوان',
         'file_ar'=>'الصورة أو الملف المرفق',
+        'file2_ar'=>'الصورة أو الملف المرفق',
         'color'=>'اللون',
         'image'=>'الصورة',
 

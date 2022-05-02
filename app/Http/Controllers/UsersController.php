@@ -85,7 +85,7 @@ class UsersController extends Controller
     {
         //
         $this->validate($request, [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
+            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'mobile' => 'required|numeric|unique:users',
@@ -168,7 +168,7 @@ class UsersController extends Controller
 
         if (! empty($User)) {
             $this->validate($request, [
-                'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
+                'photo' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
                 'name' => 'required',
                 'permissions_id' => 'required',
             ]);

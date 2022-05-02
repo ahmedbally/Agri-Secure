@@ -116,6 +116,7 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
     'clamav' => ':attribute contains virus.',
+    'secure_file' => ':attribute contains virus.',
 
     /*
     |--------------------------------------------------------------------------

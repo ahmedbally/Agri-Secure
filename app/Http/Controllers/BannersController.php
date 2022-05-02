@@ -98,10 +98,10 @@ class BannersController extends Controller
         //
         $this->validate($request, [
             'title_ar' => 'required',
-            'file2_ar' => 'mimes:mp4,ogv,webm|clamav',
-            'file2_en' => 'mimes:mp4,ogv,webm|clamav',
-            'file_ar' => 'required|mimes:png,jpeg,jpg,gif|max:3000|clamav',
-            'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
+            'file2_ar' => 'mimes:mp4,ogv,webm|clamav|secure-file',
+            'file2_en' => 'mimes:mp4,ogv,webm|clamav|secure-file',
+            'file_ar' => 'required|mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+            'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
         ]);
 
         $next_nor_no = Banner::max('row_no');
@@ -236,10 +236,10 @@ class BannersController extends Controller
         if (! empty($Banner)) {
             $this->validate($request, [
                 'title_ar' => 'required',
-                'file2_ar' => 'mimes:mp4,ogv,webm|clamav',
-                'file2_en' => 'mimes:mp4,ogv,webm|clamav',
-                'file_ar' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
+                'file2_ar' => 'mimes:mp4,ogv,webm|clamav|secure-file',
+                'file2_en' => 'mimes:mp4,ogv,webm|clamav|secure-file',
+                'file_ar' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'file_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
             ]);
 
             // Start of Upload Files

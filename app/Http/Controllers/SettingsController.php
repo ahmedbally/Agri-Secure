@@ -73,12 +73,12 @@ class SettingsController extends Controller
         $Setting = Setting::find($id);
         if (! empty($Setting)) {
             $this->validate($request, [
-                'style_logo_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'style_logo_ar' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'style_fav' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'style_apple' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav',
-                'style_bg_image' => 'mimes:png,jpeg,jpg,gif|max:5000|clamav',
-                'style_footer_bg' => 'mimes:png,jpeg,jpg,gif|max:5000|clamav',
+                'style_logo_en' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'style_logo_ar' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'style_fav' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'style_apple' => 'mimes:png,jpeg,jpg,gif|max:3000|clamav|secure-file',
+                'style_bg_image' => 'mimes:png,jpeg,jpg,gif|max:5000|clamav|secure-file',
+                'style_footer_bg' => 'mimes:png,jpeg,jpg,gif|max:5000|clamav|secure-file',
             ]);
 
             $Setting->site_title_ar = $request->site_title_ar;
