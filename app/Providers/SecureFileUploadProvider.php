@@ -39,7 +39,6 @@ class SecureFileUploadProvider extends ServiceProvider
         Validator::extend(
             'secure-file',
             SecureFileUpload::class . '@validateSecureFile',
-            $translation['clamav'] ?? []
         );
     }
 }
