@@ -109,6 +109,12 @@ class TopicsController extends Controller
      */
     public function store(Request $request, $webmasterId)
     {
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+        //
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -301,6 +307,11 @@ class TopicsController extends Controller
      */
     public function edit($webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             // Check Permissions
@@ -344,6 +355,11 @@ class TopicsController extends Controller
      */
     public function update(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -640,6 +656,11 @@ class TopicsController extends Controller
      */
     public function updateAll(Request $request, $webmasterId)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -744,6 +765,11 @@ class TopicsController extends Controller
      */
     public function seo(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -784,6 +810,11 @@ class TopicsController extends Controller
      */
     public function photos(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -875,6 +906,11 @@ class TopicsController extends Controller
      */
     public function photosUpdateAll(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -966,6 +1002,11 @@ class TopicsController extends Controller
      */
     public function commentsStore(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1040,6 +1081,11 @@ class TopicsController extends Controller
      */
     public function commentsUpdate(Request $request, $webmasterId, $id, $comment_id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1108,6 +1154,11 @@ class TopicsController extends Controller
      */
     public function commentsUpdateAll(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1175,6 +1226,11 @@ class TopicsController extends Controller
      */
     public function mapsCreate($webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             // Check Permissions
@@ -1198,6 +1254,11 @@ class TopicsController extends Controller
      */
     public function mapsStore(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1274,6 +1335,11 @@ class TopicsController extends Controller
      */
     public function mapsUpdate(Request $request, $webmasterId, $id, $map_id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1345,6 +1411,11 @@ class TopicsController extends Controller
      */
     public function mapsUpdateAll(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1436,6 +1507,11 @@ class TopicsController extends Controller
      */
     public function filesStore(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1519,6 +1595,11 @@ class TopicsController extends Controller
      */
     public function filesUpdate(Request $request, $webmasterId, $id, $file_id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $this->validate($request, [
             'file' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|clamav|secure-file',
         ]);
@@ -1608,6 +1689,11 @@ class TopicsController extends Controller
      */
     public function filesUpdateAll(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1725,6 +1811,11 @@ class TopicsController extends Controller
      */
     public function relatedStore(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
@@ -1793,6 +1884,11 @@ class TopicsController extends Controller
      */
     public function relatedUpdateAll(Request $request, $webmasterId, $id)
     {
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $WebmasterSection = WebmasterSection::find($webmasterId);
         if (! empty($WebmasterSection)) {
             //
