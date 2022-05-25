@@ -152,7 +152,7 @@ class CentersController extends Controller
     public function update(Request $request, $id)
     {
         // Check Permissions
-        if (! @Auth::user()->permissionsGroup->add_status) {
+        if (! @Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
         //
