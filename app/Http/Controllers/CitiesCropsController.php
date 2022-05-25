@@ -84,10 +84,10 @@ class CitiesCropsController extends Controller
         if (! @Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
+        Validator::make($request->all(), [
+            'file' => 'required|mimes:xlsx,xls|max:3000',
+        ])->validate();
         try {
-            Validator::make($request->all(), [
-                'file' => 'required|mimes:xlsx,xls|max:3000',
-            ])->validate();
             Excel::import(new CityCropImport(), $request->file('file'));
         } catch (\Exception $e) {
             return redirect()->action('CitiesCropsController@index');
