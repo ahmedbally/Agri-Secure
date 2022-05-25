@@ -374,6 +374,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             </li>
                         </ul>
                     </li>
+                    @if(@Auth::user()->permissionsGroup->poll_status)
                     <?php
                     $currentFolder = "polls"; // Put folder name here
                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
@@ -401,7 +402,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             </li>
                         </ul>
                     </li>
-
+                    @endif
                     @if(Helper::GeneralWebmasterSettings("settings_status"))
                         @if(@Auth::user()->permissionsGroup->settings_status)
                             <li class="nav-header hidden-folded">

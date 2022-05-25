@@ -26,6 +26,10 @@ class PollManagerController extends Controller
             Redirect::to('/home')->send();
             exit();
         }
+        if (! @Auth::user()->permissionsGroup->poll_status) {
+            Redirect::to(route('NoPermission'))->send();
+            exit();
+        }
     }
 
     public function home()
