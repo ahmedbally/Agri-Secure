@@ -86,5 +86,5 @@
     <script type="text/javascript" src="{{ URL::asset('frontEnd/js/maps/fusioncharts.egypt.js') }}"></script>
     <!-- Step 4 - Include the fusion theme -->
     <script type="text/javascript" src="{{ URL::asset('frontEnd/js/maps/fusioncharts.theme.fint.js') }}"></script>
-    <script src="{{ URL::asset('frontEnd/js/jquery-2.1.3.min.js')}}"></script>
+    <script src="{{ URL::asset('frontEnd/js/jquery-3.5.0.min.js')}}"></script>
     <title>{{$PageTitle}} {{($PageTitle !="")? "|":""}} {{ Helper::GeneralSiteSettings("site_title_" . trans('backLang.boxCode')) }}</title>

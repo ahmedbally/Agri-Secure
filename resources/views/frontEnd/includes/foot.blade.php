@@ -46,12 +46,12 @@
         }
     );
     @if ($segment1=='')
-        $(window).load(function(){
+        $(window).on('load', function(){
             wow.init();
         });
     @endif
     @if ($segment1=='photos')
-        $(window).load(function(){
+        $(window).on('load', function(){
             wow.init();
             $(".fancybox").fancybox();
         });
@@ -227,7 +227,7 @@
                 })
                 getMap(year,crop,value,season);
             });
-            $(window).load(function(){
+            $(window).on('load', function(){
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -255,7 +255,7 @@
     <script src="{{ URL::asset('frontEnd/js/isotope.pkgd.min.js')}}"></script>
     <script>
         $(function(){
-            $(window).load(function(){
+            $(window).on('load', function(){
                 var $container_filter = $('.filter-container').isotope({
                     itemSelector: '.filter-item',
                     masonry: {

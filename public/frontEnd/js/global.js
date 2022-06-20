@@ -55,7 +55,7 @@ $(function() {
     /*============================*/
     /* 04 - function on page load */
     /*============================*/
-    $(window).load(function(){
+    $(window).on('load', function(){
         //$('body, html').animate({'scrollTop':'0'}, 0);
 
         //window.scrollTo(0, 0);
@@ -162,7 +162,7 @@ $(function() {
 
 
 
-        
+
 
     }
 
