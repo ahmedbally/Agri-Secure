@@ -89,7 +89,15 @@ class SectionsController extends Controller
      */
     public function create($webmasterId)
     {
-        //
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (! @Auth::user()->permissionsGroup->add_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
@@ -113,7 +121,15 @@ class SectionsController extends Controller
      */
     public function store(Request $request, $webmasterId)
     {
-        //
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (! @Auth::user()->permissionsGroup->add_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
 
         $this->validate($request, [
             'title_ar' => 'required',
@@ -189,7 +205,15 @@ class SectionsController extends Controller
      */
     public function edit($webmasterId, $id)
     {
-        //
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (! @Auth::user()->permissionsGroup->edit_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
@@ -230,7 +254,16 @@ class SectionsController extends Controller
      */
     public function update(Request $request, $webmasterId, $id)
     {
-        //
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (! @Auth::user()->permissionsGroup->edit_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         $Section = Section::find($id);
         if (! empty($Section)) {
             $this->validate($request, [
@@ -319,7 +352,16 @@ class SectionsController extends Controller
      */
     public function destroy($webmasterId, $id)
     {
-        //
+        // Check Permissions
+        $data_sections_arr = explode(',', Auth::user()->permissionsGroup->data_sections);
+        if (! in_array($webmasterId, $data_sections_arr)) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (! @Auth::user()->permissionsGroup->delete_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
         if (@Auth::user()->permissionsGroup->view_status) {
             $Sections = Section::where('created_by', '=', Auth::user()->id)->find($id);
         } else {

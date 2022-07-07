@@ -50,14 +50,14 @@
                 </div>
 
 
-                <div class="form-group row">
-                    <label for="password"
-                           class="col-sm-2 form-control-label">{!!  trans('backLang.loginPassword') !!}
-                    </label>
-                    <div class="col-sm-10">
-                        {!! Form::password('password', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
-                    </div>
-                </div>
+{{--                <div class="form-group row">--}}
+{{--                    <label for="password"--}}
+{{--                           class="col-sm-2 form-control-label">{!!  trans('backLang.loginPassword') !!}--}}
+{{--                    </label>--}}
+{{--                    <div class="col-sm-10">--}}
+{{--                        {!! Form::password('password', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="form-group row">
                     <label for="photo_file"

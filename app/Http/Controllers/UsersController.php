@@ -198,12 +198,12 @@ class UsersController extends Controller
             $User->name = $request->name;
             $User->email = $request->email;
             $User->mobile = $request->mobile;
-            if ($request->password != '') {
-                $this->validate($request, [
-                    'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required', new NotInPasswordHistory($User)]),
-                ]);
-                $User->password = bcrypt($request->password);
-            }
+//            if ($request->password != '') {
+//                $this->validate($request, [
+//                    'password' => Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()->rules(['required', new NotInPasswordHistory($User)]),
+//                ]);
+//                $User->password = bcrypt($request->password);
+//            }
             $User->permissions_id = $request->permissions_id;
             //}
             if ($request->photo_delete == 1) {
